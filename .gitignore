@@ -1,2 +1,9 @@
 # Instrukcje robocze – nie trafiają do repo
 ORA_*.md
+
+# Astro / Node
+node_modules/
+dist/
+.astro/
+.DS_Store
+npm-debug.log*

@@ -1,0 +1,62 @@
+---
+// ORA.studio — bazowy layout. Spina <head> (SEO), fonty i style globalne.
+// Nav/Footer dołączymy w Kroku 9 (domknięcie P1) — teraz layout jest czysty.
+import { site } from '../data/site';
+
+// Fonty self-hosted (fontsource) — bez zewnętrznych żądań (lepsze pod RODO i wydajność).
+// Fraunces Variable: oś wght + opsz (didone, wysoki kontrast) + italic do hero.
+import '@fontsource-variable/fraunces/standard.css';
+import '@fontsource-variable/fraunces/standard-italic.css';
+// Outfit Variable: body grotesk (decyzja klientki — zamiast Neue Haas).
+import '@fontsource-variable/outfit/wght.css';
+
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Ścieżka kanoniczna (bez domeny), np. "/wydarzenia-biznes". */
+  path?: string;
+}
+
+const {
+  title,
+  description = 'ORA.studio — skondensowany reportaż dokumentalny. Trójmiasto.',
+  path = '/',
+} = Astro.props;
+
+const canonical = new URL(path, site.url).href;
+const fullTitle = title === site.brand ? title : `${title} — ${site.brand}`;
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    {/* Adobe Fonts (Typekit) — Quincy CF (nagłówki) + Neue Haas (docelowo body).
+        Kit ograniczony do dozwolonych domen w panelu Adobe — dodaj orastudio.art
+        (i localhost) w ustawieniach kitu, inaczej fonty nie zarenderują się. */}
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/nwy4xmp.css" />
+
+    <!-- Open Graph (spójne dane marki) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.brand} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#f3eadb" />
+  </head>
+  <body>
+    <div class="page">
+      <slot />
+    </div>
+  </body>
+</html>

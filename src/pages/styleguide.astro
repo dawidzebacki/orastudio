@@ -1,0 +1,264 @@
+---
+// /styleguide — strona testowa warstwy bazowej (Krok 2).
+// Pokazuje: paletę, rodziny fontów, skalę typograficzną i przykładowe nagłówki.
+// To NIE jest podstrona produktowa — to poligon dla tokenów i typografii.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const palette = [
+  { name: 'Krem / tło', token: '--c-cream', hex: '#F3EADB', note: 'background' },
+  { name: 'Atrament / tekst', token: '--c-ink', hex: '#1F1812', note: 'text' },
+  { name: 'Bursztyn / akcent', token: '--c-amber', hex: '#C68A4B', note: 'jeden na widok' },
+  { name: 'Mata passe-partout', token: '--c-mat', hex: '#F8F1E6', note: 'o ton jaśniejsza' },
+];
+
+const scale = [
+  { label: 'Display (duże słowo hero)', cls: 'sp-display', sample: 'teraz.' },
+  { label: 'H1', cls: 'sp-h1', sample: 'Reportaż dokumentalny' },
+  { label: 'H2', cls: 'sp-h2', sample: 'Jeden, spójny look' },
+  { label: 'H3', cls: 'sp-h3', sample: 'Dostawa w 24 godziny' },
+  { label: 'Lede', cls: 'sp-lede', sample: 'Łapię prawdziwe, niezaaranżowane chwile — bez pozowania, bez przesadnego retuszu.' },
+  { label: 'Body', cls: 'sp-body', sample: 'Reportaż dokumentalny w dwóch zastosowaniach tego samego warsztatu: wydarzenia biznesowe oraz kameralne śluby. Powściągliwa, editorialowa estetyka — bliżej magazynu i galerii niż typowej strony fotografa.' },
+];
+---
+
+<BaseLayout title="Styleguide" description="Warstwa bazowa ORA.studio — paleta, fonty, typografia." path="/styleguide">
+  <main class="container sg">
+    <header class="sg-head">
+      <p class="eyebrow">ORA.studio · System marki</p>
+      <h1>Styleguide</h1>
+      <p class="sg-sub">Warstwa bazowa (Krok 2): paleta, fonty, skala typograficzna, przykładowe nagłówki. Tło ma subtelne ziarno papieru.</p>
+    </header>
+
+    <!-- PALETA ------------------------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-palette">
+      <p class="eyebrow numbered"><span class="numeral">I</span> Paleta</p>
+      <h2 id="s-palette">Kolory marki</h2>
+      <div class="swatches">
+        {palette.map((c) => (
+          <figure class="swatch">
+            <div class="chip" style={`background:${c.hex}`}></div>
+            <figcaption>
+              <strong>{c.name}</strong>
+              <code>{c.hex}</code>
+              <code class="muted">var({c.token})</code>
+              <span class="muted">{c.note}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="sg-note">Zasada: <strong>jeden bursztyn na widok</strong>. Akcent jako kropka, hairline, numer — nie rozsiewany po ekranie.</p>
+    </section>
+
+    <!-- FONTY -------------------------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-fonts">
+      <p class="eyebrow numbered"><span class="numeral">II</span> Fonty</p>
+      <h2 id="s-fonts">Rodziny</h2>
+      <div class="fonts">
+        <div class="font-card">
+          <p class="eyebrow">Display · didone (Quincy CF · Adobe Fonts, fallback Fraunces)</p>
+          <p class="font-spec font-display">Aa Bb Ćć Żż 1234</p>
+          <p class="muted">Wysoki kontrast, oś optyczna. Nagłówki, duże słowa hero.</p>
+        </div>
+        <div class="font-card">
+          <p class="eyebrow">Body · grotesk (Outfit Variable · self-hosted)</p>
+          <p class="font-spec font-body">Aa Bb Ćć Żż 1234</p>
+          <p class="muted">UI, lede, akapity, etykiety.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKALA -------------------------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-scale">
+      <p class="eyebrow numbered"><span class="numeral">III</span> Skala typograficzna</p>
+      <h2 id="s-scale">Od display do body</h2>
+      <div class="scale">
+        {scale.map((s) => (
+          <div class="scale-row">
+            <span class="eyebrow muted">{s.label}</span>
+            <div class={s.cls}>{s.sample}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- PRZYKŁADOWE NAGŁÓWKI ---------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-hero">
+      <p class="eyebrow numbered"><span class="numeral">IV</span> Nagłówki hero</p>
+      <h2 id="s-hero">Fragmentowany nagłówek</h2>
+      <p class="sg-note">Małe słowo kursywą nad dużym słowem w serifie. Numeracja: cyfry rzymskie. KAPITALIKI tylko na etykietach.</p>
+
+      <div class="hero-demos">
+        <div class="hero-demo">
+          <p class="eyebrow">Reportaż dokumentalny</p>
+          <p class="frag"><em>to, co prawdziwe —</em><span class="big">teraz.</span></p>
+        </div>
+        <div class="hero-demo">
+          <p class="eyebrow">Reportaż ślubny · Trójmiasto</p>
+          <p class="frag"><em>te prawdziwe</em><span class="big">chwile.</span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .sg {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+  .sg-head {
+    max-width: var(--container-narrow);
+    margin-bottom: var(--space-2xl);
+  }
+  .sg-head h1 {
+    margin-block: var(--space-xs) var(--space-s);
+  }
+  .sg-sub {
+    color: var(--c-ink-70);
+    font-size: var(--fs-lede);
+    max-width: var(--measure);
+  }
+
+  .sg-section {
+    padding-block: var(--space-xl);
+    border-top: 1px solid var(--c-ink-15);
+  }
+  .sg-section > h2 {
+    margin-block: var(--space-2xs) var(--space-l);
+  }
+  .eyebrow.numbered {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6em;
+  }
+  .numeral {
+    font-size: 1.4em;
+  }
+  .sg-note {
+    color: var(--c-ink-70);
+    margin-top: var(--space-m);
+  }
+  .muted {
+    color: var(--c-ink-45);
+  }
+
+  /* Paleta */
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--space-m);
+  }
+  .swatch {
+    margin: 0;
+  }
+  .chip {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    border: 1px solid var(--c-ink-15);
+  }
+  .swatch figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: var(--space-2xs);
+    font-size: 0.85rem;
+  }
+  .swatch code {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+  }
+
+  /* Fonty */
+  .fonts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-l);
+  }
+  .font-spec {
+    font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+    line-height: 1.1;
+    margin-block: var(--space-2xs);
+  }
+  .font-display {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-weight: var(--fw-display);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  /* Skala */
+  .scale {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+  .scale-row {
+    display: grid;
+    gap: var(--space-2xs);
+  }
+  .sp-display {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-display);
+    font-weight: var(--fw-display);
+    line-height: var(--lh-display);
+  }
+  .sp-h1 {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-display);
+    line-height: var(--lh-display);
+  }
+  .sp-h2 {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-h);
+    line-height: var(--lh-heading);
+  }
+  .sp-h3 {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-h);
+  }
+  .sp-lede {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+    max-width: var(--measure);
+  }
+  .sp-body {
+    font-size: var(--fs-body);
+    max-width: var(--measure);
+  }
+
+  /* Hero fragmentowany */
+  .hero-demos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-l);
+  }
+  .frag {
+    margin-top: var(--space-xs);
+    line-height: var(--lh-display);
+  }
+  .frag em {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-body);
+    color: var(--c-ink-70);
+  }
+  .frag .big {
+    display: block;
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-display);
+    font-weight: var(--fw-display);
+    line-height: var(--lh-display);
+  }
+</style>
