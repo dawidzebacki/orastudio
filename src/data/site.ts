@@ -25,7 +25,7 @@ export const site = {
 // dojdą (decyzja Ady) — wystarczy odkomentować i wkleić link, ikona już jest.
 export const socials: { name: string; href: string; icon: 'instagram' | 'facebook' | 'tiktok' }[] = [
   { name: 'Instagram', href: site.instagramUrl, icon: 'instagram' },
-  // { name: 'Facebook', href: 'https://facebook.com/…', icon: 'facebook' },
+  { name: 'Facebook', href: 'https://www.facebook.com/ORA.studio.reportage', icon: 'facebook' },
   // { name: 'TikTok', href: 'https://tiktok.com/@…', icon: 'tiktok' },
 ];
 
