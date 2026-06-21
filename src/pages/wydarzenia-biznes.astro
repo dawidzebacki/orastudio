@@ -1,0 +1,240 @@
+---
+// ORA.studio — Wydarzenia / Biznes · P1 · Krok 6
+// Złożona WYŁĄCZNIE z gotowych komponentów, dokładnie wg sekcji 3 mapy treści (3.1–3.8).
+// Adresat: przedsiębiorca (event, backstage, headshoty, marka) — NIE para młoda.
+// SEO (naturalnie, nie listą): fotograf eventowy · reportaż z konferencji · zdjęcia wizerunkowe Trójmiasto.
+// Treść = lorem w długościach z mapy (sekcja 1). Tytuły kart/kroków = realne (mapa 3.2/3.3). Dane realne z site.ts.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Cards from '../components/Cards.astro';
+import Process from '../components/Process.astro';
+import Gallery from '../components/Gallery.astro';
+import Faq from '../components/Faq.astro';
+import Form from '../components/Form.astro';
+import { placeholderImg } from '../utils/placeholder';
+
+// 3.2 — co fotografuję (4 karty). Tytuły = realne (mapa), opisy = lorem [90–160].
+const shoots = [
+  { title: 'Śniadania i networking', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Konferencje i eventy', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Backstage i kulisy', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Wizerunkowe / headshoty', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+];
+
+// 3.3 — jak to działa (3 kroki). Tytuły = realne (mapa), opisy = lorem [90–150]. III = „Dostawa 24h".
+const steps = [
+  { title: 'Ustalenia', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Dyskretny dokument', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Dostawa 24h', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+];
+
+// 3.5 — galeria biznes (6 kadrów). Podpisy „I · Lorem" (mapa), tonacje/proporcje mieszane.
+const frames = [
+  { numeral: 'I', ratio: '3 / 2', tone: 1 },
+  { numeral: 'II', ratio: '4 / 5', tone: 2 },
+  { numeral: 'III', ratio: '1 / 1', tone: 3 },
+  { numeral: 'IV', ratio: '4 / 5', tone: 1 },
+  { numeral: 'V', ratio: '3 / 2', tone: 3 },
+  { numeral: 'VI', ratio: '1 / 1', tone: 2 },
+] as const;
+
+// 3.6 — 3 punkty „co wpływa na wycenę" (każdy [40–80], lorem). Atrament, bez bursztynu.
+const factors = [
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  'Lorem ipsum dolor sit amet consectetur adipiscing.',
+  'Lorem ipsum dolor sit amet, consectetur elit sed do.',
+];
+
+// 3.7 — FAQ mini (4 pytania). Tematy z mapy (RODO · dostawa · prawa · faktura Useme); tekst = lorem.
+const faq = [
+  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing elit?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
+  { q: 'Lorem ipsum dolor sit amet adipiscing consectetur?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco.' },
+  { q: 'Lorem ipsum dolor sit amet consectetur elit dolor?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation laboris nisi.' },
+  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
+];
+
+// 3.8 — pola formularza brief (imię/firma · e-mail · typ + data wydarzenia · wiadomość).
+// Typy wydarzeń = kategorie z 3.2 (spójność), reszta jak w komponencie Form.
+const briefFields = [
+  { name: 'name', label: 'Imię i firma', type: 'text', required: true, half: true },
+  { name: 'email', label: 'E-mail', as: 'input', type: 'email', required: true, half: true },
+  { name: 'kind', label: 'Typ wydarzenia', as: 'select', options: ['Śniadania i networking', 'Konferencje i eventy', 'Backstage i kulisy', 'Wizerunkowe / headshoty'], required: true, half: true },
+  { name: 'date', label: 'Data wydarzenia', as: 'input', type: 'date', half: true },
+  { name: 'message', label: 'Wiadomość', as: 'textarea', required: true },
+] as const;
+---
+
+<BaseLayout
+  title="Fotograf eventowy — wydarzenia i biznes"
+  description="Reportaż z konferencji, eventów firmowych i backstage'u oraz zdjęcia wizerunkowe w Trójmieście. Gotowe, obrobione kadry w 24 godziny."
+  path="/wydarzenia-biznes"
+>
+  <main>
+    {/* 3.1 — HERO -------------------------------------------------------- */}
+    <section class="sec sec--hero container">
+      <Hero
+        as="h1"
+        eyebrow="Wydarzenia · Biznes"
+        lead="wasz dzień —"
+        title="udokumentowany."
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+        primary={{ label: 'Zapytaj o wycenę', href: '#brief' }}
+        secondary={{ label: 'Zobacz kadry', href: '#galeria' }}
+        image={{ numeral: 'I', place: 'Konferencja', alt: 'Placeholder — kadr otwierający z wydarzenia', ratio: '4 / 5' }}
+      />
+    </section>
+
+    {/* 3.2 — CO FOTOGRAFUJĘ (Cards, 4) ---------------------------------- */}
+    <section class="sec container" aria-labelledby="s-shoots">
+      <p class="eyebrow">Co fotografuję</p>
+      <h2 id="s-shoots" class="visually-hidden">Co fotografuję — eventy, konferencje, backstage i wizerunek</h2>
+      <Cards items={shoots} columns={4} class="sec__cards" />
+    </section>
+
+    {/* 3.3 — JAK TO DZIAŁA (Process, 3) --------------------------------- */}
+    <section class="sec container" aria-labelledby="s-process">
+      <p class="eyebrow">Jak to działa</p>
+      <h2 id="s-process" class="visually-hidden">Jak to działa — od ustaleń do dostawy w 24 godziny</h2>
+      <Process steps={steps} class="sec__process" />
+    </section>
+
+    {/* 3.4 — DLACZEGO DOKUMENT (Text) — pas strukturalny (zygzak) ------ */}
+    <section class="sec band-pattern" aria-labelledby="s-why">
+      <div class="container">
+        <div class="prose">
+          <h2 id="s-why">Lorem ipsum dolor sit amet</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* 3.5 — GALERIA BIZNES (Gallery, 6) -------------------------------- */}
+    <section id="galeria" class="sec container" aria-labelledby="s-frames">
+      <p class="eyebrow">Galeria biznes</p>
+      <h2 id="s-frames" class="visually-hidden">Wybrane kadry z wydarzeń i sesji wizerunkowych</h2>
+      <div class="frames">
+        {frames.map((f) => (
+          <Gallery
+            numeral={f.numeral}
+            place="Lorem"
+            ratio={f.ratio}
+            tone={f.tone}
+            src={placeholderImg(f.ratio, `${f.numeral} · Lorem`)}
+            alt={`Placeholder — kadr biznesowy ${f.numeral}`}
+          />
+        ))}
+      </div>
+      <div class="frames__more">
+        <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
+      </div>
+    </section>
+
+    {/* 3.6 — WYCENA (Text + 3 punkty + CTA) ----------------------------- */}
+    <section class="sec container" aria-labelledby="s-pricing">
+      <div class="prose">
+        <h2 id="s-pricing">Lorem ipsum dolor</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+          labore et dolore magna aliqua ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+        </p>
+        <ul class="factors" role="list">
+          {factors.map((point) => <li class="factors__item">{point}</li>)}
+        </ul>
+        <a class="btn" href="#brief">Poproś o wycenę</a>
+      </div>
+    </section>
+
+    {/* 3.7 — FAQ MINI (Faq, 4) ------------------------------------------ */}
+    <section class="sec container" aria-labelledby="s-faq">
+      <p class="eyebrow">Częste pytania</p>
+      <h2 id="s-faq" class="visually-hidden">Częste pytania — wydarzenia i biznes</h2>
+      <Faq items={faq} class="sec__faq" />
+    </section>
+
+    {/* 3.8 — FORMULARZ BRIEF (Form + RODO) — krem (przed stopką) -------- */}
+    <section id="brief" class="sec sec--brief container" aria-labelledby="s-brief">
+      <p class="eyebrow">Brief</p>
+      <h2 id="s-brief">Opowiedz o wydarzeniu</h2>
+      <Form
+        fields={briefFields}
+        submitLabel="Wyślij brief"
+        rodoText="Wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania wyceny i odpowiedzi na zapytanie."
+        class="sec__form"
+      />
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Rytm pionowy sekcji — spójny z index.astro (duże kadry i oddech). */
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--hero {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+  }
+  .sec--brief {
+    padding-bottom: var(--space-3xl);
+  }
+
+  .sec > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+  .sec__cards,
+  .sec__process,
+  .sec__faq,
+  .sec__form {
+    margin-top: 0;
+  }
+
+  /* Tekstowe bloki (3.4, 3.6) — kolumna tekstu, oddech. */
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose h2 {
+    margin-bottom: var(--space-m);
+  }
+  .prose p {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+
+  /* 3.6 — „co wpływa na wycenę": 3 krótkie punkty na hairline, atrament (bez bursztynu). */
+  .factors {
+    list-style: none;
+    margin: var(--space-l) 0 var(--space-l);
+    padding: 0;
+    max-width: var(--measure);
+  }
+  .factors__item {
+    padding-block: var(--space-s);
+    border-top: 1px solid var(--c-ink-15);
+    color: var(--c-ink-70);
+  }
+  .factors__item:last-child {
+    border-bottom: 1px solid var(--c-ink-15);
+  }
+
+  /* 3.8 — nagłówek briefu nad formularzem. */
+  .sec--brief h2 {
+    margin-bottom: var(--space-l);
+  }
+
+  /* 3.5 — luźna siatka galerii (spójna z index). */
+  .frames {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-l);
+    align-items: start;
+  }
+  /* CTA pod galerią — kieruje do pełnego portfolio (linki case study żyją tam). */
+  .frames__more {
+    margin-top: var(--space-xl);
+  }
+</style>

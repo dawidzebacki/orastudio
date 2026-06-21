@@ -1,0 +1,71 @@
+---
+// ORA.studio — SocialLinks (Krok 9, korekta Ady)
+// Ikonki sociali zamiast tekstowego handle w stopce. Inline SVG (bez nowej
+// biblioteki — zależności lekkie). Dane z site.ts (socials). Gotowe ikony:
+// Instagram (teraz) + Facebook + TikTok (dojdą — wystarczy odkomentować w site.ts).
+// Neutralne (atrament) — bursztyn niesie logo. Dostępne: aria-label na linku.
+import { socials } from '../data/site';
+
+interface Props {
+  /** Rozmiar ikony (CSS), domyślnie 1.25rem. */
+  size?: string;
+  class?: string;
+}
+const { size = '1.25rem', class: className = '' } = Astro.props;
+
+// Monochromatyczne glify (currentColor) w siatce 24×24.
+const ICONS: Record<string, string> = {
+  instagram:
+    '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.2" cy="6.8" r="1.15" fill="currentColor"/></svg>',
+  facebook:
+    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14 21v-7h2.4l.36-2.8H14V9.4c0-.81.22-1.36 1.4-1.36h1.5V5.53c-.26-.04-1.15-.11-2.2-.11-2.18 0-3.67 1.33-3.67 3.77V11.2H8.6V14h2.43v7H14z"/></svg>',
+  tiktok:
+    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M15.6 3h-2.52v12.34a2.28 2.28 0 1 1-2.02-2.27v-2.56a4.82 4.82 0 1 0 4.54 4.8V8.86a6.3 6.3 0 0 0 3.6 1.13V7.46A3.7 3.7 0 0 1 15.6 3z"/></svg>',
+};
+---
+
+{socials.length > 0 && (
+  <ul class={`socials ${className}`.trim()} role="list" style={`--icon-size: ${size};`}>
+    {socials.map((s) => (
+      <li>
+        <a
+          class="socials__link"
+          href={s.href}
+          rel="me noopener"
+          target="_blank"
+          aria-label={s.name}
+        >
+          <span class="socials__icon" set:html={ICONS[s.icon]}></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .socials {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    margin: 0;
+    padding: 0;
+  }
+  .socials__link {
+    display: inline-flex;
+    padding: 0.25rem;            /* większy cel dotyku */
+    color: var(--c-ink-70);
+    transition: color var(--dur) var(--ease);
+  }
+  .socials__link:hover {
+    color: var(--c-ink);
+  }
+  .socials__icon {
+    display: inline-flex;
+  }
+  /* set:html nie dostaje scoupowanego atrybutu — celujemy globalnie. */
+  .socials__icon :global(svg) {
+    width: var(--icon-size, 1.25rem);
+    height: var(--icon-size, 1.25rem);
+    display: block;
+  }
+</style>

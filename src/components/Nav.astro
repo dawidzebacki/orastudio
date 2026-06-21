@@ -1,0 +1,202 @@
+---
+// ORA.studio — Nav (Krok 9 + Krok 16: burger na mobile)
+// Globalna nawigacja: marka = pełny wordmark Z FALĄ (Logo) + linki. Pasek sticky.
+// Linki z site.ts — TYLKO P1 (istniejące podstrony), bez Polityki (ta w stopce).
+// Mobile (< 56rem): burger z DOSTĘPNYM przełącznikiem (aria-expanded/-controls),
+// panel rozwijany pod paskiem. Minimalny JS (progresywne wzmocnienie + aria).
+import { nav } from '../data/site';
+import Logo from './Logo.astro';
+
+const links = nav.filter((n) => n.priority === 'P1' && n.href !== '/polityka-prywatnosci');
+
+// Bieżąca ścieżka bez końcowego „/" — do aria-current (build daje /kontakt/).
+const current = Astro.url.pathname.replace(/\/+$/, '') || '/';
+---
+
+<header class="nav">
+  <div class="nav__inner container">
+    <Logo height="1.7rem" />
+
+    <button
+      type="button"
+      class="nav__toggle"
+      aria-label="Menu nawigacji"
+      aria-expanded="false"
+      aria-controls="nav-menu"
+    >
+      <span class="nav__burger" aria-hidden="true"></span>
+    </button>
+
+    <nav id="nav-menu" class="nav__menu" aria-label="Główna nawigacja">
+      <ul class="nav__list" role="list">
+        {links.map((l) => (
+          <li>
+            <a
+              class="nav__link"
+              href={l.href}
+              aria-current={current === l.href ? 'page' : undefined}
+            >{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* Pasek przyklejony przy scrollu — zawsze widoczny. Tło kremowe, hairline u dołu.
+     z-index pod skip-linkiem (10). Sticky = pozycjonowany → kotwica dla panelu mobile. */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--c-cream);
+    border-bottom: 1px solid var(--c-ink-15);
+  }
+  .nav__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-l);
+    padding-block: var(--space-m);
+  }
+
+  /* Linki — etykiety KAPITALIKI (warstwa strukturalna). */
+  .nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-m);
+    margin: 0;
+  }
+  .nav__link {
+    font-family: var(--font-body);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-ink-70);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
+  }
+  .nav__link:hover {
+    color: var(--c-ink);
+  }
+  /* Bieżąca strona — atrament + cienkie podkreślenie (neutralnie, bez bursztynu). */
+  .nav__link[aria-current='page'] {
+    color: var(--c-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.4em;
+    text-decoration-thickness: 1px;
+  }
+
+  /* --- Burger (przełącznik) — domyślnie ukryty (desktop) ---------------- */
+  .nav__toggle {
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--c-ink-15);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  /* Ikona z 3 kresek (środkowa = sama .nav__burger, skrajne = ::before/::after). */
+  .nav__burger,
+  .nav__burger::before,
+  .nav__burger::after {
+    display: block;
+    width: 1.25rem;
+    height: 2px;                  /* pełny piksel — wszystkie 3 kreski tej samej grubości */
+    background: var(--c-ink);
+    transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .nav__burger {
+    position: relative;
+  }
+  .nav__burger::before,
+  .nav__burger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .nav__burger::before { top: -6px; }
+  .nav__burger::after { top: 6px; }
+
+  /* --- Mobile (< 56rem): pokaż burger, schowaj menu do rozwijanego panelu -- */
+  @media (max-width: 56rem) {
+    .nav__toggle {
+      display: inline-flex;
+    }
+
+    .nav__menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--c-cream);
+      border-bottom: 1px solid var(--c-ink-15);
+      padding-block: var(--space-m);
+    }
+    .nav--open .nav__menu {
+      display: block;
+    }
+
+    .nav__list {
+      flex-direction: column;
+      gap: var(--space-s);
+      padding-inline: clamp(1.25rem, 5vw, 3rem);   /* wyrównanie do logo (.container) */
+    }
+    .nav__link {
+      display: block;
+      padding-block: var(--space-2xs);
+    }
+
+    /* Burger → X po otwarciu (miękko). */
+    .nav--open .nav__burger {
+      background: transparent;
+    }
+    .nav--open .nav__burger::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .nav--open .nav__burger::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav__burger,
+    .nav__burger::before,
+    .nav__burger::after { transition: none; }
+  }
+</style>
+
+<script>
+  const header = document.querySelector('.nav') as HTMLElement | null;
+  const toggle = header?.querySelector('.nav__toggle') as HTMLButtonElement | null;
+  const menu = document.getElementById('nav-menu');
+
+  if (header && toggle && menu) {
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('nav--open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(!header.classList.contains('nav--open'));
+    });
+
+    // Zamknij po kliknięciu w link (nawigacja na tej samej / nowej stronie).
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    // Esc zamyka panel.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+</script>

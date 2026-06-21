@@ -1,0 +1,203 @@
+---
+// ORA.studio — Hero (Krok 4, pkt 5 briefu)
+// Nagłówek FRAGMENTOWANY: małe słowo italic (display) nad dużym słowem serif.
+// + lede + do 2× CTA + opcjonalny kadr w passe-partout (komponent Gallery).
+// Wariant `compact` = stopkowy CTA (H2, jedno CTA, bez kadru) — sekcja 2.6 mapy.
+import Gallery from './Gallery.astro';
+
+interface CTA {
+  label: string;
+  href: string;
+}
+interface HeroImage {
+  src?: string;
+  alt?: string;
+  numeral?: string;
+  place?: string;
+  ratio?: string;
+}
+
+interface Props {
+  /** Etykieta nad nagłówkiem (KAPITALIKI). */
+  eyebrow?: string;
+  /** Małe słowo italic nad dużym (fragment). */
+  lead?: string;
+  /** Duże słowo serif (główny człon nagłówka). */
+  title: string;
+  /** Zdanie lede pod nagłówkiem. */
+  lede?: string;
+  /** Poziom nagłówka — h1 dla podstron, h2 dla wariantu stopkowego. */
+  as?: 'h1' | 'h2';
+  /** CTA główne (solid). */
+  primary?: CTA;
+  /** CTA drugorzędne (ghost). */
+  secondary?: CTA;
+  /** Kadr passe-partout obok treści (pomijany w compact). */
+  image?: HeroImage;
+  /** Wariant zwięzły (stopkowy CTA): wyśrodkowany, bez kadru. */
+  compact?: boolean;
+  /** Bursztynowa kropka przy eyebrow — akcent widoku („jeden bursztyn na widok”). */
+  accent?: boolean;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  lead,
+  title,
+  lede,
+  as = 'h1',
+  primary,
+  secondary,
+  image,
+  compact = false,
+  accent = false,
+  class: className = '',
+} = Astro.props;
+
+const Heading = as;
+const showImage = Boolean(image) && !compact;
+
+// Sygnatura marki: końcowa kropka tytułu w akcencie (jak „ora.studio" w logo).
+const hasPeriod = title.trimEnd().endsWith('.');
+const titleMain = hasPeriod ? title.trimEnd().slice(0, -1) : title;
+---
+
+<section class={`hero ${compact ? 'hero--compact' : ''} ${className}`.trim()}>
+  <div class="hero__body">
+    {eyebrow && (
+      <p class={`eyebrow hero__eyebrow ${accent ? 'hero__eyebrow--accent' : ''}`.trim()}>
+        {accent && <span class="hero__dot" aria-hidden="true"></span>}
+        {eyebrow}
+      </p>
+    )}
+
+    <Heading class="hero__title">
+      {lead && <em class="hero__lead">{lead}</em>}
+      <span class="hero__big">{titleMain}{hasPeriod && <span class="hero__period">.</span>}</span>
+    </Heading>
+
+    {lede && <p class="hero__lede">{lede}</p>}
+
+    {(primary || secondary) && (
+      <div class="hero__cta">
+        {primary && <a class="btn" href={primary.href}>{primary.label}</a>}
+        {secondary && <a class="btn btn--ghost" href={secondary.href}>{secondary.label}</a>}
+      </div>
+    )}
+  </div>
+
+  {showImage && (
+    <div class="hero__media">
+      <Gallery
+        src={image!.src}
+        alt={image!.alt ?? ''}
+        numeral={image!.numeral}
+        place={image!.place}
+        ratio={image!.ratio ?? '4 / 5'}
+        loading="eager"
+      />
+    </div>
+  )}
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+  /* Z kadrem: dwie kolumny od średnich ekranów (treść | kadr). */
+  .hero:has(.hero__media) {
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 56rem) {
+    .hero:has(.hero__media) {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .hero__body {
+    max-width: var(--measure);
+  }
+
+  /* Eyebrow z bursztynową kropką (jedyny akcent widoku). */
+  .hero__eyebrow--accent {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+  .hero__dot {
+    width: 0.45em;
+    height: 0.45em;
+    border-radius: 50%;
+    background: var(--c-amber);
+    flex: 0 0 auto;
+  }
+  .hero--compact .hero__eyebrow--accent {
+    justify-content: center;
+  }
+
+  /* Nagłówek fragmentowany: małe italic nad dużym serif (jedno H dla SEO). */
+  .hero__title {
+    margin-block: var(--space-xs) 0;
+    letter-spacing: var(--tracking-tight);
+  }
+  .hero__lead {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: var(--fw-body);
+    font-size: var(--fs-h3);
+    line-height: 1.1;
+    color: var(--c-ink-70);
+    letter-spacing: 0;
+  }
+  .hero__big {
+    display: block;
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-display);
+    font-weight: var(--fw-display);
+    line-height: var(--lh-display);
+  }
+  /* Sygnatura: końcowa kropka tytułu w bursztynie (jak „ora.studio" w logo). */
+  .hero__period {
+    color: var(--c-amber);
+  }
+
+  .hero__lede {
+    margin-top: var(--space-m);
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+    max-width: var(--measure);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-l);
+  }
+
+  .hero__media {
+    width: 100%;
+    max-width: 30rem;
+    justify-self: center;
+  }
+
+  /* Wariant compact (stopkowy CTA): wyśrodkowany, węższy. */
+  .hero--compact {
+    text-align: center;
+    justify-items: center;
+  }
+  .hero--compact .hero__body {
+    max-width: var(--container-narrow);
+  }
+  .hero--compact .hero__cta {
+    justify-content: center;
+  }
+  .hero--compact .hero__big {
+    font-size: var(--fs-h1);
+  }
+</style>

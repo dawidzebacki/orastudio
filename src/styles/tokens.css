@@ -8,7 +8,7 @@
   /* --- Kolory (jedyna paleta — pkt 3 briefu) --------------------------- */
   --c-cream: #f3eadb; /* tło strony            */
   --c-ink: #1f1812;   /* tekst / atrament      */
-  --c-amber: #c68a4b; /* akcent — JEDEN na widok */
+  --c-amber: #c68a4b; /* akcent sygnaturowy: kropka logo / numery / hairline (60/30/10) */
 
   /* Mata passe-partout: o ton jaśniejsza od tła (subtelny skok tonalny).
      Używana przez komponent Gallery (Krok 3) — definiujemy tu jako token. */
@@ -20,6 +20,20 @@
   --c-ink-45: color-mix(in srgb, var(--c-ink) 45%, var(--c-cream));
   --c-ink-15: color-mix(in srgb, var(--c-ink) 15%, var(--c-cream));
   --c-amber-hairline: color-mix(in srgb, var(--c-amber) 80%, var(--c-ink));
+
+  /* --- Paleta rozszerzona (moodboard Ady v1 — „ciepły analog") ---------
+     60/30/10 (ZAAKCEPTOWANE): 60% krem (tło) · 30% piasek + atrament
+     (powierzchnie/tekst) · 10% akcent (bursztyn sygnaturowy + terakota interaktywna).
+     Zasada 60/30/10 ZASTĘPUJE „jeden bursztyn na widok". Kawa = ciepłe etykiety/tekst II. */
+  --c-sand: #e4d5bd;        /* Piasek — powierzchnia drugorzędna (30%)        */
+  --c-terracotta: #b0573a;  /* Terakota — akcent interaktywny (część 10%)     */
+  --c-coffee: #6b5440;      /* Kawa — etykiety / tekst drugorzędny (30%)      */
+
+  /* Role semantyczne 60/30/10 — używaj TYCH w komponentach, nie surowych hexów. */
+  --c-surface: var(--c-sand);        /* 30% — naprzemienne tła sekcji, panele, stopka */
+  --c-label: var(--c-coffee);        /* etykiety / eyebrow / tekst drugorzędny ciepły */
+  --c-accent-i: var(--c-terracotta); /* 10% — linki, hover CTA, akcent interaktywny    */
+  /* --c-amber zostaje akcentem sygnaturowym (kropka logo, numery, hairline). */
 
   --c-bg: var(--c-cream);
   --c-text: var(--c-ink);

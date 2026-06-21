@@ -3,12 +3,59 @@
 // Pokazuje: paletę, rodziny fontów, skalę typograficzną i przykładowe nagłówki.
 // To NIE jest podstrona produktowa — to poligon dla tokenów i typografii.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Gallery from '../components/Gallery.astro';
+import Hero from '../components/Hero.astro';
+import CTAList from '../components/CTAList.astro';
+import Cards from '../components/Cards.astro';
+import Process from '../components/Process.astro';
+import Faq from '../components/Faq.astro';
+import Form from '../components/Form.astro';
+import LookSwitcher from '../components/LookSwitcher.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+// Lorem w długościach z mapy treści (sekcja 1 — ściąga długości). To NIE jest
+// copy docelowe; wiążące są PROPORCJE, nie treść.
+const ctaItems = [
+  { label: 'Wydarzenia i biznes', href: '#', note: 'Eventy, konferencje, headshoty' },
+  { label: 'Śluby', href: '#', note: 'Early bird 2026' },
+  { label: 'Napisz do mnie', href: '#', note: 'Wycena w 24 h' },
+];
+
+const cardItems = [
+  { title: 'Śniadania i networking', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+  { title: 'Konferencje i eventy', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+  { title: 'Backstage i kulisy', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+  { title: 'Wizerunkowe / headshoty', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.' },
+];
+
+const processSteps = [
+  { title: 'Ustalenia', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Dyskretny dokument', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Dostawa 24h', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+];
+
+const faqItems = [
+  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco.' },
+  { q: 'Consectetur adipiscing elit sed do eiusmod tempor?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud.' },
+  { q: 'Ut enim ad minim veniam quis nostrud exercitation?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
+];
 
 const palette = [
-  { name: 'Krem / tło', token: '--c-cream', hex: '#F3EADB', note: 'background' },
-  { name: 'Atrament / tekst', token: '--c-ink', hex: '#1F1812', note: 'text' },
-  { name: 'Bursztyn / akcent', token: '--c-amber', hex: '#C68A4B', note: 'jeden na widok' },
+  { name: 'Krem / tło', token: '--c-cream', hex: '#F3EADB', note: '60% — tło' },
+  { name: 'Piasek', token: '--c-sand', hex: '#E4D5BD', note: '30% — powierzchnia' },
+  { name: 'Kawa', token: '--c-coffee', hex: '#6B5440', note: '30% — etykiety/tekst II' },
+  { name: 'Atrament / tekst', token: '--c-ink', hex: '#1F1812', note: '30% — tekst' },
+  { name: 'Bursztyn', token: '--c-amber', hex: '#C68A4B', note: '10% — akcent sygnaturowy' },
+  { name: 'Terakota', token: '--c-terracotta', hex: '#B0573A', note: '10% — akcent interaktywny' },
   { name: 'Mata passe-partout', token: '--c-mat', hex: '#F8F1E6', note: 'o ton jaśniejsza' },
+];
+
+// Pasek proporcji 60/30/10 (prototyp moodboardu Ady).
+const ratio = [
+  { label: '60% — Krem', hex: '#F3EADB', w: 60, dark: false },
+  { label: '30% — Piasek / Kawa / Atrament', hex: '#E4D5BD', w: 30, dark: false },
+  { label: '10% — Bursztyn / Terakota', hex: '#B0573A', w: 10, dark: true },
 ];
 
 const scale = [
@@ -47,6 +94,18 @@ const scale = [
         ))}
       </div>
       <p class="sg-note">Zasada: <strong>jeden bursztyn na widok</strong>. Akcent jako kropka, hairline, numer — nie rozsiewany po ekranie.</p>
+
+      <p class="eyebrow" style="margin-top: var(--space-l)">Proporcje 60 / 30 / 10 (prototyp — moodboard Ady)</p>
+      <div class="ratio" role="img" aria-label="Pasek proporcji 60/30/10: 60% krem, 30% piasek/kawa/atrament, 10% bursztyn/terakota">
+        {ratio.map((r) => (
+          <div class="ratio__seg" style={`flex: ${r.w}; background: ${r.hex}; color: ${r.dark ? 'var(--c-cream)' : 'var(--c-coffee)'}`}>{r.label}</div>
+        ))}
+      </div>
+      <p class="sg-note">60% krem (tło) · 30% piasek (powierzchnie) + kawa/atrament (tekst) · 10% bursztyn (akcent sygnaturowy) + terakota (akcent interaktywny — linki, hover).</p>
+
+      <p class="eyebrow" style="margin-top: var(--space-l)">Deseń pasa — zygzak (wybrany)</p>
+      <div class="pat-demo band-pattern"></div>
+      <p class="sg-note">Wybrany deseń <code>.band-pattern</code> — zygzak/chevron <strong>tone-on-tone</strong> (piasek przyciemniony kroplą kawy), tylko z palety. Niski kontrast: tekstura, nie linie pod tekstem — atrament się nie zlewa. Używany na pasach (np. manifest strony głównej).</p>
     </section>
 
     <!-- FONTY -------------------------------------------------------- -->
@@ -96,6 +155,126 @@ const scale = [
           <p class="eyebrow">Reportaż ślubny · Trójmiasto</p>
           <p class="frag"><em>te prawdziwe</em><span class="big">chwile.</span></p>
         </div>
+      </div>
+    </section>
+
+    <!-- GALLERY (passe-partout) — komponent sygnaturowy ------------------ -->
+    <section class="sg-section" aria-labelledby="s-gallery">
+      <p class="eyebrow numbered"><span class="numeral">V</span> Gallery (passe-partout)</p>
+      <h2 id="s-gallery">Komponent sygnaturowy</h2>
+      <p class="sg-note">
+        Kadr prostokątny, mata o ton jaśniejsza z teksturą papieru, styk bez obwódki
+        (decyzja klientki — czyta sam bevel + cień), delikatny bevel (światło z góry-lewej) i zdjęcie
+        wpuszczone pod matę. Bez drop-shadow wokół ramki. Podpis kapitalikami „I · Miejsce". Poniżej 3 kadry placeholder.
+      </p>
+
+      <div class="gallery-grid">
+        <Gallery numeral="I" place="Gdańsk" ratio="4 / 5" tone={1} alt="Placeholder — kadr pionowy" />
+        <Gallery numeral="II" place="Gdynia" ratio="1 / 1" tone={2} alt="Placeholder — kadr kwadratowy" />
+        <Gallery numeral="III" place="Sopot" ratio="4 / 5" tone={3} alt="Placeholder — kadr pionowy" />
+      </div>
+    </section>
+
+    <!-- HERO --------------------------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-hero-c">
+      <p class="eyebrow numbered"><span class="numeral">VI</span> Hero</p>
+      <h2 id="s-hero-c">Nagłówek fragmentowany + lede + CTA + kadr</h2>
+      <p class="sg-note">Małe słowo italic nad dużym serif. Do 2× CTA. Opcjonalny kadr passe-partout. Bursztyn widoku = hairline kadru.</p>
+      <div class="sg-demo">
+        <Hero
+          as="h2"
+          eyebrow="Wydarzenia · Biznes"
+          lead="wasz dzień —"
+          title="udokumentowany."
+          lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+          primary={{ label: 'Zapytaj o wycenę', href: '#' }}
+          secondary={{ label: 'Zobacz kadry', href: '#' }}
+          image={{ numeral: 'I', place: 'Konferencja', alt: 'Placeholder — kadr hero', ratio: '4 / 5' }}
+        />
+      </div>
+    </section>
+
+    <!-- CTALIST ------------------------------------------------------ -->
+    <section class="sg-section" aria-labelledby="s-ctalist">
+      <p class="eyebrow numbered"><span class="numeral">VII</span> CTAList</p>
+      <h2 id="s-ctalist">Lista akcji z numeracją rzymską</h2>
+      <p class="sg-note">Numer rzymski (bursztyn — akcent tego widoku), etykieta kapitalikami, cienka linia pod każdą pozycją.</p>
+      <div class="sg-demo sg-demo--narrow">
+        <CTAList items={ctaItems} />
+      </div>
+    </section>
+
+    <!-- CARDS -------------------------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-cards">
+      <p class="eyebrow numbered"><span class="numeral">VIII</span> Cards</p>
+      <h2 id="s-cards">Karty (numer + tytuł + opis)</h2>
+      <p class="sg-note">2–4 karty na siatce. Numer rzymski w atramencie (bez bursztynu — zostaje na akcent gdzie indziej).</p>
+      <div class="sg-demo">
+        <Cards items={cardItems} />
+      </div>
+    </section>
+
+    <!-- PROCESS ------------------------------------------------------ -->
+    <section class="sg-section" aria-labelledby="s-process">
+      <p class="eyebrow numbered"><span class="numeral">IX</span> Process</p>
+      <h2 id="s-process">Kroki z numeracją rzymską</h2>
+      <p class="sg-note">Duży numer rzymski w atramencie, tytuł, krótki opis. Cienka linia nad każdym krokiem.</p>
+      <div class="sg-demo">
+        <Process steps={processSteps} />
+      </div>
+    </section>
+
+    <!-- FAQ ---------------------------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-faq">
+      <p class="eyebrow numbered"><span class="numeral">X</span> FAQ</p>
+      <h2 id="s-faq">Dostępny accordion</h2>
+      <p class="sg-note">Natywny &lt;details&gt;/&lt;summary&gt; — obsługa klawiatury i stan dla czytników bez JS. Znacznik +/− z miękką rotacją.</p>
+      <div class="sg-demo sg-demo--narrow">
+        <Faq items={faqItems} openFirst />
+      </div>
+    </section>
+
+    <!-- FORM --------------------------------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-form">
+      <p class="eyebrow numbered"><span class="numeral">XI</span> Form</p>
+      <h2 id="s-form">Formularz + zgoda RODO</h2>
+      <p class="sg-note">Pola minimalne. OSOBNY, niezaznaczony checkbox zgody RODO + link do polityki. Dostępne etykiety, focus states.</p>
+      <div class="sg-demo">
+        <Form />
+      </div>
+    </section>
+
+    <!-- LOOKSWITCHER (Śluby, opcjonalny — Krok 10) ------------------- -->
+    <section class="sg-section" aria-labelledby="s-look">
+      <p class="eyebrow numbered"><span class="numeral">XII</span> LookSwitcher</p>
+      <h2 id="s-look">Przełącznik tonacji (Śluby)</h2>
+      <p class="sg-note">
+        Jeden kadr, trzy looki: Ciepły / Chłodny / Czarno-biały. CSS-only (radio + <code>:checked</code>, bez JS),
+        przejście tonacji wolne i miękkie (filtr). Kadr w macie passe-partout. Aktywny segment w atramencie
+        (neutralnie — bez bursztynu). Filtry działają tak samo po wstawieniu realnego zdjęcia.
+      </p>
+      <div class="sg-demo">
+        <LookSwitcher
+          heading="Jeden ślub, jeden klimat"
+          lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut."
+          alt="Placeholder — kadr ślubny w wybranej tonacji"
+          name="sg-look"
+        />
+      </div>
+    </section>
+
+    <!-- NAV + FOOTER (chrome globalny) ------------------------------- -->
+    <section class="sg-section" aria-labelledby="s-chrome">
+      <p class="eyebrow numbered"><span class="numeral">XIII</span> Nav + Footer</p>
+      <h2 id="s-chrome">Chrome globalny (sekcja 10 mapy)</h2>
+      <p class="sg-note">
+        Marka = pełny wordmark „ORA.studio" Z FALĄ (<code>wordmark-ink.svg</code>, pełne krzywe — web-safe, bez QuincyCF),
+        litery atrament + kropka bursztyn. Pasek przyklejony przy scrollu (sticky). Linki ze <code>site.ts</code> —
+        na teraz tylko P1 (bez 404), P2 dołączą po przełączeniu priorytetu. Etykiety kapitalikami.
+      </p>
+      <div class="sg-demo sg-chrome">
+        <Nav />
+        <Footer />
       </div>
     </section>
   </main>
@@ -165,6 +344,32 @@ const scale = [
   .swatch code {
     font-family: var(--font-body);
     font-size: 0.78rem;
+  }
+
+  /* Pasek proporcji 60/30/10 */
+  .ratio {
+    display: flex;
+    margin-top: var(--space-m);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--c-ink-15);
+    min-height: 4.5rem;
+  }
+  .ratio__seg {
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-xs);
+    font-size: 0.72rem;
+    font-weight: var(--fw-medium);
+    line-height: 1.2;
+  }
+
+  /* Podgląd wybranego deseniu pasa (.band-pattern = zygzak). */
+  .pat-demo {
+    height: 110px;
+    border-radius: var(--radius);
+    border: 1px solid var(--c-ink-15);
+    margin-top: var(--space-m);
   }
 
   /* Fonty */
@@ -260,5 +465,35 @@ const scale = [
     font-size: var(--fs-display);
     font-weight: var(--fw-display);
     line-height: var(--lh-display);
+  }
+
+  /* Gallery — siatka demonstracyjna (luźna, duże kadry, oddech) */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-l);
+    margin-top: var(--space-l);
+    align-items: start;
+  }
+
+  /* Wrapper demo dla komponentów Kroku 4 */
+  .sg-demo {
+    margin-top: var(--space-l);
+  }
+  .sg-demo--narrow {
+    max-width: var(--container-narrow);
+  }
+
+  /* Podgląd chrome: ramka + zerujemy zagnieżdżony padding kontenera komponentów. */
+  .sg-chrome {
+    border: 1px solid var(--c-ink-15);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .sg-chrome :global(.container) {
+    padding-inline: var(--space-m);
+  }
+  .sg-chrome :global(.footer) {
+    margin-top: 0;
   }
 </style>

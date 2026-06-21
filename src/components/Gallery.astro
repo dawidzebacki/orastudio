@@ -1,0 +1,280 @@
+---
+// ORA.studio — Gallery (passe-partout) · KOMPONENT SYGNATUROWY (Krok 3, pkt 5.1 briefu)
+//
+// Każde zdjęcie osadzone jak odbitka w macie galeryjnej:
+//  - kadr PROSTOKĄTNY (żadnych łuków/arkad — twardy zakaz),
+//  - mata o ton jaśniejsza od tła (--c-mat) z teksturą papieru (ciut większa/miększa
+//    niż ziarno filmowe na zdjęciu),
+//  - DOMYŚLNIE BEZ obwódki/hairline (decyzja klientki — styk czyta sam bevel +
+//    cień wpuszczenia); prop `hairline` zostaje opcjonalnie (none|neutral|amber),
+//  - delikatny bevel okienka: światło z góry-lewej, ciemnienie w dół-prawo,
+//    zdjęcie lekko wpuszczone pod matę (cień u góry kadru),
+//  - BEZ drop-shadow wokół całej ramki (wygląda tanio/webowo),
+//  - podpis pod kadrem KAPITALIKAMI w formacie „I · Miejsce".
+//
+// Tekst/dane to placeholdery — komponent jest reużywalny, na tokenach.
+
+interface Props {
+  /** Ścieżka do zdjęcia. Brak = tonalny placeholder (portfolio startuje od zera). */
+  src?: string;
+  /** Tekst alternatywny (wymagany przy realnym zdjęciu — SEO/a11y). */
+  alt?: string;
+  /** Cyfra rzymska podpisu, np. "I". */
+  numeral?: string;
+  /** Miejsce w podpisie, np. "Gdańsk". */
+  place?: string;
+  /** Proporcje kadru (aspect-ratio), domyślnie pionowy 4:5. */
+  ratio?: string;
+  /** Ładowanie obrazu — lazy domyślnie (wydajność). */
+  loading?: 'lazy' | 'eager';
+  /** Wariant tonalny placeholdera (1–3) — żeby kadry bez zdjęć nie były identyczne. */
+  tone?: 1 | 2 | 3;
+  /** Hairline na styku maty i zdjęcia. Domyślnie BRAK (decyzja klientki: kadr
+      bez żadnej obwódki — styk czyta sam bevel + cień wpuszczenia). 'neutral'
+      = ledwie widoczny grafit; 'amber' = pierwotny bursztyn (nie używać bez zgody). */
+  hairline?: 'none' | 'neutral' | 'amber';
+  /** Link case study na podpisie (klik w „miejsce" → np. /realizacje/slug). */
+  href?: string;
+  /** Powiększenie po kliknięciu w kadr (lightbox). Domyślnie: gdy podano `src`. */
+  zoom?: boolean;
+  class?: string;
+}
+
+const {
+  src,
+  alt = '',
+  numeral,
+  place,
+  ratio = '4 / 5',
+  loading = 'lazy',
+  tone = 1,
+  hairline = 'none',
+  href,
+  zoom,
+  class: className = '',
+} = Astro.props;
+
+const hasCaption = Boolean(numeral || place);
+const caption = [numeral, place].filter(Boolean).join(' · ');
+
+// Powiększenie (lightbox) — domyślnie włączone, gdy kadr ma realne zdjęcie.
+// Wtedy okienko kadru renderujemy jako <button> sterujący globalnym <dialog>.
+const zoomable = zoom ?? Boolean(src);
+const WindowTag = zoomable ? 'button' : 'div';
+
+const HAIRLINE = {
+  neutral: 'color-mix(in srgb, var(--c-ink) 20%, transparent)',
+  amber: 'var(--c-amber-hairline)',
+  none: 'transparent',
+};
+---
+
+<figure class={`pp ${className}`.trim()} style={`--pp-ratio: ${ratio}; --pp-hairline: ${HAIRLINE[hairline]};`}>
+  <div class="pp__mat">
+    <WindowTag
+      class={`pp__window ${zoomable ? 'pp__window--zoom' : ''}`.trim()}
+      data-tone={tone}
+      {...(zoomable
+        ? {
+            type: 'button',
+            'data-zoom': '',
+            'data-zoom-src': src,
+            'data-zoom-alt': alt,
+            'data-zoom-caption': caption,
+            'aria-label': `Powiększ kadr${place ? `: ${place}` : ''}`,
+          }
+        : {})}
+    >
+      {src
+        ? <img class="pp__photo" src={src} alt={alt} loading={loading} decoding="async" />
+        : <div class="pp__photo pp__placeholder" role="img" aria-label={alt || 'Kadr — placeholder'}></div>
+      }
+      {/* Nakładka: hairline na styku (kolor z --pp-hairline) + cień wpuszczenia u góry kadru. */}
+      <span class="pp__inset" aria-hidden="true"></span>
+    </WindowTag>
+  </div>
+
+  {hasCaption && (
+    <figcaption class="pp__cap">
+      {numeral && <span class="pp__num">{numeral}</span>}
+      {numeral && place && <span class="pp__sep" aria-hidden="true">·</span>}
+      {place && (href
+        ? <a class="pp__place pp__place--link" href={href}>{place}<span class="pp__caparrow" aria-hidden="true">→</span></a>
+        : <span class="pp__place">{place}</span>)}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .pp {
+    margin: 0;
+    /* Mata o ton jaśniejsza od tła — tonalny skok czyta matę jako osobną warstwę.
+       ŻADNEGO drop-shadow wokół ramki. */
+  }
+
+  /* --- Mata (passe-partout) ------------------------------------------- */
+  .pp__mat {
+    position: relative;
+    background-color: var(--c-mat);
+    /* Margines maty — lekko cięższy u dołu (weighted mat, jak w prawdziwej oprawie). */
+    --pp-pad: clamp(1.4rem, 4.5%, 2.75rem);
+    padding: var(--pp-pad);
+    padding-bottom: calc(var(--pp-pad) * 1.18);
+    border-radius: var(--radius);
+    isolation: isolate;
+  }
+
+  /* Tekstura papieru na macie: ten sam szum wektorowy co tło strony, ale ziarno
+     ciut WIĘKSZE i MIĘKSZE (większy background-size, nieco wyższe krycie) — żeby
+     mata i zdjęcie czytały się jako dwa różne materiały. */
+  .pp__mat::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url('../styles/paper-grain.svg');
+    background-size: 320px 320px;
+    background-repeat: repeat;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    border-radius: inherit;
+  }
+
+  /* --- Okienko (kadr) -------------------------------------------------- */
+  .pp__window {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: var(--pp-ratio);
+    /* Bevel maty: ścięta krawędź okienka. Światło z góry-lewej (jasne krawędzie
+       górna/lewa), ciemnienie w dół-prawo (ciemne dolna/prawa). To NIE jest
+       drop-shadow — to faza cięcia maty. */
+    border-style: solid;
+    border-width: 5px;
+    border-color:
+      color-mix(in srgb, #ffffff 62%, transparent)   /* górna — światło      */
+      color-mix(in srgb, var(--c-ink) 16%, transparent) /* prawa — cień       */
+      color-mix(in srgb, var(--c-ink) 16%, transparent) /* dolna — cień       */
+      color-mix(in srgb, #ffffff 62%, transparent);  /* lewa — światło       */
+    border-radius: var(--radius);
+    background-color: var(--c-ink-15);
+  }
+
+  .pp__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 1px;
+  }
+
+  /* Tonalny placeholder (brak realnego zdjęcia) — w tonach palety, nie kolorowy.
+     Trzy warianty, żeby galeria kilku kadrów nie była monotonna. */
+  .pp__placeholder {
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--c-ink) 52%, var(--c-cream)),
+        color-mix(in srgb, var(--c-ink) 24%, var(--c-cream))
+      );
+  }
+  .pp__window[data-tone='2'] .pp__placeholder {
+    background:
+      linear-gradient(
+        118deg,
+        color-mix(in srgb, var(--c-ink) 40%, var(--c-cream)),
+        color-mix(in srgb, var(--c-ink) 16%, var(--c-cream))
+      );
+  }
+  .pp__window[data-tone='3'] .pp__placeholder {
+    background:
+      linear-gradient(
+        152deg,
+        color-mix(in srgb, var(--c-ink) 62%, var(--c-cream)),
+        color-mix(in srgb, var(--c-ink) 30%, var(--c-cream))
+      );
+  }
+
+  /* Nakładka nad zdjęciem (rysowana PONAD obrazem, stąd osobny element):
+       1) hairline na styku maty i zdjęcia (kolor z --pp-hairline; DOMYŚLNIE brak),
+       2) cień u góry kadru — zdjęcie wpuszczone pod powierzchnię maty. */
+  .pp__inset {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 1px;
+    box-shadow:
+      inset 0 0 0 1px var(--pp-hairline, transparent),    /* hairline na styku (neutralny domyślnie) */
+      inset 0 7px 9px -5px color-mix(in srgb, var(--c-ink) 42%, transparent); /* wpuszczenie u góry */
+  }
+
+  /* --- Podpis „I · Miejsce" (kapitaliki, strukturalnie) ----------------
+     Numer w atramencie (nie bursztynie) — akcenty rozkłada zasada 60/30/10,
+     bursztyn niesie inny element widoku (kropka logo / numery list). */
+  .pp__cap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    margin-top: var(--space-xs);
+    font-family: var(--font-body);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-ink-70);
+  }
+  .pp__num {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-feature-settings: 'lnum' 1;
+    font-size: 1.15em;
+    letter-spacing: 0;
+    color: var(--c-ink);
+  }
+  .pp__sep {
+    color: var(--c-ink-45);
+  }
+
+  /* --- Kadr klikalny (powiększenie/lightbox) ---------------------------
+     Okienko jako <button>: reset stylów przeglądarki, kursor lupy, miękkie
+     skalowanie zdjęcia na hover (clip do okienka). Bevel/tło dziedziczy z .pp__window. */
+  .pp__window--zoom {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    width: 100%;
+    display: block;
+    overflow: hidden;              /* przytnij skalowane zdjęcie do okienka */
+    cursor: zoom-in;
+  }
+  .pp__window--zoom .pp__photo {
+    transition: transform calc(var(--dur) * 1.4) var(--ease);
+  }
+  .pp__window--zoom:hover .pp__photo {
+    transform: scale(1.03);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pp__window--zoom:hover .pp__photo { transform: none; }
+  }
+
+  /* --- Podpis-link do case study (klik w „miejsce") -------------------- */
+  .pp__place--link {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
+  }
+  .pp__place--link:hover {
+    color: var(--c-accent-i);        /* terakota — akcent interaktywny */
+  }
+  .pp__caparrow {
+    margin-left: 0.4em;
+    display: inline-block;
+    transition: transform var(--dur) var(--ease);
+  }
+  .pp__place--link:hover .pp__caparrow {
+    transform: translateX(0.2em);
+  }
+</style>

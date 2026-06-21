@@ -1,0 +1,126 @@
+---
+// ORA.studio — O mnie (wspólne) · P2 · Krok 11
+// Złożona z gotowych komponentów wg sekcji 5 mapy treści (5.1–5.5).
+// Wspólna dla obu ścieżek (Biznes + Śluby) — osobista, powściągliwa.
+// Treść = lorem w długościach z mapy (sekcja 1). Dane realne (autorka) z site.ts.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Cards from '../components/Cards.astro';
+import { site } from '../data/site';
+
+// 5.4 — podejście / sprzęt (3 krótkie karty). Numeracja rzymska; tytuły/opisy = lorem
+// (mapa 5.4: tytuł [14–26] + opis [80–140]).
+const approach = [
+  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Lorem ipsum sit amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Lorem dolor amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+];
+---
+
+<BaseLayout
+  title="O mnie — Adrianna Zębacka"
+  description="Za ORA.studio stoi Adrianna Zębacka — skondensowany reportaż dokumentalny w Trójmieście. Powściągliwa, editorialowa estetyka: dokument, nie inscenizacja."
+  path="/o-mnie"
+>
+  <main>
+    {/* 5.1 — INTRO (Hero + portret) ------------------------------------- */}
+    <section class="sec sec--hero container">
+      <Hero
+        as="h1"
+        eyebrow="O mnie"
+        lead="lorem ipsum"
+        title="dolor."
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+        image={{ alt: `Placeholder — portret: ${site.owner}`, ratio: '4 / 5' }}
+      />
+    </section>
+
+    {/* 5.2 — HISTORIA (Text, 2 akapity osobiste) ------------------------ */}
+    <section class="sec container" aria-labelledby="s-story">
+      <p class="eyebrow">Historia</p>
+      <h2 id="s-story" class="visually-hidden">Historia — jak zaczęło się ORA.studio</h2>
+      <div class="prose">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+          laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+          voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat.
+        </p>
+        <p>
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+          laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+          beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+          odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+        </p>
+      </div>
+    </section>
+
+    {/* 5.3 — FILOZOFIA (Text) — pas strukturalny (zygzak, manifestowy) -- */}
+    <section class="sec band-pattern" aria-labelledby="s-philo">
+      <div class="container">
+        <div class="prose">
+          <h2 id="s-philo">Lorem ipsum dolor sit amet</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* 5.4 — PODEJŚCIE / SPRZĘT (Cards, 3) ------------------------------ */}
+    <section class="sec container" aria-labelledby="s-approach">
+      <p class="eyebrow">Podejście i sprzęt</p>
+      <h2 id="s-approach" class="visually-hidden">Podejście i sprzęt</h2>
+      <Cards items={approach} columns={3} class="sec__cards" />
+    </section>
+
+    {/* 5.5 — CTA (Hero compact) — krem (przed stopką) ------------------- */}
+    <section class="sec sec--cta container">
+      <Hero
+        compact
+        as="h2"
+        title="Lorem ipsum dolor sit amet"
+        primary={{ label: 'Porozmawiajmy', href: '/kontakt' }}
+      />
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Rytm pionowy sekcji — spójny z index / wydarzenia / sluby. */
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--hero {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+  }
+  .sec--cta {
+    padding-block: var(--space-3xl);
+  }
+
+  .sec > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+  .sec__cards {
+    margin-top: 0;
+  }
+
+  /* Bloki tekstowe (5.2, 5.3) — kolumna tekstu, oddech między akapitami. */
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose h2 {
+    margin-bottom: var(--space-m);
+  }
+  .prose p {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+  .prose p + p {
+    margin-top: var(--space-m);
+  }
+</style>

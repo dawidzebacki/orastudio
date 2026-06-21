@@ -1,0 +1,111 @@
+---
+// ORA.studio — Footer (Krok 9, sekcja 10 mapy)
+// Globalna stopka: marka (sygnet + wordmark), nawigacja, social/e-mail/obszar.
+// Linki i dane z site.ts — TYLKO P1 (istniejące), P2 dołączą po przełączeniu
+// priorytetu w site.ts. Etykiety KAPITALIKI. Marka = wordmark z falą (Logo).
+import { site, nav } from '../data/site';
+import Logo from './Logo.astro';
+import SocialLinks from './SocialLinks.astro';
+
+const links = nav.filter((n) => n.priority === 'P1');
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__inner container">
+    {/* Marka */}
+    <div class="footer__brand">
+      <Logo height="1.5rem" />
+    </div>
+
+    {/* Nawigacja */}
+    <nav class="footer__col" aria-label="Stopka — nawigacja">
+      <p class="eyebrow footer__label">Nawigacja</p>
+      <ul class="footer__list" role="list">
+        {links.map((l) => (
+          <li><a class="footer__link" href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    {/* Kontakt / social */}
+    <div class="footer__col">
+      <p class="eyebrow footer__label">Kontakt</p>
+      <ul class="footer__list" role="list">
+        <li><a class="footer__link" href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li class="footer__muted">{site.areaShort}</li>
+      </ul>
+      <SocialLinks class="footer__socials" />
+    </div>
+  </div>
+
+  <div class="footer__base container">
+    <p class="footer__muted">© {year} {site.brand}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-3xl);
+    background: var(--c-surface);     /* piasek — powierzchnia 30% (60/30/10) */
+    border-top: 1px solid var(--c-ink-15);
+  }
+  .footer__inner {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: 1fr;
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+  /* Małe ekrany (≥30rem): Nawigacja | Kontakt obok siebie (wykorzystaj prawą
+     stronę), logo na całą szerokość u góry — zamiast jednej kolumny do lewej. */
+  @media (min-width: 30rem) {
+    .footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 48rem) {
+    .footer__inner {
+      grid-template-columns: 1.4fr 0.8fr 0.8fr;
+      gap: var(--space-2xl);
+    }
+    .footer__brand {
+      grid-column: auto;
+    }
+  }
+
+  .footer__label {
+    margin-bottom: var(--space-m);
+  }
+  .footer__list {
+    display: grid;
+    gap: var(--space-2xs);
+    margin: 0;
+  }
+  .footer__link {
+    color: var(--c-ink-70);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
+  }
+  .footer__link:hover {
+    color: var(--c-accent-i);        /* terakota — akcent interaktywny */
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .footer__muted {
+    color: var(--c-ink-70);          /* czytelny kontrast na piasku (AA) — nie ink-45 */
+  }
+
+  /* Odstęp nad ikonkami sociali (element renderuje child — celujemy globalnie). */
+  .footer__col :global(.footer__socials) {
+    margin-top: var(--space-m);
+  }
+
+  .footer__base {
+    padding-block: var(--space-m) var(--space-xl);
+    border-top: 1px solid var(--c-ink-15);
+    font-size: 0.85rem;
+  }
+</style>

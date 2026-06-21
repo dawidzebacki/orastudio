@@ -1,0 +1,121 @@
+---
+// ORA.studio — Kontakt / Rezerwacja · P1 · Krok 7
+// Złożona z gotowych komponentów, dokładnie wg sekcji 8 mapy treści (8.1–8.3).
+// 8.2: domyślny Form pokrywa pola z mapy (imię · e-mail · temat Biznes/Ślub · data · wiadomość)
+//      + OSOBNY, niezaznaczony checkbox RODO + link do polityki.
+// 8.3: dane realne z site.ts. Telefonu NIE podajemy (świadomie brak).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Form from '../components/Form.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Kontakt"
+  description="Napisz do ORA.studio — wydarzenia, biznes lub kameralna uroczystość w Trójmieście. Odpowiadam mailowo, obrobione kadry w 24 godziny."
+  path="/kontakt"
+>
+  <main>
+    {/* 8.1 — INTRO (Text) — pojedynczy H1 strony --------------------- */}
+    <section class="sec sec--intro container">
+      <p class="eyebrow">Kontakt</p>
+      <h1 class="intro__h">Lorem ipsum dolor sit amet</h1>
+      <p class="intro__lede">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+      </p>
+    </section>
+
+    {/* 8.2 + 8.3 — FORMULARZ + DANE/SOCIAL — krem (przed stopką) ----- */}
+    <section class="sec sec--contact container">
+      <div class="contact">
+        {/* 8.2 — Formularz (Form + RODO) */}
+        <div class="contact__form">
+          <h2 id="s-form" class="visually-hidden">Formularz kontaktowy</h2>
+          <Form submitLabel="Wyślij" />
+        </div>
+
+        {/* 8.3 — Dane / social */}
+        <aside class="contact__aside" aria-labelledby="s-data">
+          <h2 id="s-data" class="aside__h">Dane kontaktowe</h2>
+          <dl class="aside__list">
+            <div class="aside__row">
+              <dt class="eyebrow">E-mail</dt>
+              <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+            </div>
+            <div class="aside__row">
+              <dt class="eyebrow">Instagram</dt>
+              <dd><a href={site.instagramUrl} rel="me noopener" target="_blank">{site.instagram}</a></dd>
+            </div>
+            <div class="aside__row">
+              <dt class="eyebrow">Obszar</dt>
+              <dd>{site.area}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--intro {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-l);
+  }
+  .sec--contact {
+    padding-top: var(--space-l);
+    padding-bottom: var(--space-3xl);
+  }
+
+  .sec--intro > .eyebrow {
+    margin-bottom: var(--space-s);
+  }
+  .intro__h {
+    max-width: var(--measure);
+  }
+  .intro__lede {
+    margin-top: var(--space-m);
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+    max-width: var(--measure);
+  }
+
+  /* Formularz | dane — dwie kolumny od średnich ekranów, stack na mobile. */
+  .contact {
+    display: grid;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (min-width: 52rem) {
+    .contact {
+      grid-template-columns: 1.4fr 0.6fr;
+      gap: var(--space-3xl);
+    }
+  }
+
+  .aside__h {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-l);
+  }
+  .aside__list {
+    margin: 0;
+    display: grid;
+    gap: var(--space-m);
+  }
+  .aside__row {
+    display: grid;
+    gap: var(--space-3xs);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--c-ink-15);
+  }
+  .aside__row dd {
+    margin: 0;
+    color: var(--c-ink-70);
+  }
+  .aside__row a {
+    color: var(--c-accent-i);        /* terakota — akcent interaktywny */
+    text-underline-offset: 0.2em;
+  }
+</style>

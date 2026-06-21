@@ -1,0 +1,65 @@
+---
+// ORA.studio — Process (Krok 4, pkt 5.4 briefu)
+// Kroki z numeracją rzymską (I / II / III): numer + tytuł + krótki opis.
+// Numer w atramencie (didone, duży). Cienka linia między krokami.
+import { toRoman } from '../utils/roman';
+
+interface Step {
+  /** Tytuł kroku [14–28 zn]. */
+  title: string;
+  /** Opis kroku [80–150 zn]. */
+  desc: string;
+}
+
+interface Props {
+  steps: Step[];
+  class?: string;
+}
+
+const { steps, class: className = '' } = Astro.props;
+---
+
+<ol class={`process ${className}`.trim()} role="list">
+  {steps.map((step, i) => (
+    <li class="process__step">
+      <span class="process__num numeral" aria-hidden="true">{toRoman(i + 1)}</span>
+      <div class="process__text">
+        <h3 class="process__title">{step.title}</h3>
+        <p class="process__desc">{step.desc}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-l);
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+
+  .process__step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--c-ink-15);
+  }
+
+  .process__num {
+    font-size: var(--fs-h1);
+    line-height: 0.9;
+    color: var(--c-amber);          /* bursztyn — akcent sygnaturowy (60/30/10) */
+  }
+
+  .process__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-h);
+  }
+  .process__desc {
+    color: var(--c-ink-70);
+  }
+</style>

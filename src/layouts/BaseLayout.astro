@@ -1,9 +1,15 @@
 ---
-// ORA.studio — bazowy layout. Spina <head> (SEO), fonty i style globalne.
-// Nav/Footer dołączymy w Kroku 9 (domknięcie P1) — teraz layout jest czysty.
+// ORA.studio — bazowy layout. Spina <head> (SEO), fonty i style globalne
+// oraz globalny chrome: Nav (góra) + Footer (dół) — Krok 9.
 import { site } from '../data/site';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Lightbox from '../components/Lightbox.astro';
 
-// Fonty self-hosted (fontsource) — bez zewnętrznych żądań (lepsze pod RODO i wydajność).
+// Fonty body self-hosted (fontsource), bez zewnętrznych żądań: Fraunces (fallback
+// display) + Outfit (body). UWAGA RODO: display Quincy CF ładuje się z Adobe Typekit
+// (use.typekit.net niżej) = ZEWNĘTRZNE żądanie / transfer IP klienta — uwzględnić w
+// polityce prywatności przy finalnej weryfikacji RODO.
 // Fraunces Variable: oś wght + opsz (didone, wysoki kontrast) + italic do hero.
 import '@fontsource-variable/fraunces/standard.css';
 import '@fontsource-variable/fraunces/standard-italic.css';
@@ -40,9 +46,10 @@ const fullTitle = title === site.brand ? title : `${title} — ${site.brand}`;
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    {/* Adobe Fonts (Typekit) — Quincy CF (nagłówki) + Neue Haas (docelowo body).
+    {/* Adobe Fonts (Typekit) — Quincy CF (nagłówki display; body = Outfit self-hosted).
         Kit ograniczony do dozwolonych domen w panelu Adobe — dodaj orastudio.art
-        (i localhost) w ustawieniach kitu, inaczej fonty nie zarenderują się. */}
+        (i localhost) w ustawieniach kitu, inaczej fonty nie zarenderują się.
+        Zewnętrzne żądanie do use.typekit.net — patrz nota RODO w skrypcie wyżej. */}
     <link rel="preconnect" href="https://use.typekit.net" crossorigin />
     <link rel="stylesheet" href="https://use.typekit.net/nwy4xmp.css" />
 
@@ -55,8 +62,38 @@ const fullTitle = title === site.brand ? title : `${title} — ${site.brand}`;
     <meta name="theme-color" content="#f3eadb" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Przejdź do treści</a>
     <div class="page">
-      <slot />
+      <Nav />
+      <div id="main-content">
+        <slot />
+      </div>
+      <Footer />
     </div>
+    {/* Globalny lightbox — jeden <dialog> obsługuje wszystkie kadry [data-zoom]. */}
+    <Lightbox />
   </body>
 </html>
+
+<style>
+  /* Skip-link — ukryty do czasu fokusu (dostępność: szybkie ominięcie nawigacji). */
+  .skip-link {
+    position: absolute;
+    left: var(--space-s);
+    top: -4rem;
+    z-index: 10;
+    padding: 0.6em 1em;
+    background: var(--c-ink);
+    color: var(--c-cream);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: top var(--dur) var(--ease);
+  }
+  .skip-link:focus-visible {
+    top: var(--space-s);
+  }
+</style>

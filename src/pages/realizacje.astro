@@ -1,0 +1,211 @@
+---
+// ORA.studio — Realizacje / portfolio (wspólne) · P2 · Krok 12
+// Złożona z gotowych komponentów wg sekcji 6 mapy treści (6.1–6.4).
+// Wspólna dla obu ścieżek — jedno portfolio, filtr Biznes / Śluby.
+// Treść = lorem w długościach z mapy (sekcja 1). Filtr = CSS-only (radio + `~`),
+// wzorem LookSwitcher — bez JS (zakaz nachalnych animacji).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Gallery from '../components/Gallery.astro';
+import { caseStudies, placeholderImg } from '../data/caseStudies';
+
+// 6.2 — kadry portfolio z jednego źródła (caseStudies). `kind` steruje filtrem
+// (CSS-only). Każdy kadr: klik w zdjęcie → powiększenie (lightbox); klik w podpis
+// → case study /realizacje/<slug>. Zdjęcia = placehold.co (tymczasowe).
+
+// Segmenty filtra — wartość 'all' domyślna (cały zbiór), potem dwie ścieżki marki.
+const filters = [
+  { id: 'cat-all', value: 'all', label: 'Wszystko' },
+  { id: 'cat-biznes', value: 'biznes', label: 'Wydarzenia / Biznes' },
+  { id: 'cat-sluby', value: 'sluby', label: 'Śluby' },
+];
+---
+
+<BaseLayout
+  title="Realizacje — portfolio reportażu"
+  description="Wybrane kadry ORA.studio — reportaż z wydarzeń, biznesu i kameralnych ślubów w Trójmieście. Skondensowany dokument, editorialowa powściągliwość."
+  path="/realizacje"
+>
+  <main>
+    {/* 6.1 — INTRO (Text: H1 + lede) ------------------------------------ */}
+    <section class="sec sec--hero container">
+      <Hero
+        as="h1"
+        eyebrow="Portfolio"
+        lead="wybrane"
+        title="kadry."
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+      />
+    </section>
+
+    {/* 6.2 — GALERIA FILTROWANA (Gallery + przełącznik Biznes / Śluby) ---
+        Filtr CSS-only: radia ukryte poprzedzają siatkę, sterują widocznością
+        kadrów przez kombinator `~` (wzór LookSwitcher, bez JS). */}
+    <section class="sec container" aria-labelledby="s-gallery">
+      <p class="eyebrow">Galeria</p>
+      <h2 id="s-gallery" class="visually-hidden">Wybrane realizacje — wydarzenia i śluby</h2>
+
+      <div class="gal">
+        {filters.map((f, i) => (
+          <input
+            class="gal__radio visually-hidden"
+            type="radio"
+            name="realizacje-filter"
+            id={f.id}
+            value={f.value}
+            checked={i === 0}
+          />
+        ))}
+
+        <div class="gal__controls" role="group" aria-label="Filtruj realizacje">
+          {filters.map((f) => (
+            <label class="gal__btn" for={f.id}>{f.label}</label>
+          ))}
+        </div>
+
+        <ul class="frames" role="list">
+          {caseStudies.map((cs) => (
+            <li class={`gframe gframe--${cs.kind}`}>
+              <Gallery
+                numeral={cs.numeral}
+                place={cs.place}
+                ratio={cs.ratio}
+                tone={cs.tone}
+                href={`/realizacje/${cs.slug}`}
+                src={placeholderImg(cs.ratio, `${cs.numeral} · ${cs.place}`)}
+                alt={`Realizacja ${cs.numeral} — ${cs.place} (${cs.kind === 'sluby' ? 'ślub' : 'wydarzenie / biznes'})`}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    {/* 6.3 — CASE STUDY (na przyszłość) — pas piaskowy (gładki kolor) -----
+        Map 6.3: pojedynczy teaser realizacji, tytuł [20–40] + opis [200–300].
+        Zostawione jako lekki placeholder — rozbudujemy po dostawie zdjęć. */}
+    <section class="sec band-sand" aria-labelledby="s-case">
+      <div class="container">
+        <p class="eyebrow">Case study</p>
+        <div class="prose">
+          <h2 id="s-case">Lorem ipsum dolor sit amet consectetur</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* 6.4 — CTA (Hero compact) — krem (przed stopką) ------------------- */}
+    <section class="sec sec--cta container">
+      <Hero
+        compact
+        as="h2"
+        title="Lorem ipsum dolor sit amet"
+        primary={{ label: 'Porozmawiajmy', href: '/kontakt' }}
+      />
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Rytm pionowy sekcji — spójny z index / wydarzenia / sluby / o-mnie. */
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--hero {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+  }
+  .sec--cta {
+    padding-block: var(--space-3xl);
+  }
+
+  .sec > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+
+  /* 6.3 — blok tekstowy na pasie (jak na /sluby i /o-mnie). */
+  .band-sand > .container > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose h2 {
+    margin-bottom: var(--space-m);
+  }
+  .prose p {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+
+  /* === 6.2 — FILTR + GALERIA ============================================ */
+  .gal {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  /* Segmentowany przełącznik — etykiety KAPITALIKI (warstwa strukturalna),
+     język spójny z LookSwitcher (hairline między segmentami, aktywny = atrament). */
+  .gal__controls {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    background: var(--c-ink-15);
+    border: 1px solid var(--c-ink-15);
+    border-radius: var(--radius);
+    overflow: hidden;
+    width: fit-content;
+  }
+  .gal__btn {
+    padding: 0.6em 1.1em;
+    background: var(--c-mat);
+    font-family: var(--font-body);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-ink-70);
+    cursor: pointer;
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .gal__btn:hover {
+    color: var(--c-ink);
+  }
+
+  /* Luźna siatka galerii (spójna z index / wydarzenia / sluby). */
+  .frames {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-l);
+    align-items: start;
+  }
+
+  /* --- STAN filtra (radia poprzedzają .frames → kombinator `~`) ---------- */
+  /* 'Wszystko' = bez ukrywania (domyślnie wszystkie widoczne). */
+  .gal__radio[value='biznes']:checked ~ .frames .gframe--sluby { display: none; }
+  .gal__radio[value='sluby']:checked ~ .frames .gframe--biznes { display: none; }
+
+  /* Aktywny segment — atrament na macie (neutralnie, bez bursztynu). */
+  .gal__radio[value='all']:checked ~ .gal__controls .gal__btn[for='cat-all'],
+  .gal__radio[value='biznes']:checked ~ .gal__controls .gal__btn[for='cat-biznes'],
+  .gal__radio[value='sluby']:checked ~ .gal__controls .gal__btn[for='cat-sluby'] {
+    background: var(--c-ink);
+    color: var(--c-cream);
+  }
+
+  /* Focus widoczny — fokus na ukrytym radiu maluje obrys na JEGO etykiecie. */
+  .gal__radio[value='all']:focus-visible ~ .gal__controls .gal__btn[for='cat-all'],
+  .gal__radio[value='biznes']:focus-visible ~ .gal__controls .gal__btn[for='cat-biznes'],
+  .gal__radio[value='sluby']:focus-visible ~ .gal__controls .gal__btn[for='cat-sluby'] {
+    outline: 2px solid var(--c-amber);
+    outline-offset: -2px;
+  }
+</style>

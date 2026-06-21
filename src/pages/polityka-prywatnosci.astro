@@ -1,0 +1,145 @@
+---
+// ORA.studio — Polityka prywatności · P1 · Krok 8
+// Wg sekcji 9 mapy treści: 8 sekcji, każda nagłówek + akapit [200–400].
+// Dane realne (administrator, Useme, e-mail) z site.ts / briefu; reszta = lorem w długościach z mapy.
+//
+// !!! SZKIELET, NIE PORADA PRAWNA — finalną treść trzeba dać do weryfikacji
+//     specjaliście RODO przed publikacją. Lorem to wypełniacz, nie treść docelowa. !!!
+//
+// Hierarchia: pojedynczy H1 (tytuł), 8 sekcji jako H2 (poprawna kolejność nagłówków).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Polityka prywatności"
+  description="Polityka prywatności ORA.studio — administrator danych, zakres i cel przetwarzania, czas przechowywania oraz prawa osób, których dane dotyczą."
+  path="/polityka-prywatnosci"
+>
+  <main class="container">
+    <article class="policy">
+      <header class="policy__head">
+        <p class="eyebrow">Dokument</p>
+        <h1 class="policy__h1">Polityka prywatności</h1>
+      </header>
+
+      {/* 1. Administrator danych — REALNE dane (osoba fizyczna). */}
+      <section class="policy__sec" aria-labelledby="p1">
+        <h2 id="p1">Administrator danych</h2>
+        <p>
+          Administratorem danych osobowych jest {site.owner} (osoba fizyczna), prowadząca działalność
+          fotograficzną pod marką {site.brand}. Kontakt w sprawach danych: <a href={`mailto:${site.email}`}>{site.email}</a>.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua, quis nostrud exercitation ullamco laboris.
+        </p>
+      </section>
+
+      {/* 2. Jakie dane zbieram. */}
+      <section class="policy__sec" aria-labelledby="p2">
+        <h2 id="p2">Jakie dane zbieram</h2>
+        <p>
+          W ramach formularza kontaktowego zbieram imię, adres e-mail oraz treść wiadomości. Lorem ipsum
+          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+          ex ea commodo consequat duis aute irure dolor.
+        </p>
+      </section>
+
+      {/* 3. Cel i podstawa prawna. */}
+      <section class="policy__sec" aria-labelledby="p3">
+        <h2 id="p3">Cel i podstawa prawna</h2>
+        <p>
+          Dane przetwarzam w celu kontaktu oraz przygotowania i realizacji zlecenia fotograficznego. Lorem
+          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </section>
+
+      {/* 4. Czas przechowywania. */}
+      <section class="policy__sec" aria-labelledby="p4">
+        <h2 id="p4">Czas przechowywania</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur.
+        </p>
+      </section>
+
+      {/* 5. Odbiorcy danych — REALNE: Useme dotyczy faktur, nie danych z formularza. */}
+      <section class="policy__sec" aria-labelledby="p5">
+        <h2 id="p5">Odbiorcy danych</h2>
+        <p>
+          Dane mogą być powierzone dostawcom usług niezbędnych do działania strony, np. hostingu i poczty.
+          Platforma Useme dotyczy wyłącznie rozliczeń i faktur — nie są jej przekazywane dane przesłane przez
+          formularz. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </section>
+
+      {/* 6. Twoje prawa. */}
+      <section class="policy__sec" aria-labelledby="p6">
+        <h2 id="p6">Twoje prawa</h2>
+        <p>
+          Przysługuje Ci prawo dostępu do danych, ich sprostowania oraz usunięcia. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat duis aute irure.
+        </p>
+      </section>
+
+      {/* 7. Pliki cookies. */}
+      <section class="policy__sec" aria-labelledby="p7">
+        <h2 id="p7">Pliki cookies</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore.
+        </p>
+      </section>
+
+      {/* 8. Kontakt w sprawie danych — REALNY e-mail. */}
+      <section class="policy__sec" aria-labelledby="p8">
+        <h2 id="p8">Kontakt w sprawie danych</h2>
+        <p>
+          W sprawach dotyczących danych osobowych napisz na <a href={`mailto:${site.email}`}>{site.email}</a>.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+      </section>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .policy {
+    max-width: var(--measure);
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .policy__head {
+    margin-bottom: var(--space-2xl);
+  }
+  .policy__head .eyebrow {
+    margin-bottom: var(--space-s);
+  }
+
+  /* Każda sekcja: nagłówek + akapit, oddech między sekcjami. */
+  .policy__sec + .policy__sec {
+    margin-top: var(--space-xl);
+  }
+  .policy__sec h2 {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--space-s);
+  }
+  .policy__sec p {
+    color: var(--c-ink-70);
+  }
+  .policy__sec a {
+    color: var(--c-accent-i);        /* terakota — akcent interaktywny */
+    text-underline-offset: 0.2em;
+  }
+</style>

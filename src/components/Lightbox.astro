@@ -1,0 +1,189 @@
+---
+// ORA.studio — Lightbox (Krok 15). Globalny, JEDEN <dialog> na stronę (w BaseLayout).
+// Powiększenie kadru bez biblioteki + nawigacja prev/next w obrębie jednej galerii.
+// Esc / focus-trap / aria-modal / przywrócenie fokusu = natywnie z <dialog>.showModal().
+// Sterowanie: klik w [data-zoom]; strzałki ‹ ›; klawiatura ←/→ (Esc zamyka natywnie).
+// Grupa nawigacji = najbliższy .frames klikniętego kadru, tylko WIDOCZNE kadry
+// (respektuje filtr Biznes/Śluby na /realizacje). Ruch wolny i miękki (reduced-motion).
+---
+
+<dialog class="lb" aria-label="Powiększony kadr">
+  <button type="button" class="lb__close" data-lb-close aria-label="Zamknij powiększenie">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+  </button>
+  <button type="button" class="lb__nav lb__nav--prev" data-lb-prev aria-label="Poprzedni kadr">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+  </button>
+  <button type="button" class="lb__nav lb__nav--next" data-lb-next aria-label="Następny kadr">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+  </button>
+  <figure class="lb__fig">
+    <img class="lb__img" alt="" />
+    <figcaption class="lb__cap"></figcaption>
+  </figure>
+</dialog>
+
+<style>
+  .lb {
+    margin: auto;                     /* wyśrodkowanie (reset zeruje margin) */
+    padding: 0;
+    border: none;
+    background: transparent;
+    max-width: min(92vw, 1100px);
+    max-height: 92vh;
+    overflow: visible;
+    color: var(--c-cream);
+  }
+  .lb::backdrop {
+    background: color-mix(in srgb, var(--c-ink) 82%, transparent);
+  }
+
+  /* Miękkie wejście. WAŻNE: transform NIE może być na <dialog> — transform na
+     przodku tworzy blok kontenerowy dla position:fixed i przyciski sterujące
+     „skakałyby" (najpierw na zdjęciu, potem na brzegi). Dlatego na dialogu tylko
+     opacity, a skalowanie na samej figurze (nie zawiera przycisków). */
+  .lb[open] {
+    animation: lb-fade var(--dur) var(--ease);
+  }
+  .lb[open] .lb__fig {
+    animation: lb-rise var(--dur) var(--ease);
+  }
+  @keyframes lb-fade {
+    from { opacity: 0; }
+  }
+  @keyframes lb-rise {
+    from { transform: scale(0.985); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lb[open],
+    .lb[open] .lb__fig { animation: none; }
+  }
+
+  .lb__fig {
+    margin: 0;
+  }
+  .lb__img {
+    display: block;
+    max-width: min(92vw, 1100px);
+    max-height: 84vh;
+    width: auto;
+    height: auto;
+    margin-inline: auto;
+    border-radius: var(--radius);
+  }
+  .lb__cap {
+    margin-top: var(--space-s);
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-cream);
+  }
+
+  /* Przyciski sterujące — stała pozycja (dialog jest w top-layer). Wspólny styl. */
+  .lb__close,
+  .lb__nav {
+    position: fixed;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    color: var(--c-cream);
+    background: color-mix(in srgb, var(--c-ink) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c-cream) 55%, transparent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease);
+  }
+  .lb__close:hover,
+  .lb__nav:hover {
+    background: color-mix(in srgb, var(--c-ink) 90%, transparent);
+  }
+  .lb__close {
+    top: var(--space-m);
+    right: var(--space-m);
+    font-size: 1.7rem;
+  }
+  .lb__nav {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.9rem;
+  }
+  .lb__nav--prev { left: var(--space-m); }
+  .lb__nav--next { right: var(--space-m); }
+  /* Ukryj strzałki, gdy w galerii jest tylko jeden kadr (override inline-flex). */
+  .lb__nav[hidden] { display: none; }
+</style>
+
+<script>
+  const dialog = document.querySelector('.lb') as HTMLDialogElement | null;
+  if (dialog) {
+    const img = dialog.querySelector('.lb__img') as HTMLImageElement;
+    const cap = dialog.querySelector('.lb__cap') as HTMLElement;
+    const prevBtn = dialog.querySelector('[data-lb-prev]') as HTMLButtonElement;
+    const nextBtn = dialog.querySelector('[data-lb-next]') as HTMLButtonElement;
+
+    let group: HTMLElement[] = [];
+    let index = 0;
+
+    function render() {
+      const el = group[index];
+      if (!el) return;
+      img.src = el.getAttribute('data-zoom-src') || '';
+      img.alt = el.getAttribute('data-zoom-alt') || '';
+      const caption = el.getAttribute('data-zoom-caption') || '';
+      cap.textContent = caption;
+      cap.style.display = caption ? '' : 'none';
+      // Strzałki tylko, gdy w galerii jest więcej niż jeden (widoczny) kadr.
+      const multi = group.length > 1;
+      prevBtn.hidden = !multi;
+      nextBtn.hidden = !multi;
+    }
+
+    function step(delta: number) {
+      if (group.length <= 1) return;
+      index = (index + delta + group.length) % group.length;   // cyklicznie
+      render();
+    }
+
+    function open(trigger: HTMLElement) {
+      // Grupa = kadry z tej samej galerii (.frames), tylko widoczne (filtr).
+      const scope = (trigger.closest('.frames') as HTMLElement) || document;
+      const all = Array.from(scope.querySelectorAll('[data-zoom]')) as HTMLElement[];
+      group = all.filter((el) => el.offsetParent !== null);
+      index = group.indexOf(trigger);
+      if (index < 0) { group = [trigger]; index = 0; }
+      render();
+      dialog!.showModal();
+      document.documentElement.classList.add('lb-open');   // zablokuj scroll tła
+    }
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const trigger = target.closest('[data-zoom]') as HTMLElement | null;
+      if (trigger) { e.preventDefault(); open(trigger); return; }
+
+      if (target.closest('[data-lb-prev]')) { step(-1); return; }
+      if (target.closest('[data-lb-next]')) { step(1); return; }
+      if (target.closest('[data-lb-close]') || target === dialog) { dialog.close(); }
+    });
+
+    // Klawiatura: ←/→ przewija galerię (Esc zamyka natywnie przez <dialog>).
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    });
+
+    // Po zamknięciu: odblokuj scroll i zwolnij źródło.
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('lb-open');
+      img.removeAttribute('src');
+    });
+  }
+</script>

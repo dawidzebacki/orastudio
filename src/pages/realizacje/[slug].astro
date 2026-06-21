@@ -1,0 +1,127 @@
+---
+// ORA.studio — Case study (pojedyncza realizacja) · P2 · Krok 15
+// Wg mapy 6.3: tytuł [20–40] + opis [200–300]. Szablon współdzielony — wpisy
+// z src/data/caseStudies.ts (getStaticPaths). Galeria kadrów klikalna (lightbox).
+// Tytuł/miejsce = realne placeholdery; opis = lorem. Zdjęcia = placehold.co (tymczasowe).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import Gallery from '../../components/Gallery.astro';
+import { caseStudies, kindLabel, placeholderImg } from '../../data/caseStudies';
+
+export function getStaticPaths() {
+  return caseStudies.map((cs) => ({ params: { slug: cs.slug }, props: { cs } }));
+}
+
+const { cs } = Astro.props;
+const label = kindLabel(cs.kind);
+
+// Galeria realizacji — kilka kadrów (placehold, klikalne/powiększalne). Proporcje zmienne.
+const shots = [
+  { numeral: 'I', ratio: '3 / 2', tone: 1 },
+  { numeral: 'II', ratio: '4 / 5', tone: 2 },
+  { numeral: 'III', ratio: '1 / 1', tone: 3 },
+] as const;
+---
+
+<BaseLayout
+  title={cs.title}
+  description={`${cs.title} — realizacja ORA.studio (${label.toLowerCase()}) w Trójmieście. Skondensowany reportaż dokumentalny.`}
+  path={`/realizacje/${cs.slug}`}
+>
+  <main>
+    {/* INTRO — powrót + Hero (tytuł realizacji) + lede --------------------- */}
+    <section class="sec sec--hero container">
+      <a class="back" href="/realizacje"><span aria-hidden="true">←</span> Realizacje</a>
+      <Hero
+        as="h1"
+        eyebrow={`${label} · ${cs.place}`}
+        title={cs.title}
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+      />
+    </section>
+
+    {/* OPIS realizacji (mapa 6.3: [200–300]) ------------------------------ */}
+    <section class="sec container" aria-labelledby="cs-desc">
+      <h2 id="cs-desc" class="visually-hidden">O realizacji</h2>
+      <div class="prose">
+        <p>{cs.desc}</p>
+      </div>
+    </section>
+
+    {/* KADRY — galeria klikalna (powiększenie) ---------------------------- */}
+    <section class="sec container" aria-labelledby="cs-frames">
+      <p class="eyebrow">Kadry</p>
+      <h2 id="cs-frames" class="visually-hidden">Wybrane kadry z realizacji</h2>
+      <div class="frames">
+        {shots.map((s) => (
+          <Gallery
+            numeral={s.numeral}
+            place={cs.place}
+            ratio={s.ratio}
+            tone={s.tone}
+            src={placeholderImg(s.ratio, `${s.numeral} · ${cs.place}`)}
+            alt={`Kadr ${s.numeral} — ${cs.title}`}
+          />
+        ))}
+      </div>
+    </section>
+
+    {/* CTA — krem (przed stopką) ------------------------------------------ */}
+    <section class="sec sec--cta container">
+      <Hero
+        compact
+        as="h2"
+        title="Lorem ipsum dolor sit amet"
+        primary={{ label: 'Porozmawiajmy', href: '/kontakt' }}
+      />
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--hero {
+    padding-top: var(--space-l);
+    padding-bottom: var(--space-2xl);
+  }
+  .sec--cta {
+    padding-block: var(--space-3xl);
+  }
+  .sec > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+
+  /* Powrót do portfolio — terakota (akcent interaktywny). */
+  .back {
+    display: inline-block;
+    margin-bottom: var(--space-l);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-accent-i);
+    text-decoration: none;
+  }
+  .back:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose p {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+
+  /* Luźna siatka galerii (spójna z /realizacje). */
+  .frames {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-l);
+    align-items: start;
+  }
+</style>

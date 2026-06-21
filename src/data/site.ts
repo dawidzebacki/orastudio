@@ -20,15 +20,24 @@ export const site = {
   areaShort: 'Trójmiasto + ~50 km',
 } as const;
 
+// Profile społecznościowe — jedno źródło prawdy dla ikon w stopce (komponent
+// SocialLinks). Renderujemy tylko wpisy z uzupełnionym `href`. Facebook i TikTok
+// dojdą (decyzja Ady) — wystarczy odkomentować i wkleić link, ikona już jest.
+export const socials: { name: string; href: string; icon: 'instagram' | 'facebook' | 'tiktok' }[] = [
+  { name: 'Instagram', href: site.instagramUrl, icon: 'instagram' },
+  // { name: 'Facebook', href: 'https://facebook.com/…', icon: 'facebook' },
+  // { name: 'TikTok', href: 'https://tiktok.com/@…', icon: 'tiktok' },
+];
+
 // Nawigacja globalna (etykiety KAPITALIKI w UI — transform robi CSS).
 // Kolejność wg mapy treści, sekcja 10. P2 oznaczone — odkomentowuj w miarę
 // budowania podstron (Kroki 10–13), żeby nie linkować do 404.
 export const nav: { label: string; href: string; priority: 'P1' | 'P2' }[] = [
   { label: 'Wydarzenia / Biznes', href: '/wydarzenia-biznes', priority: 'P1' },
-  { label: 'Śluby', href: '/sluby', priority: 'P2' },
-  { label: 'O mnie', href: '/o-mnie', priority: 'P2' },
-  { label: 'Realizacje', href: '/realizacje', priority: 'P2' },
-  { label: 'FAQ', href: '/faq', priority: 'P2' },
+  { label: 'Śluby', href: '/sluby', priority: 'P1' },        // strona żyje od Kroku 10 (P2-roadmap, ale linkujemy)
+  { label: 'O mnie', href: '/o-mnie', priority: 'P1' },      // strona żyje od Kroku 11 (P2-roadmap, ale linkujemy)
+  { label: 'Realizacje', href: '/realizacje', priority: 'P1' },     // strona żyje od Kroku 12 (P2-roadmap, ale linkujemy)
+  { label: 'FAQ', href: '/faq', priority: 'P1' },                   // strona żyje od Kroku 13 (P2-roadmap, ale linkujemy)
   { label: 'Kontakt', href: '/kontakt', priority: 'P1' },
   { label: 'Polityka prywatności', href: '/polityka-prywatnosci', priority: 'P1' },
 ];

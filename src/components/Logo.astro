@@ -1,0 +1,29 @@
+---
+// ORA.studio — Logo (Krok 9, korekta Ady)
+// Pełny wordmark „ORA.studio" Z FALĄ jako jeden znak (zamiast sygnet + osobny tekst).
+// Źródło: wordmark-ink.svg — pełne KRZYWE (web-safe, bez zależności od QuincyCF),
+// litery atrament + kropka bursztyn. Link do strony głównej.
+import { site } from '../data/site';
+
+interface Props {
+  /** Wysokość znaku (CSS), np. "1.75rem". Szerokość auto (proporcja 5:1). */
+  height?: string;
+  class?: string;
+}
+const { height = '1.6rem', class: className = '' } = Astro.props;
+---
+
+<a class={`logo ${className}`.trim()} href="/" aria-label={`${site.brand} — strona główna`} style={`--logo-h: ${height};`}>
+  <img class="logo__img" src="/logo/wordmark-ink.svg" alt="" width="1000" height="200" decoding="async" />
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+  }
+  .logo__img {
+    height: var(--logo-h, 1.6rem);
+    width: auto;
+  }
+</style>

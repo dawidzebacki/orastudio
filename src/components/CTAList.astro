@@ -1,0 +1,97 @@
+---
+// ORA.studio — CTAList (Krok 4, pkt 5.2 briefu)
+// Lista 2–3 akcji z numeracją rzymską (I / II / III), etykiety KAPITALIKAMI,
+// cienka linia pod każdą pozycją. Bursztyn = numer (akcent tego widoku).
+import { toRoman } from '../utils/roman';
+
+interface Item {
+  label: string;
+  href: string;
+  /** Krótki dopisek pod etykietą (opcjonalny, NIE kapitaliki). */
+  note?: string;
+}
+
+interface Props {
+  items: Item[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+
+<ol class={`ctalist ${className}`.trim()} role="list">
+  {items.map((item, i) => (
+    <li class="ctalist__item">
+      <a class="ctalist__link" href={item.href}>
+        <span class="ctalist__num numeral" aria-hidden="true">{toRoman(i + 1)}</span>
+        <span class="ctalist__text">
+          <span class="ctalist__label">{item.label}</span>
+          {item.note && <span class="ctalist__note">{item.note}</span>}
+        </span>
+        <span class="ctalist__arrow" aria-hidden="true">→</span>
+      </a>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .ctalist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .ctalist__item {
+    border-bottom: 1px solid var(--c-ink-15); /* cienka linia pod każdą */
+  }
+  .ctalist__item:first-child {
+    border-top: 1px solid var(--c-ink-15);
+  }
+
+  .ctalist__link {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-m);
+    padding-block: var(--space-m);
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left var(--dur) var(--ease);
+  }
+  .ctalist__link:hover {
+    padding-left: var(--space-2xs);
+  }
+
+  .ctalist__num {
+    font-size: 1.5em;
+    line-height: 1;
+    min-width: 1.6em;
+  }
+
+  .ctalist__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    flex: 1;
+  }
+  .ctalist__label {
+    font-family: var(--font-body);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+  }
+  .ctalist__note {
+    font-size: 0.95rem;
+    color: var(--c-ink-70);      /* czytelny kontrast (AA) — nie ink-45 */
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .ctalist__arrow {
+    color: var(--c-ink-45);
+    transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .ctalist__link:hover .ctalist__arrow {
+    transform: translateX(0.35em);
+    color: var(--c-ink);
+  }
+</style>

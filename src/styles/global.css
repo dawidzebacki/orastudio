@@ -123,7 +123,7 @@ p {
   text-transform: uppercase;
   letter-spacing: var(--tracking-label);
   line-height: 1.2;
-  color: var(--c-ink-70);
+  color: var(--c-label);          /* kawa — ciepła etykieta (60/30/10) */
 }
 
 /* Cyfry rzymskie sekcji/list (I / II / III) — didone, akcentowane. */
@@ -159,12 +159,87 @@ p {
   }
 }
 
+/* --- CTA: współdzielony prymityw przycisku ---------------------------
+   Używany przez Hero, Form, Cards (link). Etykieta KAPITALIKI (warstwa
+   strukturalna). CTA główne = TERAKOTA (akcent interaktywny, warstwa 10%
+   wg 60/30/10). Bursztyn zostaje akcentem sygnaturowym (kropka/numer/hairline). */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.85em 1.6em;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--c-accent-i);
+  border-radius: var(--radius);
+  background: var(--c-accent-i);
+  color: var(--c-cream);
+  transition:
+    background var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.btn:hover {
+  background: color-mix(in srgb, var(--c-terracotta) 84%, var(--c-ink));
+  border-color: color-mix(in srgb, var(--c-terracotta) 84%, var(--c-ink));
+}
+
+/* Wariant ghost (drugorzędne CTA) — kontur, wypełnia się terakotą na hover. */
+.btn--ghost {
+  background: transparent;
+  color: var(--c-ink);
+  border-color: var(--c-ink-45);
+}
+.btn--ghost:hover {
+  background: var(--c-accent-i);
+  border-color: var(--c-accent-i);
+  color: var(--c-cream);
+}
+
 /* --- Pomocnicze ------------------------------------------------------- */
 .container {
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
   padding-inline: clamp(1.25rem, 5vw, 3rem);
+}
+
+/* Pas pełnej szerokości na powierzchni piaskowej (warstwa 30% w 60/30/10).
+   Sekcja jest full-bleed (bez .container), treść w środku w .container.
+   ZASADA: nie dawaj .band-sand na sekcji bezpośrednio przed stopką (stopka też
+   jest piaskowa) — kremowy odstęp utworzyłby brzydki cienki pas. Pasy trzymaj
+   w środku strony, otoczone kremem z obu stron. */
+.band-sand {
+  background: var(--c-surface);
+}
+
+/* Wariant ze strukturą — piasek + ZYGZAK / chevron TONE-ON-TONE: deseń nie w
+   kawie, tylko w odrobinę ciemniejszym piasku (kropla kawy wmieszana w piasek,
+   NIE transparent). Niski kontrast → tekstura, nie ciemne linie pod tekstem;
+   atrament zostaje wyraźnie ciemniejszy i się nie zlewa. Tylko kolory z palety. */
+.band-pattern {
+  background-color: var(--c-surface);
+  --zz: color-mix(in srgb, var(--c-coffee) 7%, var(--c-sand));
+  background-image:
+    linear-gradient(135deg, var(--zz) 25%, transparent 25%),
+    linear-gradient(225deg, var(--zz) 25%, transparent 25%),
+    linear-gradient(45deg, var(--zz) 25%, transparent 25%),
+    linear-gradient(315deg, var(--zz) 25%, transparent 25%);
+  background-position: 26px 0, 26px 0, 0 0, 0 0;
+  background-size: 52px 52px;
+  background-repeat: repeat;
+}
+
+/* Lightbox otwarty — zablokuj scroll tła (zachowanie modala). */
+html.lb-open {
+  overflow: hidden;
 }
 
 .visually-hidden {

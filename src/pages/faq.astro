@@ -1,0 +1,138 @@
+---
+// ORA.studio — FAQ (wspólne) · P2 · Krok 13
+// Złożona wg sekcji 7 mapy treści (7.1–7.3). Cel sekcji = lokalne SEO przez pytania.
+// DECYZJA (Krok 13): pytania (7.2) i akapit „obszar działania" (7.3) = REALNE polskie
+// frazy (nośnik SEO — Gdańsk/Gdynia/Sopot, dojazd). Odpowiedzi FAQ = lorem w długości
+// z mapy [200–420] — placeholder do uzupełnienia realną treścią ofertową. Hero/intro
+// = lorem (house style, jak /o-mnie i /realizacje). Dane realne z site.ts.
+//
+// (Na przyszłość: po wstawieniu realnych odpowiedzi rozważyć FAQPage JSON-LD —
+//  teraz pominięte, bo schema z lorem-odpowiedziami to zła praktyka SEO.)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Faq from '../components/Faq.astro';
+
+// 7.2 — 10 pytań pokrywających tematy z mapy (po jednym każdy). PYTANIA realne
+// [35–75 zn], ODPOWIEDZI lorem [200–420 zn]. Kolejność wg listy z mapy.
+const faq = [
+  {
+    // gdzie fotografuję (Gdańsk / Gdynia / Sopot)
+    q: 'Gdzie fotografujesz — Gdańsk, Gdynia czy Sopot?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
+  {
+    // kiedy dostanę zdjęcia (24h)
+    q: 'Kiedy dostanę gotowe zdjęcia z reportażu?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
+  },
+  {
+    // czy robisz śluby cywilne / kameralne
+    q: 'Czy fotografujesz śluby cywilne i kameralne?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure.',
+  },
+  {
+    // czy mogę wybrać styl/look
+    q: 'Czy mogę wybrać styl i tonację zdjęć?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
+  {
+    // ile zdjęć dostaję
+    q: 'Ile zdjęć otrzymam z gotowego reportażu?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute.',
+  },
+  {
+    // jak rezerwuję termin
+    q: 'Jak zarezerwować termin fotografowania?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
+  {
+    // RODO / wykorzystanie wizerunku
+    q: 'Jak przetwarzasz moje dane i wizerunek (RODO)?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor.',
+  },
+  {
+    // faktura (Useme)
+    q: 'Czy mogę otrzymać fakturę za usługę?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
+  },
+  {
+    // reportaż biznesowy vs ślubny
+    q: 'Czym różni się reportaż biznesowy od ślubnego?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit.',
+  },
+  {
+    // czy jeżdżę poza Trójmiasto (do ~50 km)
+    q: 'Czy dojeżdżasz poza Trójmiasto, do ~50 km?',
+    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
+];
+---
+
+<BaseLayout
+  title="FAQ — częste pytania o reportaż"
+  description="Odpowiedzi na częste pytania o reportaż z wydarzeń i kameralnych ślubów w Trójmieście (Gdańsk, Gdynia, Sopot): dostawa zdjęć, rezerwacja, dojazd, RODO i faktura."
+  path="/faq"
+>
+  <main>
+    {/* 7.1 — INTRO (Text: H1 + lede) ------------------------------------ */}
+    <section class="sec sec--hero container">
+      <Hero
+        as="h1"
+        eyebrow="FAQ"
+        lead="częste"
+        title="pytania."
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+      />
+    </section>
+
+    {/* 7.2 — LISTA PYTAŃ (Faq, 10) — pierwsze rozwinięte ----------------- */}
+    <section class="sec container" aria-labelledby="s-faq">
+      <h2 id="s-faq" class="visually-hidden">Najczęściej zadawane pytania</h2>
+      <Faq items={faq} openFirst class="sec__faq" />
+    </section>
+
+    {/* 7.3 — OBSZAR DZIAŁANIA / DOJAZD (Text — lokalne SEO) — krem ------- */}
+    <section class="sec sec--area container" aria-labelledby="s-area">
+      <p class="eyebrow">Obszar działania</p>
+      <h2 id="s-area" class="visually-hidden">Gdzie fotografuję — Trójmiasto i okolice</h2>
+      <div class="prose">
+        <p>
+          ORA.studio fotografuje przede wszystkim w Trójmieście — w Gdańsku, Gdyni i Sopocie —
+          oraz w najbliższej okolicy w promieniu około 50 km. Dojeżdżam na wydarzenia firmowe,
+          sesje biznesowe i kameralne śluby w całym regionie; gdy miejsce leży nieco dalej,
+          napisz — termin i dojazd zwykle udaje się ustalić indywidualnie.
+        </p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Rytm pionowy sekcji — spójny z resztą podstron. */
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--hero {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+  }
+  .sec--area {
+    padding-bottom: var(--space-3xl);
+  }
+
+  .sec > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+  .sec__faq {
+    margin-top: 0;
+  }
+
+  /* 7.3 — akapit obszaru działania. */
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose p {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+</style>

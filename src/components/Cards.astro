@@ -1,0 +1,119 @@
+---
+// ORA.studio — Cards (Krok 4, pkt 5.3 briefu)
+// 2–4 karty: numer rzymski (lub własny eyebrow) + tytuł + krótki opis + opcjonalny link.
+// Numer w atramencie (didone) — bursztyn zostaje na akcent widoku gdzie indziej.
+import { toRoman } from '../utils/roman';
+
+interface Card {
+  /** Tytuł karty [14–30 zn]. */
+  title: string;
+  /** Opis [90–170 zn]. */
+  desc: string;
+  /** Mała etykieta nad tytułem zamiast numeru (KAPITALIKI). */
+  eyebrow?: string;
+  /** Link „dalej" (opcjonalny). */
+  href?: string;
+  linkLabel?: string;
+}
+
+interface Props {
+  items: Card[];
+  /** Pokaż numer rzymski I/II/III przed tytułem (domyślnie tak). */
+  numbered?: boolean;
+  /** Stałe kolumny; domyślnie auto-fit (responsywnie). */
+  columns?: 2 | 3 | 4;
+  class?: string;
+}
+
+const { items, numbered = true, columns, class: className = '' } = Astro.props;
+const colStyle = columns ? `--cards-cols: ${columns};` : '';
+---
+
+<ul class={`cards ${columns ? 'cards--fixed' : ''} ${className}`.trim()} style={colStyle} role="list">
+  {items.map((card, i) => {
+    const Tag = card.href ? 'a' : 'div';
+    return (
+      <li class="cards__cell">
+        <Tag class="card" {...(card.href ? { href: card.href } : {})}>
+          {numbered && !card.eyebrow && (
+            <span class="card__num numeral" aria-hidden="true">{toRoman(i + 1)}</span>
+          )}
+          {card.eyebrow && <span class="eyebrow card__eyebrow">{card.eyebrow}</span>}
+          <h3 class="card__title">{card.title}</h3>
+          <p class="card__desc">{card.desc}</p>
+          {card.href && (
+            <span class="card__link">{card.linkLabel ?? 'Zobacz'} <span aria-hidden="true">→</span></span>
+          )}
+        </Tag>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-l);
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+  .cards--fixed {
+    grid-template-columns: repeat(var(--cards-cols, 3), 1fr);
+  }
+  @media (max-width: 40rem) {
+    .cards--fixed {
+      grid-template-columns: 1fr;
+    }
+  }
+  .cards__cell {
+    display: flex;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    flex: 1;
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--c-ink-15);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card__num {
+    font-size: var(--fs-h2);
+    line-height: 1;
+    color: var(--c-amber);          /* bursztyn — akcent sygnaturowy (60/30/10) */
+    margin-bottom: var(--space-2xs);
+  }
+  .card__eyebrow {
+    margin-bottom: var(--space-2xs);
+  }
+
+  .card__title {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-h);
+  }
+  .card__desc {
+    color: var(--c-ink-70);
+    font-size: var(--fs-body);
+  }
+
+  .card__link {
+    margin-top: auto;
+    padding-top: var(--space-s);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+  }
+  .card__link span {
+    transition: transform var(--dur) var(--ease);
+    display: inline-block;
+  }
+  a.card:hover .card__link span {
+    transform: translateX(0.35em);
+  }
+</style>

@@ -1,0 +1,176 @@
+---
+// ORA.studio — Strona główna (neutralna) · P1 · Krok 5
+// Złożona WYŁĄCZNIE z gotowych komponentów, dokładnie wg sekcji 2 mapy treści (2.1–2.6).
+// H1 NEUTRALNE — bez słowa „ślub". Rozdziela ruch na dwie równorzędne ścieżki.
+// Treść = lorem w długościach z mapy (sekcja 1). Dane realne z site.ts.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Cards from '../components/Cards.astro';
+import Process from '../components/Process.astro';
+import Gallery from '../components/Gallery.astro';
+import { placeholderImg } from '../utils/placeholder';
+
+// 2.2 — dwie równorzędne ścieżki (Biznes / Śluby). Tytuły/opisy = lorem (mapa),
+// etykiety linków i cele = realne (mapa 2.2 + site.ts).
+const paths = [
+  {
+    title: 'Lorem ipsum dolor',
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et magna aliqua.',
+    href: '/wydarzenia-biznes',
+    linkLabel: 'Zobacz ofertę',
+  },
+  {
+    title: 'Lorem ipsum dolor',
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et magna aliqua.',
+    href: '/sluby',
+    linkLabel: 'Early bird 2026',
+  },
+];
+
+// 2.4 — jak pracuję / dowód 24h (3 kroki). III = „Dostawa 24h" (realne, mapa).
+const steps = [
+  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut.' },
+  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut.' },
+  { title: 'Dostawa 24h', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut.' },
+];
+
+// 2.5 — wybrane kadry (mix neutralny, 6 kadrów). Podpisy „I · Lorem" (mapa).
+const frames = [
+  { numeral: 'I', ratio: '4 / 5', tone: 1 },
+  { numeral: 'II', ratio: '1 / 1', tone: 2 },
+  { numeral: 'III', ratio: '4 / 5', tone: 3 },
+  { numeral: 'IV', ratio: '3 / 4', tone: 2 },
+  { numeral: 'V', ratio: '1 / 1', tone: 1 },
+  { numeral: 'VI', ratio: '4 / 5', tone: 3 },
+] as const;
+---
+
+<BaseLayout
+  title="Skondensowany reportaż dokumentalny"
+  description="ORA.studio — skondensowany reportaż dokumentalny w Trójmieście. Wydarzenia, biznes i kameralne uroczystości. Gotowe, obrobione zdjęcia w 24 godziny."
+  path="/"
+>
+  <main>
+    {/* 2.1 — HERO (neutralny, H1 bez „ślub") -------------------------- */}
+    <section class="sec sec--hero container">
+      <Hero
+        as="h1"
+        eyebrow="Reportaż dokumentalny"
+        lead="to, co prawdziwe —"
+        title="teraz."
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore dolore magna."
+        primary={{ label: 'Wydarzenia i biznes', href: '/wydarzenia-biznes' }}
+        secondary={{ label: 'Śluby', href: '/sluby' }}
+        image={{ numeral: 'I', place: 'Trójmiasto', alt: 'Placeholder — kadr otwierający', ratio: '4 / 5' }}
+      />
+    </section>
+
+    {/* 2.2 — DWIE ŚCIEŻKI (Cards, 2 równorzędne) --------------------- */}
+    <section class="sec container" aria-labelledby="s-paths">
+      <p class="eyebrow">Dwie ścieżki</p>
+      <h2 id="s-paths" class="visually-hidden">Dwie ścieżki: wydarzenia i biznes oraz śluby</h2>
+      <Cards items={paths} numbered={false} columns={2} class="sec__cards" />
+    </section>
+
+    {/* 2.3 — MANIFEST (Text) — pas strukturalny (piasek + deseń) ----- */}
+    <section class="sec band-pattern" aria-labelledby="s-manifest">
+      <div class="container">
+        <div class="prose">
+          <h2 id="s-manifest">Lorem ipsum dolor sit amet</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {/* 2.4 — JAK PRACUJĘ / DOWÓD 24h (Process) ----------------------- */}
+    <section class="sec container" aria-labelledby="s-process">
+      <p class="eyebrow">Jak pracuję</p>
+      <h2 id="s-process" class="visually-hidden">Jak pracuję — od ustaleń do dostawy w 24 godziny</h2>
+      <Process steps={steps} class="sec__process" />
+    </section>
+
+    {/* 2.5 — WYBRANE KADRY (Gallery, 6 kadrów) ----------------------- */}
+    <section class="sec container" aria-labelledby="s-frames">
+      <p class="eyebrow">Wybrane kadry</p>
+      <h2 id="s-frames" class="visually-hidden">Wybrane kadry</h2>
+      <div class="frames">
+        {frames.map((f) => (
+          <Gallery
+            numeral={f.numeral}
+            place="Lorem"
+            ratio={f.ratio}
+            tone={f.tone}
+            src={placeholderImg(f.ratio, `${f.numeral} · Lorem`)}
+            alt={`Placeholder — wybrany kadr ${f.numeral}`}
+          />
+        ))}
+      </div>
+      <div class="frames__more">
+        <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
+      </div>
+    </section>
+
+    {/* 2.6 — CTA STOPKOWY (Hero, wariant zwięzły) — krem (przed stopką) */}
+    <section class="sec sec--cta container">
+      <Hero
+        compact
+        as="h2"
+        title="Lorem ipsum dolor sit amet"
+        primary={{ label: 'Napisz do mnie', href: '/kontakt' }}
+      />
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Rytm pionowy sekcji — duże kadry i oddech (brief: nie gęste siatki). */
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--hero {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+  }
+  .sec--cta {
+    padding-block: var(--space-3xl);
+  }
+
+  /* Eyebrow sekcji + odstęp do treści komponentu. */
+  .sec > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+
+  .sec__cards,
+  .sec__process {
+    margin-top: 0;
+  }
+
+  /* 2.3 Manifest — kolumna tekstu, eyebrow-less, oddech. */
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose h2 {
+    margin-bottom: var(--space-m);
+  }
+  .prose p {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+
+  /* 2.5 Galeria — luźna siatka, duże kadry. */
+  .frames {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-l);
+    align-items: start;
+  }
+  /* CTA pod galerią — kieruje do pełnego portfolio (linki case study żyją tam). */
+  .frames__more {
+    margin-top: var(--space-xl);
+  }
+</style>

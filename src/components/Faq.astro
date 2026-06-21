@@ -1,0 +1,113 @@
+---
+// ORA.studio — Faq (Krok 4, pkt 5 briefu / sekcje 3.7, 4.7, 7.2 mapy)
+// Dostępny accordion na natywnym <details>/<summary>: obsługa klawiatury
+// (Enter/Spacja, focus) i stan rozwinięcia dla czytników — BEZ JS.
+// Ruch wolny i miękki (rotacja znacznika). Neutralny — bez bursztynu.
+
+interface Item {
+  /** Pytanie [35–75 zn]. */
+  q: string;
+  /** Odpowiedź [200–420 zn]. */
+  a: string;
+}
+
+interface Props {
+  items: Item[];
+  /** Rozwiń pierwszą pozycję domyślnie. */
+  openFirst?: boolean;
+  class?: string;
+}
+
+const { items, openFirst = false, class: className = '' } = Astro.props;
+---
+
+<div class={`faq ${className}`.trim()}>
+  {items.map((item, i) => (
+    <details class="faq__item" open={openFirst && i === 0}>
+      <summary class="faq__q">
+        <span class="faq__qtext">{item.q}</span>
+        <span class="faq__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="faq__a">
+        <p>{item.a}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq {
+    border-top: 1px solid var(--c-ink-15);
+  }
+  .faq__item {
+    border-bottom: 1px solid var(--c-ink-15);
+  }
+
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-m);
+    cursor: pointer;
+    list-style: none;                /* usuń natywny trójkąt */
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-h);
+    line-height: var(--lh-heading);
+  }
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .faq__qtext {
+    text-wrap: balance;
+  }
+
+  /* Znacznik +/− zbudowany z dwóch kresek (hairline), miękka rotacja. */
+  .faq__icon {
+    position: relative;
+    flex: 0 0 auto;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.15em;
+  }
+  .faq__icon::before,
+  .faq__icon::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 1.5px;
+    background: var(--c-ink-70);
+    transform: translateY(-50%);
+    transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .faq__icon::after {
+    transform: translateY(-50%) rotate(90deg);  /* pionowa kreska = „+" */
+  }
+  .faq__item[open] .faq__icon::after {
+    transform: translateY(-50%) rotate(0deg);    /* znika do „−" */
+    opacity: 0;
+  }
+
+  .faq__a {
+    padding-bottom: var(--space-m);
+    color: var(--c-ink-70);
+  }
+  .faq__a p {
+    max-width: var(--measure);
+  }
+
+  /* Miękkie wejście treści po rozwinięciu (bez animacji wysokości — lekko). */
+  @media (prefers-reduced-motion: no-preference) {
+    .faq__item[open] .faq__a {
+      animation: faq-reveal var(--dur) var(--ease);
+    }
+  }
+  @keyframes faq-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(-0.35rem);
+    }
+  }
+</style>

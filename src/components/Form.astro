@@ -1,0 +1,225 @@
+---
+// ORA.studio — Form (Krok 4, pkt 5.5 briefu / sekcje 3.8, 4.8, 8.2 mapy)
+// Reużywalny formularz: konfigurowalne pola + OSOBNY, NIEZAZNACZONY checkbox
+// zgody RODO + link do polityki prywatności. Dostępny (label↔input, required,
+// aria). Pola minimalne — domyślnie zestaw „Kontakt" z sekcji 8.2.
+
+interface Field {
+  name: string;
+  label: string;
+  /** input | textarea | select */
+  as?: 'input' | 'textarea' | 'select';
+  /** typ dla <input> (text, email, date, …) */
+  type?: string;
+  required?: boolean;
+  /** opcje dla <select> */
+  options?: string[];
+  /** szerokość połówkowa w siatce (np. para imię/e-mail) */
+  half?: boolean;
+}
+
+interface Props {
+  /** Lista pól. Domyślnie: imię · e-mail · temat · data · wiadomość (sekcja 8.2). */
+  fields?: Field[];
+  /** Etykieta przycisku [12–18 zn]. */
+  submitLabel?: string;
+  /** Treść zgody RODO [80–140 zn] — bez frazy o linku, link doklejamy. */
+  rodoText?: string;
+  /** Slug polityki prywatności. */
+  policyHref?: string;
+  /** action/method (na razie szkielet — podłączenie backendu później). */
+  action?: string;
+  method?: string;
+  class?: string;
+}
+
+const defaultFields: Field[] = [
+  { name: 'name', label: 'Imię', type: 'text', required: true, half: true },
+  { name: 'email', label: 'E-mail', as: 'input', type: 'email', required: true, half: true },
+  { name: 'topic', label: 'Temat', as: 'select', options: ['Biznes', 'Ślub'], required: true, half: true },
+  { name: 'date', label: 'Data', as: 'input', type: 'date', half: true },
+  { name: 'message', label: 'Wiadomość', as: 'textarea', required: true },
+];
+
+const {
+  fields = defaultFields,
+  submitLabel = 'Wyślij',
+  rodoText = 'Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie.',
+  policyHref = '/polityka-prywatnosci',
+  action = '#',
+  method = 'post',
+  class: className = '',
+} = Astro.props;
+---
+
+<form class={`form ${className}`.trim()} action={action} method={method} novalidate>
+  <div class="form__grid">
+    {fields.map((f) => (
+      <div class={`form__field ${f.half ? 'form__field--half' : ''}`}>
+        <label class="form__label" for={`f-${f.name}`}>
+          {f.label}{f.required && <span class="form__req" aria-hidden="true">*</span>}
+        </label>
+
+        {f.as === 'textarea' ? (
+          <textarea
+            id={`f-${f.name}`}
+            name={f.name}
+            class="form__control"
+            rows="5"
+            required={f.required}
+          ></textarea>
+        ) : f.as === 'select' ? (
+          <select id={`f-${f.name}`} name={f.name} class="form__control" required={f.required}>
+            <option value="" selected disabled>Wybierz…</option>
+            {f.options?.map((opt) => <option value={opt}>{opt}</option>)}
+          </select>
+        ) : (
+          <input
+            id={`f-${f.name}`}
+            name={f.name}
+            class="form__control"
+            type={f.type ?? 'text'}
+            required={f.required}
+          />
+        )}
+      </div>
+    ))}
+  </div>
+
+  {/* Zgoda RODO — OSOBNY, NIEZAZNACZONY checkbox + link do polityki. */}
+  <div class="form__consent">
+    <input class="form__check" type="checkbox" id="f-rodo" name="rodo" required />
+    <label class="form__consent-label" for="f-rodo">
+      {rodoText} <a href={policyHref}>Polityka prywatności</a>.
+    </label>
+  </div>
+
+  <button class="btn form__submit" type="submit">{submitLabel}</button>
+</form>
+
+<style>
+  .form {
+    max-width: var(--container-narrow);
+  }
+
+  .form__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-m);
+  }
+  .form__field {
+    grid-column: 1 / -1;       /* domyślnie pełna szerokość */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+  @media (min-width: 36rem) {
+    .form__field--half {
+      grid-column: span 1;
+    }
+  }
+
+  .form__label {
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-ink-70);
+  }
+  .form__req {
+    color: var(--c-ink-70);      /* stonowana, ale czytelna (AA na kremie); bez bursztynu — sygnaturę niesie kropka/numer gdzie indziej */
+    margin-left: 0.25em;
+  }
+
+  .form__control {
+    width: 100%;
+    padding: 0.7em 0.85em;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: 1.4;              /* wspólna wysokość input / select / date */
+    color: var(--c-ink);
+    background: var(--c-mat);
+    border: 1px solid var(--c-ink-15);
+    border-radius: var(--radius);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .form__control:hover {
+    border-color: var(--c-ink-45);
+  }
+
+  /* Stała wysokość pól jednowierszowych — eliminuje kilkupikselową różnicę
+     między natywnym <select> a <input type="date"> (textarea zachowuje swoją). */
+  input.form__control,
+  select.form__control {
+    height: 2.85em;
+    padding-block: 0;            /* centrowanie pionowe robi wysokość, nie padding */
+  }
+
+  /* Select: zdejmij natywny chevron, dołóż własny w tym samym wcięciu (0.85em)
+     co ikona kalendarza w polu daty — wskaźniki wyrównane do prawej.
+     Strzałka w stonowanym tonie (--c-ink-45 ≈ #948c81) zaszytym w SVG, żeby
+     pasowała kolorem do (przygaszonej) ikony kalendarza. background nie
+     przyjmuje zmiennej CSS, stąd hex wprost. */
+  select.form__control {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 2.4em;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3e%3cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23948c81' stroke-width='1.4'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.85em center;
+    background-size: 0.7em;
+  }
+
+  /* Date: dosuń ikonę kalendarza do tego samego wcięcia i zrównaj jej ton
+     z chevronem selecta (oba ~ink-45, lekko przygaszone). */
+  input[type='date'].form__control {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input[type='date'].form__control::-webkit-datetime-edit {
+    padding: 0;
+  }
+  input[type='date'].form__control::-webkit-calendar-picker-indicator {
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+    opacity: 0.45;
+    cursor: pointer;
+  }
+  .form__control:focus-visible {
+    border-color: var(--c-ink);
+    outline: 2px solid var(--c-amber);
+    outline-offset: 2px;
+  }
+  textarea.form__control {
+    resize: vertical;
+    min-height: 7rem;
+  }
+
+  /* Zgoda RODO — checkbox wyraźnie OSOBNY od pól, niezaznaczony. */
+  .form__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    margin-top: var(--space-l);
+  }
+  .form__check {
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.2rem;
+    accent-color: var(--c-ink);
+  }
+  .form__consent-label {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--c-ink-70);
+  }
+  .form__consent-label a {
+    color: var(--c-ink);
+    text-underline-offset: 0.2em;
+  }
+
+  .form__submit {
+    margin-top: var(--space-l);
+  }
+</style>

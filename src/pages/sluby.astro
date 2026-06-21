@@ -1,0 +1,279 @@
+---
+// ORA.studio — Śluby (early bird 2026) · P2 · Krok 10
+// Złożona z gotowych komponentów wg sekcji 4 mapy treści (4.1–4.8).
+// Adresat: pary kameralne / cywilne — nabór par założycielskich (early bird).
+// SEO (naturalnie, nie listą): fotograf ślub cywilny · kameralny ślub · reportaż ślubny Trójmiasto.
+// Treść = lorem w długościach z mapy (sekcja 1). Tytuły kroków = realne (mapa 4.3). Dane realne z site.ts.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Cards from '../components/Cards.astro';
+import Process from '../components/Process.astro';
+import LookSwitcher from '../components/LookSwitcher.astro';
+import Gallery from '../components/Gallery.astro';
+import Faq from '../components/Faq.astro';
+import Form from '../components/Form.astro';
+import { placeholderImg } from '../utils/placeholder';
+
+// 4.2 — „co zawiera" early bird (3 punkty). Numeracja rzymska; tytuły/opisy = lorem (mapa: tytuł [14–26] + opis [70–130]).
+const includes = [
+  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+  { title: 'Lorem ipsum sit amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+  { title: 'Lorem dolor amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+];
+
+// 4.3 — jak to działa (3 kroki). Tytuły = realne (mapa), opisy = lorem [90–150]. III = „Dostawa 24h".
+const steps = [
+  { title: 'Wybór looku', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Reportaż (3h)', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Dostawa 24h', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+];
+
+// 4.5 — galeria śluby (6 kadrów). Podpisy „para · miejsce" (mapa 4.5), tonacje/proporcje mieszane.
+const frames = [
+  { numeral: 'I', place: 'Aleksandra & Marek', ratio: '4 / 5', tone: 1 },
+  { numeral: 'II', place: 'Zofia & Jan', ratio: '1 / 1', tone: 2 },
+  { numeral: 'III', place: 'Hanna & Piotr', ratio: '3 / 2', tone: 3 },
+  { numeral: 'IV', place: 'Maria & Tomasz', ratio: '4 / 5', tone: 2 },
+  { numeral: 'V', place: 'Julia & Kacper', ratio: '1 / 1', tone: 1 },
+  { numeral: 'VI', place: 'Nina & Wojciech', ratio: '3 / 2', tone: 3 },
+] as const;
+
+// 4.6 — opinie (3 cytaty). Cytat [110–220] + podpis [15–30] = lorem (semantycznie <blockquote>).
+const quotes = [
+  { quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', cite: 'Aleksandra & Marek' },
+  { quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.', cite: 'Zofia & Jan' },
+  { quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.', cite: 'Hanna & Piotr' },
+];
+
+// 4.7 — FAQ mini (4 pytania). Tematy z mapy (ślub cywilny · 24h · dojazd · ile zdjęć); tekst = lorem.
+const faq = [
+  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing elit?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
+  { q: 'Lorem ipsum dolor sit amet adipiscing consectetur?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco.' },
+  { q: 'Lorem ipsum dolor sit amet consectetur elit dolor?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation laboris nisi.' },
+  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
+];
+
+// 4.8 — pola formularza rezerwacji (imię · e-mail · data ślubu · miejsce · wiadomość).
+const bookingFields = [
+  { name: 'name', label: 'Imię', type: 'text', required: true, half: true },
+  { name: 'email', label: 'E-mail', as: 'input', type: 'email', required: true, half: true },
+  { name: 'date', label: 'Data ślubu', as: 'input', type: 'date', half: true },
+  { name: 'place', label: 'Miejsce', type: 'text', half: true },
+  { name: 'message', label: 'Wiadomość', as: 'textarea', required: true },
+] as const;
+---
+
+<BaseLayout
+  title="Fotograf na ślub cywilny i kameralny — early bird 2026"
+  description="Kameralny reportaż ślubny w Trójmieście — nabór par założycielskich na 2026. Jeden look, dyskretny dokument, gotowe zdjęcia w 24 godziny."
+  path="/sluby"
+>
+  <main>
+    {/* 4.1 — HERO -------------------------------------------------------- */}
+    <section class="sec sec--hero container">
+      <Hero
+        as="h1"
+        eyebrow="Reportaż ślubny · Trójmiasto"
+        lead="te prawdziwe"
+        title="chwile."
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+        primary={{ label: 'Zapisz się — early bird', href: '#zapis' }}
+        secondary={{ label: 'Zobacz galerie', href: '#galeria' }}
+        image={{ numeral: 'I', place: 'Sopot', alt: 'Placeholder — kadr otwierający ze ślubu', ratio: '4 / 5' }}
+      />
+    </section>
+
+    {/* 4.2 — EARLY BIRD (Text + Cards) — pas piaskowy (gładki kolor) ----- */}
+    <section class="sec band-sand" aria-labelledby="s-early">
+      <div class="container">
+        <p class="eyebrow">Nabór par założycielskich</p>
+        <div class="prose">
+          <h2 id="s-early">Lorem ipsum dolor sit amet</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit.
+          </p>
+        </div>
+        <div class="sec__includes">
+          <Cards items={includes} columns={3} class="sec__cards" />
+        </div>
+        <a class="btn sec__cta" href="#zapis">Rezerwuję termin</a>
+      </div>
+    </section>
+
+    {/* 4.3 — JAK TO DZIAŁA (Process, 3) --------------------------------- */}
+    <section class="sec container" aria-labelledby="s-process">
+      <p class="eyebrow">Jak to działa</p>
+      <h2 id="s-process" class="visually-hidden">Jak to działa — od wyboru looku do dostawy w 24 godziny</h2>
+      <Process steps={steps} class="sec__process" />
+    </section>
+
+    {/* 4.4 — JEDEN LOOK (LookSwitcher) ---------------------------------- */}
+    <section class="sec container" aria-labelledby="s-look">
+      <p class="eyebrow">Jeden look</p>
+      <h2 id="s-look" class="visually-hidden">Jeden ślub, jeden klimat — wybór tonacji</h2>
+      <LookSwitcher
+        heading="Jeden ślub, jeden klimat"
+        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut."
+        alt="Placeholder — kadr ślubny w wybranej tonacji"
+        name="sluby-look"
+        tone={2}
+      />
+    </section>
+
+    {/* 4.5 — GALERIA ŚLUBY (Gallery, 6) --------------------------------- */}
+    <section id="galeria" class="sec container" aria-labelledby="s-frames">
+      <p class="eyebrow">Galeria</p>
+      <h2 id="s-frames" class="visually-hidden">Wybrane kadry ze ślubów</h2>
+      <div class="frames">
+        {frames.map((f) => (
+          <Gallery
+            numeral={f.numeral}
+            place={f.place}
+            ratio={f.ratio}
+            tone={f.tone}
+            src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
+            alt={`Placeholder — kadr ślubny ${f.numeral}`}
+          />
+        ))}
+      </div>
+      <div class="frames__more">
+        <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
+      </div>
+    </section>
+
+    {/* 4.6 — OPINIE (blockquote, 3) ------------------------------------- */}
+    <section class="sec container" aria-labelledby="s-quotes">
+      <p class="eyebrow">Opinie</p>
+      <h2 id="s-quotes" class="visually-hidden">Opinie par</h2>
+      <ul class="quotes" role="list">
+        {quotes.map((q) => (
+          <li class="quotes__cell">
+            <figure class="quote">
+              <blockquote class="quote__text">{q.quote}</blockquote>
+              <figcaption class="quote__cite">— {q.cite}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* 4.7 — FAQ MINI (Faq, 4) ------------------------------------------ */}
+    <section class="sec container" aria-labelledby="s-faq">
+      <p class="eyebrow">Częste pytania</p>
+      <h2 id="s-faq" class="visually-hidden">Częste pytania — śluby</h2>
+      <Faq items={faq} class="sec__faq" />
+    </section>
+
+    {/* 4.8 — FORMULARZ REZERWACJI (Form + RODO) — krem (przed stopką) --- */}
+    <section id="zapis" class="sec sec--booking container" aria-labelledby="s-booking">
+      <p class="eyebrow">Zgłoszenie</p>
+      <h2 id="s-booking">Zarezerwuj termin</h2>
+      <Form
+        fields={bookingFields}
+        submitLabel="Wyślij zgłoszenie"
+        rodoText="Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zgłoszenie i ustalenia terminu."
+        class="sec__form"
+      />
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  /* Rytm pionowy sekcji — spójny z index.astro i wydarzenia-biznes.astro. */
+  .sec {
+    padding-block: var(--space-2xl);
+  }
+  .sec--hero {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
+  }
+  .sec--booking {
+    padding-bottom: var(--space-3xl);
+  }
+
+  .sec > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+  .sec__cards,
+  .sec__process,
+  .sec__faq,
+  .sec__form {
+    margin-top: 0;
+  }
+
+  /* 4.2 — pas Early bird: eyebrow → prose → karty → CTA. */
+  .band-sand > .container > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
+  .prose {
+    max-width: var(--measure);
+  }
+  .prose h2 {
+    margin-bottom: var(--space-m);
+  }
+  .prose p {
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+  /* Oddech NAD kartami (kreski + numery I/II/III nie mogą kleić się do opisu).
+     Margines na wrapperze w scope strony — scoped style nie sięga roota <Cards>. */
+  .sec__includes {
+    margin-top: var(--space-2xl);
+  }
+  /* Oddech przed CTA „Rezerwuję termin" — karty nie mogą kleić się do guzika. */
+  .sec__cta {
+    margin-top: var(--space-2xl);
+  }
+
+  /* 4.8 — nagłówek nad formularzem. */
+  .sec--booking h2 {
+    margin-bottom: var(--space-l);
+  }
+
+  /* 4.5 — luźna siatka galerii (spójna z index / wydarzenia). */
+  .frames {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-l);
+    align-items: start;
+  }
+  /* CTA pod galerią — kieruje do pełnego portfolio (linki case study żyją tam). */
+  .frames__more {
+    margin-top: var(--space-xl);
+  }
+
+  /* 4.6 — opinie: cytaty na hairline, didone w cudzysłowie, podpis stonowany.
+     Neutralnie (bez bursztynu) — akcent widoku niesie galeria / kropka logo. */
+  .quotes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-l);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+  .quote {
+    margin: 0;
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--c-ink-15);
+  }
+  .quote__text {
+    margin: 0;
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-vsettings);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-heading);
+    color: var(--c-ink);
+  }
+  .quote__cite {
+    margin-top: var(--space-s);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--c-ink-70);
+    font-style: normal;
+  }
+</style>
