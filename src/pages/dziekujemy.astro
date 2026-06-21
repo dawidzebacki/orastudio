@@ -1,0 +1,64 @@
+---
+// ORA.studio — strona podziękowania (Krok 18: formularze Netlify).
+// Po wysłaniu formularza Netlify przekierowuje tutaj (action="/dziekujemy/").
+// Treść realna i krótka — to potwierdzenie, nie podstrona z mapy.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Dziękujemy"
+  description="Dziękujemy — wiadomość została wysłana. Odpiszę najszybciej, jak to możliwe."
+  path="/dziekujemy"
+>
+  <main class="container thanks">
+    <p class="eyebrow"><span class="numeral">✓</span> Wiadomość wysłana</p>
+    <h1 class="thanks__h">Dziękuję za wiadomość<span class="thanks__dot">.</span></h1>
+    <p class="thanks__lede">
+      Odezwę się najszybciej, jak to możliwe — zwykle w ciągu 24 godzin. W pilnej
+      sprawie napisz bezpośrednio na <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+    <div class="thanks__actions">
+      <a class="btn" href="/">Wróć na stronę główną</a>
+      <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .thanks {
+    /* Spokojny, wyśrodkowany komunikat — sporo powietrza nad i pod. */
+    max-width: var(--container-narrow);
+    padding-block: var(--space-3xl);
+    text-align: center;
+  }
+  .thanks .eyebrow {
+    justify-content: center;
+    display: flex;
+    align-items: baseline;
+    gap: 0.4em;
+  }
+  .thanks__h {
+    margin-top: var(--space-s);
+  }
+  /* Sygnaturowa kropka bursztynowa — jak w logo „ora.studio" / Hero. */
+  .thanks__dot {
+    color: var(--c-amber);
+  }
+  .thanks__lede {
+    margin: var(--space-m) auto 0;
+    max-width: 42ch;
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+  .thanks__lede a {
+    color: var(--c-accent-i);
+  }
+  .thanks__actions {
+    margin-top: var(--space-xl);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-s);
+  }
+</style>

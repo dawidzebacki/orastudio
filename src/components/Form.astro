@@ -27,7 +27,11 @@ interface Props {
   rodoText?: string;
   /** Slug polityki prywatności. */
   policyHref?: string;
-  /** action/method (na razie szkielet — podłączenie backendu później). */
+  /** Nazwa formularza dla Netlify Forms. PODANIE = formularz realnie wysyła
+      (dokłada data-netlify, honeypot, ukryte form-name, domyślny action na stronę
+      podziękowania). BRAK nazwy = zwykły formularz bez wysyłki (np. demo /styleguide). */
+  name?: string;
+  /** action/method. Domyślnie: Netlify → /dziekujemy/ ; demo → '#'. */
   action?: string;
   method?: string;
   class?: string;
@@ -46,13 +50,34 @@ const {
   submitLabel = 'Wyślij',
   rodoText = 'Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie.',
   policyHref = '/polityka-prywatnosci',
-  action = '#',
+  name,
+  action,
   method = 'post',
   class: className = '',
 } = Astro.props;
+
+// Formularz realnie wysyła tylko, gdy ma `name` (Netlify Forms wykrywa po nazwie).
+const isNetlify = Boolean(name);
+const resolvedAction = action ?? (isNetlify ? '/dziekujemy/' : '#');
 ---
 
-<form class={`form ${className}`.trim()} action={action} method={method} novalidate>
+<form
+  class={`form ${className}`.trim()}
+  name={name}
+  action={resolvedAction}
+  method={method}
+  novalidate
+  {...(isNetlify ? { 'data-netlify': 'true', 'data-netlify-honeypot': 'bot-field' } : {})}
+>
+  {/* Netlify Forms: ukryte form-name (musi == name) + honeypot anty-spam (bot-field).
+      Honeypot jest schowany przed ludźmi (hidden); bot, który go wypełni → spam. */}
+  {isNetlify && <input type="hidden" name="form-name" value={name} />}
+  {isNetlify && (
+    <p class="form__hp" hidden aria-hidden="true">
+      <label>Nie wypełniaj tego pola: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+    </p>
+  )}
+
   <div class="form__grid">
     {fields.map((f) => (
       <div class={`form__field ${f.half ? 'form__field--half' : ''}`}>
