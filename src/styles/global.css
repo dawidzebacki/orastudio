@@ -79,8 +79,8 @@ a {
   background-image: url('./paper-grain.svg');
   background-size: 200px 200px;
   background-repeat: repeat;
-  opacity: 0.045;
-  mix-blend-mode: multiply;
+  opacity: var(--grain-opacity);      /* sterowane motywem (jasny .045 / ciemny .05) */
+  mix-blend-mode: var(--grain-blend); /* multiply (jasny) / screen (ciemny)           */
 }
 
 /* --- Typografia bazowa ------------------------------------------------ */
@@ -180,15 +180,17 @@ p {
   border: 1px solid var(--c-accent-i);
   border-radius: var(--radius);
   background: var(--c-accent-i);
-  color: var(--c-cream);
+  color: var(--c-on-accent);          /* jasny tekst na terakocie — w obu motywach */
   transition:
     background var(--dur) var(--ease),
     color var(--dur) var(--ease),
     border-color var(--dur) var(--ease);
 }
 .btn:hover {
-  background: color-mix(in srgb, var(--c-terracotta) 84%, var(--c-ink));
-  border-color: color-mix(in srgb, var(--c-terracotta) 84%, var(--c-ink));
+  /* Przyciemnienie na hover — przez --c-shadow (ciemny w obu motywach). NIE --c-ink,
+     bo w dark atrament jest jasny i hover by ROZJAŚNIAŁ przycisk (audyt Krok 17). */
+  background: color-mix(in srgb, var(--c-terracotta) 84%, var(--c-shadow));
+  border-color: color-mix(in srgb, var(--c-terracotta) 84%, var(--c-shadow));
 }
 
 /* Wariant ghost (drugorzędne CTA) — kontur, wypełnia się terakotą na hover. */
@@ -200,7 +202,7 @@ p {
 .btn--ghost:hover {
   background: var(--c-accent-i);
   border-color: var(--c-accent-i);
-  color: var(--c-cream);
+  color: var(--c-on-accent);
 }
 
 /* --- Pomocnicze ------------------------------------------------------- */

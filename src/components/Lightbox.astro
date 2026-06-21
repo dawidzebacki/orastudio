@@ -32,10 +32,12 @@
     max-width: min(92vw, 1100px);
     max-height: 92vh;
     overflow: visible;
-    color: var(--c-cream);
+    color: var(--c-on-accent);        /* jasne kontrolki — niezależne od motywu */
   }
   .lb::backdrop {
-    background: color-mix(in srgb, var(--c-ink) 82%, transparent);
+    /* Backdrop ZAWSZE ciemny (--c-shadow jest ciemny w obu motywach) — inaczej
+       w dark mode podmiana --c-ink rozjaśniłaby przyciemnienie tła. */
+    background: color-mix(in srgb, var(--c-shadow) 82%, transparent);
   }
 
   /* Miękkie wejście. WAŻNE: transform NIE może być na <dialog> — transform na
@@ -79,7 +81,7 @@
     font-weight: var(--fw-medium);
     text-transform: uppercase;
     letter-spacing: var(--tracking-label);
-    color: var(--c-cream);
+    color: var(--c-on-accent);
   }
 
   /* Przyciski sterujące — stała pozycja (dialog jest w top-layer). Wspólny styl. */
@@ -92,16 +94,16 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
-    color: var(--c-cream);
-    background: color-mix(in srgb, var(--c-ink) 72%, transparent);
-    border: 1px solid color-mix(in srgb, var(--c-cream) 55%, transparent);
+    color: var(--c-on-accent);
+    background: color-mix(in srgb, var(--c-shadow) 72%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c-on-accent) 55%, transparent);
     border-radius: 50%;
     cursor: pointer;
     transition: background var(--dur) var(--ease);
   }
   .lb__close:hover,
   .lb__nav:hover {
-    background: color-mix(in srgb, var(--c-ink) 90%, transparent);
+    background: color-mix(in srgb, var(--c-shadow) 90%, transparent);
   }
   .lb__close {
     top: var(--space-m);
