@@ -64,7 +64,10 @@ const { items, openFirst = false, class: className = '' } = Astro.props;
     text-wrap: balance;
   }
 
-  /* Znacznik +/− zbudowany z dwóch kresek (hairline), miękka rotacja. */
+  /* Znacznik +/− z dwóch OSIOWYCH kresek po 2px (całopikselowe — jak burger).
+     Obie osiowe (nie rotujemy w spoczynku), więc rasteryzują się identycznie:
+     pozioma = height 2px, pionowa = width 2px. Rotacja TYLKO jako miękkie przejście
+     przy zwijaniu (stany spoczynku „+"/„−" zostają ostre). */
   .faq__icon {
     position: relative;
     flex: 0 0 auto;
@@ -76,17 +79,23 @@ const { items, openFirst = false, class: className = '' } = Astro.props;
   .faq__icon::after {
     content: '';
     position: absolute;
-    inset: 50% 0 auto 0;
-    height: 1.5px;
+    top: 50%;
+    left: 50%;
     background: var(--c-ink-70);
-    transform: translateY(-50%);
     transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
   }
-  .faq__icon::after {
-    transform: translateY(-50%) rotate(90deg);  /* pionowa kreska = „+" */
+  .faq__icon::before {            /* pozioma kreska */
+    width: 100%;
+    height: 2px;
+    transform: translate(-50%, -50%);
   }
-  .faq__item[open] .faq__icon::after {
-    transform: translateY(-50%) rotate(0deg);    /* znika do „−" */
+  .faq__icon::after {             /* pionowa kreska (daje „+") */
+    width: 2px;
+    height: 100%;
+    transform: translate(-50%, -50%);
+  }
+  .faq__item[open] .faq__icon::after {   /* znika do „−" (miękko: obrót + zanik) */
+    transform: translate(-50%, -50%) rotate(90deg);
     opacity: 0;
   }
 
