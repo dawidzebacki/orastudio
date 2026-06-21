@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# Poligon komponentów — nie indeksować.
+Disallow: /styleguide
+
+Sitemap: https://orastudio.art/sitemap-index.xml

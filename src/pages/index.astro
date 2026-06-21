@@ -9,6 +9,7 @@ import Cards from '../components/Cards.astro';
 import Process from '../components/Process.astro';
 import Gallery from '../components/Gallery.astro';
 import { placeholderImg } from '../utils/placeholder';
+import { site, socials } from '../data/site';
 
 // 2.2 — dwie równorzędne ścieżki (Biznes / Śluby). Tytuły/opisy = lorem (mapa),
 // etykiety linków i cele = realne (mapa 2.2 + site.ts).
@@ -43,6 +44,23 @@ const frames = [
   { numeral: 'V', ratio: '1 / 1', tone: 1 },
   { numeral: 'VI', ratio: '4 / 5', tone: 3 },
 ] as const;
+
+// JSON-LD LocalBusiness (Krok 19 — SEO). Dane realne z site.ts. Bez telefonu i adresu
+// (świadomie nie podajemy). areaServed = Trójmiasto + miasta; sameAs = profile social.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: site.brand,
+  description:
+    'Skondensowany reportaż dokumentalny — wydarzenia, biznes i kameralne uroczystości w Trójmieście.',
+  image: new URL('/og/og-default.png', site.url).href,
+  url: site.url,
+  email: site.email,
+  founder: { '@type': 'Person', name: site.owner },
+  areaServed: ['Gdańsk', 'Gdynia', 'Sopot', 'Trójmiasto'],
+  serviceType: 'Fotografia reportażowa',
+  sameAs: socials.map((s) => s.href),
+};
 ---
 
 <BaseLayout
@@ -50,6 +68,7 @@ const frames = [
   description="ORA.studio — skondensowany reportaż dokumentalny w Trójmieście. Wydarzenia, biznes i kameralne uroczystości. Gotowe, obrobione zdjęcia w 24 godziny."
   path="/"
 >
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   <main>
     {/* 2.1 — HERO (neutralny, H1 bez „ślub") -------------------------- */}
     <section class="sec sec--hero container">
