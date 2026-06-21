@@ -195,6 +195,23 @@ const {
     min-height: 7rem;
   }
 
+  /* --- Dark theme: literały/ikony natywne, które nie odwracają się przez tokeny
+     (audyt Krok 17). Chevron i wskaźniki dat są „zaszyte" jako data-URI / natywne. */
+  :global(html[data-theme='dark']) select.form__control {
+    /* Jaśniejszy stroke (≈ --c-coffee) — czytelny na ciemnym tle pola. */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3e%3cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%23cdb491' stroke-width='1.4'/%3e%3c/svg%3e");
+  }
+  :global(html[data-theme='dark']) input[type='date'].form__control::-webkit-calendar-picker-indicator {
+    /* Natywna ikona jest ciemna → rozjaśnij na ciemnym tle. */
+    filter: invert(0.85);
+    opacity: 0.7;
+  }
+  :global(html[data-theme='dark']) .form__check {
+    /* Jasny atrament dałby jasne wypełnienie + biały tick = niewidoczny stan.
+       Terakota (akcent interaktywny) trzyma kontrast z białym tickiem. */
+    accent-color: var(--c-accent-i);
+  }
+
   /* Zgoda RODO — checkbox wyraźnie OSOBNY od pól, niezaznaczony. */
   .form__consent {
     display: flex;

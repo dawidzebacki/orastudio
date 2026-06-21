@@ -14,7 +14,10 @@ const { height = '1.6rem', class: className = '' } = Astro.props;
 ---
 
 <a class={`logo ${className}`.trim()} href="/" aria-label={`${site.brand} — strona główna`} style={`--logo-h: ${height};`}>
-  <img class="logo__img" src="/logo/wordmark-ink.svg" alt="" width="1000" height="200" decoding="async" />
+  {/* Dwa warianty krzywych — atrament (jasny motyw) / krem (ciemny). Oba mają
+      bursztynową kropkę (sygnatura). Przełączane przez data-theme (Krok 17). */}
+  <img class="logo__img logo__img--ink" src="/logo/wordmark-ink.svg" alt="" width="1000" height="200" decoding="async" />
+  <img class="logo__img logo__img--cream" src="/logo/wordmark-transparent-cream.svg" alt="" width="1000" height="200" decoding="async" />
 </a>
 
 <style>
@@ -25,5 +28,15 @@ const { height = '1.6rem', class: className = '' } = Astro.props;
   .logo__img {
     height: var(--logo-h, 1.6rem);
     width: auto;
+  }
+  /* Domyślnie (jasny motyw): atramentowy wordmark; kremowy ukryty. */
+  .logo__img--cream {
+    display: none;
+  }
+  :global(html[data-theme='dark']) .logo__img--ink {
+    display: none;
+  }
+  :global(html[data-theme='dark']) .logo__img--cream {
+    display: block;
   }
 </style>

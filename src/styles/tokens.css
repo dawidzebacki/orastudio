@@ -39,6 +39,23 @@
   --c-text: var(--c-ink);
   --c-accent: var(--c-amber);
 
+  /* --- Role niezależne od motywu / sterowane motywem (Krok 17: dark theme) ----
+     Te trzy tokeny istnieją, by dark mode dało się zrobić SAMĄ podmianą prymitywów
+     poniżej (w [data-theme='dark']) — bez przepisywania komponentów. */
+  /* Tekst na NASYCONYCH wypełnieniach (przyciski, kontrolki lightboxa) — ZAWSZE jasny,
+     niezależnie od motywu. Literał (nie var(--c-cream)), bo krem w dark staje się ciemny. */
+  --c-on-accent: #f3eadb;
+  /* Kolor CIENIA bevelu/wpuszczenia maty — ODPIĘTY od koloru tekstu (--c-ink), żeby
+     w dark mode cienie pozostały ciemne, a nie rozjaśniły się razem z tekstem. */
+  --c-shadow: var(--c-ink);
+  /* Tekstura papieru: tryb mieszania + krycie sterowane motywem (multiply na jasnym;
+     screen na ciemnym, bo multiply na ciemnym tle znika). */
+  --grain-blend: multiply;
+  --grain-opacity: 0.045;
+  /* Światło bevelu maty (górna/lewa krawędź okienka). Jasny motyw: czysta biel.
+     W dark stonowane do ciepłej, przygaszonej bieli — nie „elektryczny" highlight. */
+  --c-bevel-hi: #ffffff;
+
   /* --- Typografia: rodziny --------------------------------------------
      Display = Quincy CF (Adobe Fonts, kit w BaseLayout). Fraunces Variable
      (self-hosted) zostaje jako fallback, gdyby kit się nie załadował
@@ -93,4 +110,29 @@
   /* --- Ruch (wolny, miękki — bez efekciarstwa) ------------------------ */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --dur: 420ms;
+}
+
+/* =========================================================================
+   DARK THEME — „ciemnia" (warm darkroom). Krok 17 (decyzja Ady, ciepły analog).
+   Strategia: podmieniamy WYŁĄCZNIE prymitywy. Tokeny pochodne (--c-ink-70/45/15,
+   --c-amber-hairline) i role (--c-surface/--c-label/--c-accent-i/--c-bg/--c-text)
+   są zdefiniowane przez var() na :root i przeliczają się automatycznie, bo
+   :root i [data-theme='dark'] to ten sam element (html) → komponentów nie ruszamy.
+   Tonacja: głęboki ciepły atrament zamiast czerni, kremowy tekst, bursztyn = światło.
+   Aktywowane przez data-theme na <html> (skrypt no-flash w BaseLayout + toggle w Nav).
+   ========================================================================= */
+:root[data-theme='dark'] {
+  --c-cream: #1c1611;      /* tło — głęboka ciepła „ciemnia" (zamiast czerni)       */
+  --c-ink: #efe3d0;        /* tekst — ciepły krem                                    */
+  --c-mat: #251e16;        /* mata passe-partout — lekko podniesiona z tła           */
+  --c-sand: #2a2219;       /* powierzchnia / pasy sekcji / stopka                    */
+  --c-coffee: #cdb491;     /* etykiety / tekst II — jasny ciepły tan (czytelny)      */
+  --c-amber: #d9a25c;      /* akcent sygnaturowy — odrobinę jaśniejszy, „żarówka"    */
+  --c-terracotta: #bb6240; /* akcent interaktywny — lekko podniesiony pod ciemne tło */
+
+  --c-shadow: #070504;     /* cień bevelu/wpuszczenia — ciemny w OBU motywach        */
+  --grain-blend: screen;   /* ziarno ROZJAŚNIA na ciemnym (multiply by zniknął)      */
+  --grain-opacity: 0.05;
+  --c-bevel-hi: #d9c9ab;   /* highlight bevelu — ciepła, przygaszona biel (nie elektryczna) */
+  /* --c-on-accent zostaje jasny (literał w :root) — tekst na przyciskach/lightbox.  */
 }

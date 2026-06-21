@@ -51,6 +51,17 @@ const palette = [
   { name: 'Mata passe-partout', token: '--c-mat', hex: '#F8F1E6', note: 'o ton jaśniejsza' },
 ];
 
+// Dark theme — „ciemnia" (warm darkroom, Krok 17). Te hexy nadpisują prymitywy
+// w [data-theme='dark']; tokeny pochodne/role przeliczają się same.
+const darkPalette = [
+  { name: 'Tło (ciemnia)', token: '--c-cream', hex: '#1C1611' },
+  { name: 'Tekst (krem)', token: '--c-ink', hex: '#EFE3D0' },
+  { name: 'Powierzchnia / pasy', token: '--c-sand', hex: '#2A2219' },
+  { name: 'Etykiety / tekst II', token: '--c-coffee', hex: '#CDB491' },
+  { name: 'Bursztyn (światło)', token: '--c-amber', hex: '#D9A25C' },
+  { name: 'Terakota (interakcja)', token: '--c-terracotta', hex: '#BB6240' },
+];
+
 // Pasek proporcji 60/30/10 (prototyp moodboardu Ady).
 const ratio = [
   { label: '60% — Krem', hex: '#F3EADB', w: 60, dark: false },
@@ -106,6 +117,21 @@ const scale = [
       <p class="eyebrow" style="margin-top: var(--space-l)">Deseń pasa — zygzak (wybrany)</p>
       <div class="pat-demo band-pattern"></div>
       <p class="sg-note">Wybrany deseń <code>.band-pattern</code> — zygzak/chevron <strong>tone-on-tone</strong> (piasek przyciemniony kroplą kawy), tylko z palety. Niski kontrast: tekstura, nie linie pod tekstem — atrament się nie zlewa. Używany na pasach (np. manifest strony głównej).</p>
+
+      <p class="eyebrow" style="margin-top: var(--space-l)">Dark theme — „ciemnia" (przełącznik ☾ w nav)</p>
+      <div class="swatches">
+        {darkPalette.map((c) => (
+          <figure class="swatch">
+            <div class="chip" style={`background:${c.hex}`}></div>
+            <figcaption>
+              <strong>{c.name}</strong>
+              <code>{c.hex}</code>
+              <code class="muted">var({c.token})</code>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="sg-note">Ciepła „ciemnia" (warm darkroom): głęboki atrament zamiast czerni, kremowy tekst, bursztyn jako światło. Dark mode = <strong>sama podmiana prymitywów</strong> w <code>:root[data-theme='dark']</code> — role i tokeny pochodne (<code>--c-ink-70</code>, <code>--c-surface</code>…) przeliczają się automatycznie. Przełącznik jest w nawigacji; wybór zapisuje się i respektuje <code>prefers-color-scheme</code>. Włącz go i przewiń całą tę stronę, żeby zobaczyć komponenty w obu motywach.</p>
     </section>
 
     <!-- FONTY -------------------------------------------------------- -->

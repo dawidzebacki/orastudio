@@ -60,6 +60,24 @@ const fullTitle = title === site.brand ? title : `${title} — ${site.brand}`;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="theme-color" content="#f3eadb" />
+
+    {/* No-flash dark mode (Krok 17): ustaw data-theme na <html> SYNCHRONICZNIE,
+        przed pierwszym malowaniem, żeby nie mrugnęło jasnym przy ładowaniu ciemnego.
+        Źródło wyboru: zapis użytkownika (localStorage) → inaczej preferencja systemu.
+        is:inline = Astro nie bundluje/odracza tego skryptu (musi pójść natychmiast). */}
+    <script is:inline>
+      (function () {
+        try {
+          var saved = localStorage.getItem('ora-theme');
+          var theme =
+            saved ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'dark' ? '#1c1611' : '#f3eadb');
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Przejdź do treści</a>
