@@ -33,10 +33,11 @@ import { site } from '../data/site';
     text-align: center;
   }
   .thanks .eyebrow {
-    justify-content: center;
     display: flex;
+    justify-content: center;
     align-items: baseline;
     gap: 0.4em;
+    max-width: none;   /* zdejmij globalne p{max-width:measure}, inaczej boks idzie w lewo */
   }
   .thanks__h {
     margin-top: var(--space-s);
