@@ -13,44 +13,44 @@ import Faq from '../components/Faq.astro';
 import Form from '../components/Form.astro';
 import { placeholderImg } from '../utils/placeholder';
 
-// 3.2 — co fotografuję (4 karty). Tytuły = realne (mapa), opisy = lorem [90–160].
+// 3.2 — co fotografuję (4 karty). Treści realne (ORA_tresci).
 const shoots = [
-  { title: 'Śniadania i networking', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Konferencje i eventy', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Backstage i kulisy', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Wizerunkowe / headshoty', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Śniadania i networking', desc: 'Kuluary, rozmowy, uściski dłoni. Łapię energię spotkania, a nie tylko sztywne ustawki przy roll-upie.' },
+  { title: 'Konferencje i eventy', desc: 'Prelegenci, sala, reakcje publiczności. Pełny reportaż z dnia, z którego zrobisz relację i materiały na później.' },
+  { title: 'Backstage i kulisy', desc: 'To, co dzieje się za sceną i między oficjalnymi punktami. Często stąd biorą się najciekawsze kadry całego wydarzenia.' },
+  { title: 'Wizerunkowe i headshoty', desc: 'Naturalne portrety zespołu na stronę i LinkedIn. Bez plastikowego studia — w Waszym otoczeniu, przy normalnym świetle.' },
 ];
 
-// 3.3 — jak to działa (3 kroki). Tytuły = realne (mapa), opisy = lorem [90–150]. III = „Dostawa 24h".
+// 3.3 — jak to działa (3 kroki). Treści realne (ORA_tresci). III = „Dostawa 24h".
 const steps = [
-  { title: 'Ustalenia', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Dyskretny dokument', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Dostawa 24h', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Ustalenia', desc: 'Mówisz mi, co i kiedy się dzieje oraz do czego potrzebujesz zdjęć. Ustalamy zakres, prawa do publikacji i klimat materiału.' },
+  { title: 'Dyskretny dokument', desc: 'Pracuję cicho i nie przerywam programu. Lampa wchodzi tylko tam, gdzie naprawdę trzeba — np. do zdjęcia grupowego.' },
+  { title: 'Dostawa 24h', desc: 'Wyselekcjonowane, najlepsze zdjęcia masz następnego dnia. Gotowe na social media czy stronę firmy.' },
 ];
 
-// 3.5 — galeria biznes (6 kadrów). Podpisy „I · Lorem" (mapa), tonacje/proporcje mieszane.
+// 3.5 — galeria biznes (6 kadrów). Podpisy realne (ORA_tresci), tonacje/proporcje mieszane.
 const frames = [
-  { numeral: 'I', ratio: '3 / 2', tone: 1 },
-  { numeral: 'II', ratio: '4 / 5', tone: 2 },
-  { numeral: 'III', ratio: '1 / 1', tone: 3 },
-  { numeral: 'IV', ratio: '4 / 5', tone: 1 },
-  { numeral: 'V', ratio: '3 / 2', tone: 3 },
-  { numeral: 'VI', ratio: '1 / 1', tone: 2 },
+  { numeral: 'I', place: 'Śniadanie biznesowe, Sopot', ratio: '3 / 2', tone: 1 },
+  { numeral: 'II', place: 'Konferencja, Gdańsk', ratio: '4 / 5', tone: 2 },
+  { numeral: 'III', place: 'Backstage', ratio: '1 / 1', tone: 3 },
+  { numeral: 'IV', place: 'Headshot', ratio: '4 / 5', tone: 1 },
+  { numeral: 'V', place: 'Gdynia', ratio: '3 / 2', tone: 3 },
+  { numeral: 'VI', place: 'Networking', ratio: '1 / 1', tone: 2 },
 ] as const;
 
-// 3.6 — 3 punkty „co wpływa na wycenę" (każdy [40–80], lorem). Atrament, bez bursztynu.
+// 3.6 — 3 punkty „co wpływa na wycenę" (ORA_tresci). Atrament, bez bursztynu.
 const factors = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  'Lorem ipsum dolor sit amet consectetur adipiscing.',
-  'Lorem ipsum dolor sit amet, consectetur elit sed do.',
+  'Długość i charakter wydarzenia',
+  'Liczba i typ zdjęć',
+  'Dodatki: headshoty, ekspresowa selekcja i wysyłka, sesje pozowane',
 ];
 
-// 3.7 — FAQ mini (4 pytania). Tematy z mapy (RODO · dostawa · prawa · faktura Useme); tekst = lorem.
+// 3.7 — FAQ mini (4 pytania). Treści realne (ORA_tresci): dostawa · dyskrecja · RODO · zasięg.
 const faq = [
-  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing elit?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
-  { q: 'Lorem ipsum dolor sit amet adipiscing consectetur?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco.' },
-  { q: 'Lorem ipsum dolor sit amet consectetur elit dolor?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation laboris nisi.' },
-  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
+  { q: 'Jak szybko dostanę zdjęcia z wydarzenia?', a: 'Standardowo następnego dnia — obrobiony komplet w 24 godziny od eventu. Jeśli kilka kadrów potrzebujesz jeszcze tego samego dnia, np. na relację na żywo, uprzedź mnie wcześniej.' },
+  { q: 'Czy fotografujesz dyskretnie, żeby nie zakłócać spotkania?', a: 'Tak, to podstawa mojego stylu. Pracuję małym, cichym aparatem, najczęściej na świetle zastanym. Większość uczestników nawet nie zauważa, że robię zdjęcia.' },
+  { q: 'Jak wygląda kwestia RODO i zgód uczestników?', a: 'Przy wydarzeniach z rozpoznawalnymi osobami organizator powinien uprzedzić uczestników, że obecny będzie fotograf, i mieć podstawę do publikacji wizerunku. Zakres zdjęć i prawa do nich ustalamy na początku, najlepiej mailem.' },
+  { q: 'Czy fotografujesz poza Trójmiastem?', a: 'Tak. Bazuję w Trójmieście — Gdańsk, Gdynia, Sopot — i dojeżdżam w promieniu około 50 km. Dalsze lokalizacje do uzgodnienia.' },
 ];
 
 // 3.8 — pola formularza brief (imię/firma · e-mail · typ + data wydarzenia · wiadomość).
@@ -58,7 +58,7 @@ const faq = [
 const briefFields = [
   { name: 'name', label: 'Imię i firma', type: 'text', required: true, half: true },
   { name: 'email', label: 'E-mail', as: 'input', type: 'email', required: true, half: true },
-  { name: 'kind', label: 'Typ wydarzenia', as: 'select', options: ['Śniadania i networking', 'Konferencje i eventy', 'Backstage i kulisy', 'Wizerunkowe / headshoty'], required: true, half: true },
+  { name: 'kind', label: 'Typ wydarzenia', as: 'select', options: ['Śniadania i networking', 'Konferencje i eventy', 'Backstage i kulisy', 'Wizerunkowe i headshoty'], required: true, half: true },
   { name: 'date', label: 'Data wydarzenia', as: 'input', type: 'date', half: true },
   { name: 'message', label: 'Wiadomość', as: 'textarea', required: true },
 ] as const;
@@ -75,9 +75,9 @@ const briefFields = [
       <Hero
         as="h1"
         eyebrow="Wydarzenia · Biznes"
-        lead="wasz dzień —"
+        lead="wasz dzień,"
         title="udokumentowany."
-        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+        lede="Reportaż z konferencji, śniadania biznesowego czy firmowego eventu w Trójmieście — a do tego zdjęcia wizerunkowe i headshoty. Materiał gotowy do publikacji w 24 godziny."
         primary={{ label: 'Zapytaj o wycenę', href: '#brief' }}
         secondary={{ label: 'Zobacz kadry', href: '#galeria' }}
         image={{ numeral: 'I', place: 'Konferencja', alt: 'Placeholder — kadr otwierający z wydarzenia', ratio: '4 / 5' }}
@@ -102,12 +102,13 @@ const briefFields = [
     <section class="sec band-pattern" aria-labelledby="s-why">
       <div class="container">
         <div class="prose">
-          <h2 id="s-why">Lorem ipsum dolor sit amet</h2>
+          <h2 id="s-why">Dlaczego reportaż, a nie ustawiane zdjęcia</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat.
+            Ustawiane zdjęcia z eventu widać od razu: wymuszony uśmiech, wszyscy patrzą w obiektyw,
+            niewiele się dzieje. Reportaż pokazuje, jak naprawdę wyglądało Wasze spotkanie — skupienie
+            na prelekcji, rozmowy przy kawie, uśmiech, nawiązywanie więzi. Takie zdjęcia lepiej budują
+            wizerunek firmy i przedsiębiorców, bo wyglądają na prawdziwe. I takie są. Staram się pracować
+            na świetle zastanym i z boku — ludzie się nie denerwują, a ich emocje są szczere.
           </p>
         </div>
       </div>
@@ -121,10 +122,10 @@ const briefFields = [
         {frames.map((f) => (
           <Gallery
             numeral={f.numeral}
-            place="Lorem"
+            place={f.place}
             ratio={f.ratio}
             tone={f.tone}
-            src={placeholderImg(f.ratio, `${f.numeral} · Lorem`)}
+            src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
             alt={`Placeholder — kadr biznesowy ${f.numeral}`}
           />
         ))}
@@ -137,10 +138,12 @@ const briefFields = [
     {/* 3.6 — WYCENA (Text + 3 punkty + CTA) ----------------------------- */}
     <section class="sec container" aria-labelledby="s-pricing">
       <div class="prose">
-        <h2 id="s-pricing">Lorem ipsum dolor</h2>
+        <h2 id="s-pricing">Wycena</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+          Każde wydarzenie jest inne, więc nie ma jednej, uniwersalnej ceny. Wycenę przygotowuję po
+          krótkiej rozmowie — liczy się długość i charakter wydarzenia, liczba zdjęć oraz to, czy
+          potrzebujesz także headshotów. Fakturę wystawiam przez Useme, więc rozliczenie jest proste
+          również dla firmy.
         </p>
         <ul class="factors" role="list">
           {factors.map((point) => <li class="factors__item">{point}</li>)}
@@ -163,8 +166,8 @@ const briefFields = [
       <Form
         name="brief-wydarzenia"
         fields={briefFields}
-        submitLabel="Wyślij brief"
-        rodoText="Wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania wyceny i odpowiedzi na zapytanie."
+        submitLabel="Wyślij zapytanie"
+        rodoText="Zaznaczając to pole, zgadzasz się na kontakt w sprawie tego zapytania. Szczegóły:"
         class="sec__form"
       />
     </section>

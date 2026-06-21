@@ -14,18 +14,18 @@ import Faq from '../components/Faq.astro';
 import Form from '../components/Form.astro';
 import { placeholderImg } from '../utils/placeholder';
 
-// 4.2 — „co zawiera" early bird (3 punkty). Numeracja rzymska; tytuły/opisy = lorem (mapa: tytuł [14–26] + opis [70–130]).
+// 4.2 — „co zawiera" early bird (3 punkty). Treści realne (ORA_tresci). Numeracja rzymska.
 const includes = [
-  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
-  { title: 'Lorem ipsum sit amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
-  { title: 'Lorem dolor amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.' },
+  { title: 'Pełny reportaż, nie skrót', desc: 'Wasz ślub fotografuję tak samo uważnie jak każdy inny. Early bird dotyczy wyłącznie ceny, nie zaangażowania.' },
+  { title: 'Zdjęcia w 24 godziny', desc: 'Obrobiony komplet dostajecie następnego dnia, dokładnie jak w standardowej ofercie.' },
+  { title: 'Kilka kadrów do portfolio', desc: 'Proszę jedynie o zgodę na pokazanie wybranych zdjęć.' },
 ];
 
-// 4.3 — jak to działa (3 kroki). Tytuły = realne (mapa), opisy = lorem [90–150]. III = „Dostawa 24h".
+// 4.3 — jak to działa (3 kroki). Treści realne (ORA_tresci). III = „Dostawa 24h".
 const steps = [
-  { title: 'Wybór looku', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Reportaż (3h)', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Dostawa 24h', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Wybór looku', desc: 'Przed ślubem podczas godzinnych konsultacji wybieracie jeden klimat zdjęć. Trzymam się go na całej serii, więc album jest spójny.' },
+  { title: 'Reportaż (3h)', desc: 'W umówionym czasie jestem obok i dokumentuję najważniejsze chwile — przygotowania, ceremonię, pierwsze emocje. Dyskretnie, bez ustawiania.' },
+  { title: 'Dostawa 24h', desc: 'Obrobiony komplet macie następnego dnia. Bez czekania miesiącami, kiedy wspomnienia zdążą już wyblaknąć.' },
 ];
 
 // 4.5 — galeria śluby (6 kadrów). Podpisy „para · miejsce" (mapa 4.5), tonacje/proporcje mieszane.
@@ -38,19 +38,12 @@ const frames = [
   { numeral: 'VI', place: 'Nina & Wojciech', ratio: '3 / 2', tone: 3 },
 ] as const;
 
-// 4.6 — opinie (3 cytaty). Cytat [110–220] + podpis [15–30] = lorem (semantycznie <blockquote>).
-const quotes = [
-  { quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', cite: 'Aleksandra & Marek' },
-  { quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.', cite: 'Zofia & Jan' },
-  { quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.', cite: 'Hanna & Piotr' },
-];
-
-// 4.7 — FAQ mini (4 pytania). Tematy z mapy (ślub cywilny · 24h · dojazd · ile zdjęć); tekst = lorem.
+// 4.7 — FAQ mini (4 pytania). Treści realne (ORA_tresci): early bird · zakres 3h · kadry we dwoje · skondensowany vs całodniowy.
 const faq = [
-  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing elit?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
-  { q: 'Lorem ipsum dolor sit amet adipiscing consectetur?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco.' },
-  { q: 'Lorem ipsum dolor sit amet consectetur elit dolor?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation laboris nisi.' },
-  { q: 'Lorem ipsum dolor sit amet consectetur adipiscing?', a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris.' },
+  { q: 'Na czym polega oferta early bird?', a: 'Kompletuję portfolio, więc kilka par z sezonu 2026 fotografuję w symbolicznej cenie w zamian za zgodę na pokazanie wybranych kadrów. Reportaż i dostawa w 24 godziny są dokładnie takie same jak w ofercie standardowej.' },
+  { q: 'Co obejmują te trzy godziny reportażu?', a: 'Najważniejszy fragment dnia: zwykle przygotowania, ceremonię i pierwsze chwile po niej. Jeśli potrzebujecie dłuższej obecności, większy zakres ustalimy indywidualnie podczas konsultacji.' },
+  { q: 'Czy zrobisz też kilka wspólnych kadrów nas dwojga?', a: 'Tak. Pracuję dokumentalnie, ale prawie zawsze znajdziemy chwilę na kilka spokojnych zdjęć tylko we dwoje — bez sztywnego pozowania, po prostu Wy.' },
+  { q: 'Czym skondensowany reportaż różni się od całodniowego?', a: 'Stawiam na esencję zamiast ośmiu godzin z aparatem przy twarzy. Dostajecie krótszą, ale mocniejszą serię najlepszych momentów — w jednym spójnym klimacie i w 24 godziny.' },
 ];
 
 // 4.8 — pola formularza rezerwacji (imię · e-mail · data ślubu · miejsce · wiadomość).
@@ -76,7 +69,7 @@ const bookingFields = [
         eyebrow="Reportaż ślubny · Trójmiasto"
         lead="te prawdziwe"
         title="chwile."
-        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+        lede="Fotografuję śluby w Trójmieście tak, jak je przeżywacie — bez pozowania godzinami, sztywnych póz i nienaturalnych uśmiechów. Komplet zdjęć dostajecie następnego dnia, kiedy emocje są jeszcze świeże."
         primary={{ label: 'Zapisz się — early bird', href: '#zapis' }}
         secondary={{ label: 'Zobacz galerie', href: '#galeria' }}
         image={{ numeral: 'I', place: 'Sopot', alt: 'Placeholder — kadr otwierający ze ślubu', ratio: '4 / 5' }}
@@ -88,11 +81,13 @@ const bookingFields = [
       <div class="container">
         <p class="eyebrow">Nabór par założycielskich</p>
         <div class="prose">
-          <h2 id="s-early">Lorem ipsum dolor sit amet</h2>
+          <h2 id="s-early">Szukam par na pierwsze śluby sezonu 2026</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit.
+            Zaczynam swoją drogę z fotografią ślubną i kompletuję portfolio, dlatego zapraszam kilka par
+            założycielskich. W cenie early bird fotografuję Wasz dzień na pełnych zasadach: ten sam
+            dokumentalny styl, wcześniej wybrany klimat i zdjęcia w 24 godziny. W zamian proszę przede
+            wszystkim o zgodę na pokazanie kilku kadrów w portfolio. Wy dostajecie reportaż w wyjątkowej
+            cenie, ja pierwsze realizacje, którymi mogę (i bardzo chcę) się pochwalić.
           </p>
         </div>
         <div class="sec__includes">
@@ -115,7 +110,7 @@ const bookingFields = [
       <h2 id="s-look" class="visually-hidden">Jeden ślub, jeden klimat — wybór tonacji</h2>
       <LookSwitcher
         heading="Jeden ślub, jeden klimat"
-        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut."
+        lede="Zamiast mieszać style, wybieracie jeden klimat jeszcze przed ślubem. Dzięki temu wszystkie zdjęcia grają razem — jak jeden, przemyślany album, a nie przypadkowy zbiór kadrów. Podejrzyjcie, jak ten sam moment wygląda w każdej z tonacji."
         alt="Placeholder — kadr ślubny w wybranej tonacji"
         name="sluby-look"
         tone={2}
@@ -141,22 +136,6 @@ const bookingFields = [
       <div class="frames__more">
         <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
       </div>
-    </section>
-
-    {/* 4.6 — OPINIE (blockquote, 3) ------------------------------------- */}
-    <section class="sec container" aria-labelledby="s-quotes">
-      <p class="eyebrow">Opinie</p>
-      <h2 id="s-quotes" class="visually-hidden">Opinie par</h2>
-      <ul class="quotes" role="list">
-        {quotes.map((q) => (
-          <li class="quotes__cell">
-            <figure class="quote">
-              <blockquote class="quote__text">{q.quote}</blockquote>
-              <figcaption class="quote__cite">— {q.cite}</figcaption>
-            </figure>
-          </li>
-        ))}
-      </ul>
     </section>
 
     {/* 4.7 — FAQ MINI (Faq, 4) ------------------------------------------ */}
@@ -243,38 +222,5 @@ const bookingFields = [
   /* CTA pod galerią — kieruje do pełnego portfolio (linki case study żyją tam). */
   .frames__more {
     margin-top: var(--space-xl);
-  }
-
-  /* 4.6 — opinie: cytaty na hairline, didone w cudzysłowie, podpis stonowany.
-     Neutralnie (bez bursztynu) — akcent widoku niesie galeria / kropka logo. */
-  .quotes {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: var(--space-l);
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  }
-  .quote {
-    margin: 0;
-    padding-top: var(--space-m);
-    border-top: 1px solid var(--c-ink-15);
-  }
-  .quote__text {
-    margin: 0;
-    font-family: var(--font-display);
-    font-variation-settings: var(--display-vsettings);
-    font-size: var(--fs-h3);
-    line-height: var(--lh-heading);
-    color: var(--c-ink);
-  }
-  .quote__cite {
-    margin-top: var(--space-s);
-    font-size: var(--fs-eyebrow);
-    font-weight: var(--fw-medium);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    color: var(--c-ink-70);
-    font-style: normal;
   }
 </style>

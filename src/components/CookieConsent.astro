@@ -1,0 +1,113 @@
+---
+// ORA.studio — Baner zgody na cookies + sterowanie Google Consent Mode v2 (Krok 22).
+// Domyślny stan (denied) ustawia skrypt w <head> PRZED GTM (BaseLayout). Tu tylko UI
+// + zapis wyboru (localStorage 'ora-consent') i wywołanie gtag('consent','update').
+// Reopen z dowolnego miejsca przez [data-cc-open] (np. „Ustawienia cookies" w stopce —
+// polityka prywatności sekcja 6 odsyła do „ustawień cookies"). Bez bibliotek, na tokenach.
+---
+
+<div class="cc" id="cookie-consent" role="region" aria-label="Zgoda na pliki cookies" hidden>
+  <div class="cc__inner container">
+    <p class="cc__text">
+      Używam plików cookies oraz narzędzi analitycznych i marketingowych, które uruchamiają się
+      dopiero po Twojej zgodzie. Szczegóły w
+      <a href="/polityka-prywatnosci">Polityce prywatności</a>.
+    </p>
+    <div class="cc__actions">
+      <button class="btn btn--ghost cc__btn" type="button" data-cc-reject>Odrzucam</button>
+      <button class="btn cc__btn" type="button" data-cc-accept>Akceptuję</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = 'ora-consent';
+    var el = document.getElementById('cookie-consent');
+    if (!el) return;
+
+    function gtagUpdate(granted) {
+      if (typeof window.gtag !== 'function') return;
+      var v = granted ? 'granted' : 'denied';
+      window.gtag('consent', 'update', {
+        ad_storage: v,
+        ad_user_data: v,
+        ad_personalization: v,
+        analytics_storage: v,
+      });
+    }
+    function read() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    function save(val) { try { localStorage.setItem(KEY, val); } catch (e) {} }
+    function show() { el.hidden = false; }
+    function hide() { el.hidden = true; }
+    function choose(granted) {
+      gtagUpdate(granted);
+      save(granted ? 'granted' : 'denied');
+      hide();
+    }
+
+    // Pokaż tylko, gdy brak wcześniejszego wyboru.
+    if (!read()) show();
+
+    el.querySelector('[data-cc-accept]').addEventListener('click', function () { choose(true); });
+    el.querySelector('[data-cc-reject]').addEventListener('click', function () { choose(false); });
+
+    // „Ustawienia cookies" / inne wyzwalacze ponownego otwarcia.
+    document.querySelectorAll('[data-cc-open]').forEach(function (b) {
+      b.addEventListener('click', function (e) { e.preventDefault(); show(); });
+    });
+  })();
+</script>
+
+<style>
+  /* Baner przyklejony na dole, nad treścią. Powierzchnia kremowa (tokeny → dark sam się
+     odwraca), hairline u góry + delikatne wyniesienie przez --c-shadow (nie drop-shadow
+     ramki — to chrome UI, nie passe-partout). */
+  .cc {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    background: var(--c-cream);
+    border-top: 1px solid var(--c-ink-15);
+    box-shadow: 0 -6px 24px -12px var(--c-shadow);
+  }
+  .cc[hidden] {
+    display: none;
+  }
+  .cc__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-m);
+  }
+  .cc__text {
+    flex: 1 1 18rem;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--c-ink-70);
+  }
+  .cc__text a {
+    color: var(--c-accent-i);          /* terakota — akcent interaktywny */
+    text-underline-offset: 0.2em;
+  }
+  .cc__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    flex: 0 0 auto;
+  }
+  /* Na wąskich ekranach przyciski na całą szerokość, równe. */
+  @media (max-width: 30rem) {
+    .cc__actions {
+      width: 100%;
+    }
+    .cc__btn {
+      flex: 1 1 auto;
+      text-align: center;
+    }
+  }
+</style>

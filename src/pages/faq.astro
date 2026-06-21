@@ -1,71 +1,77 @@
 ---
-// ORA.studio — FAQ (wspólne) · P2 · Krok 13
+// ORA.studio — FAQ (wspólne) · P2 · Krok 13 + realne treści (ORA_tresci)
 // Złożona wg sekcji 7 mapy treści (7.1–7.3). Cel sekcji = lokalne SEO przez pytania.
-// DECYZJA (Krok 13): pytania (7.2) i akapit „obszar działania" (7.3) = REALNE polskie
-// frazy (nośnik SEO — Gdańsk/Gdynia/Sopot, dojazd). Odpowiedzi FAQ = lorem w długości
-// z mapy [200–420] — placeholder do uzupełnienia realną treścią ofertową. Hero/intro
-// = lorem (house style, jak /o-mnie i /realizacje). Dane realne z site.ts.
-//
-// (Na przyszłość: po wstawieniu realnych odpowiedzi rozważyć FAQPage JSON-LD —
-//  teraz pominięte, bo schema z lorem-odpowiedziami to zła praktyka SEO.)
+// Pytania i odpowiedzi = REALNE (ORA_tresci). Akapit „obszar działania" (7.3) = realny
+// (nośnik SEO — Gdańsk/Gdynia/Sopot, dojazd). FAQPage JSON-LD dołączony (odpowiedzi
+// są już realne — schema poprawna). Dane realne z site.ts.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Faq from '../components/Faq.astro';
 
-// 7.2 — 10 pytań pokrywających tematy z mapy (po jednym każdy). PYTANIA realne
-// [35–75 zn], ODPOWIEDZI lorem [200–420 zn]. Kolejność wg listy z mapy.
+// 7.2 — 10 pytań pokrywających tematy z mapy (po jednym każdy). Treści realne (ORA_tresci).
 const faq = [
   {
     // gdzie fotografuję (Gdańsk / Gdynia / Sopot)
     q: 'Gdzie fotografujesz — Gdańsk, Gdynia czy Sopot?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    a: 'We wszystkich trzech. Bazuję w Trójmieście i fotografuję w Gdańsku, Gdyni i Sopocie, a także w okolicy w promieniu około 50 km. Jeśli Twoje wydarzenie albo ślub odbywa się nieco dalej, napisz — zwykle udaje się ustalić dojazd.',
   },
   {
     // kiedy dostanę zdjęcia (24h)
     q: 'Kiedy dostanę gotowe zdjęcia z reportażu?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
+    a: 'Następnego dnia. Obrobiony komplet wysyłam w 24 godziny od wydarzenia. To moja podstawowa zasada — nie chcę, żeby ktokolwiek czekał tygodniami, aż emocje opadną.',
   },
   {
     // czy robisz śluby cywilne / kameralne
     q: 'Czy fotografujesz śluby cywilne i kameralne?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure.',
+    a: 'Tak, jak najbardziej. Kameralne śluby cywilne i humanistyczne świetnie pasują do dokumentalnego stylu — jest w nich dużo naturalnych, spontanicznych chwil.',
   },
   {
     // czy mogę wybrać styl/look
     q: 'Czy mogę wybrać styl i tonację zdjęć?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    a: 'Tak. Przed wydarzeniem wybierasz jeden klimat, a ja trzymam się go na całej serii, więc wszystkie zdjęcia są spójne.',
   },
   {
     // ile zdjęć dostaję
     q: 'Ile zdjęć otrzymam z gotowego reportażu?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute.',
+    a: 'Dostajesz wyselekcjonowany zestaw najlepszych kadrów, a nie setki niemal identycznych ujęć. Dokładna liczba zależy od długości i charakteru wydarzenia — ustalamy to na początku.',
   },
   {
     // jak rezerwuję termin
     q: 'Jak zarezerwować termin fotografowania?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    a: 'Najprościej przez formularz na stronie. Po krótkiej rozmowie potwierdzamy szczegóły i termin. Odpowiadam zwykle tego samego dnia.',
   },
   {
     // RODO / wykorzystanie wizerunku
     q: 'Jak przetwarzasz moje dane i wizerunek (RODO)?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor.',
+    a: 'Dane z formularza wykorzystuję tylko do kontaktu i ustalenia szczegółów. Zdjęcia pokazuję w portfolio za Twoją zgodą, na podstawie umowy. Szczegóły opisuje także polityka prywatności.',
   },
   {
     // faktura (Useme)
     q: 'Czy mogę otrzymać fakturę za usługę?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
+    a: 'Tak. Fakturę wystawiam przez Useme, więc rozliczenie jest proste także dla firmy.',
   },
   {
     // reportaż biznesowy vs ślubny
     q: 'Czym różni się reportaż biznesowy od ślubnego?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit.',
+    a: 'Warsztat jest ten sam — dyskretny dokument i dostawa w 24 godziny. Różni się kontekst: przy biznesie skupiam się na wydarzeniu, marce i wizerunku zespołu, przy ślubach na emocjach i relacjach. Dlatego mają osobne strony.',
   },
   {
     // czy jeżdżę poza Trójmiasto (do ~50 km)
     q: 'Czy dojeżdżasz poza Trójmiasto, do ~50 km?',
-    a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    a: 'Tak. Trójmiasto to moja baza, ale dojeżdżam w promieniu około 50 km na wydarzenia firmowe i śluby. Dalsze lokalizacje — do uzgodnienia.',
   },
 ];
+
+// FAQPage JSON-LD (SEO) — odpowiedzi są realne, więc schema jest poprawna.
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
 ---
 
 <BaseLayout
@@ -73,6 +79,7 @@ const faq = [
   description="Odpowiedzi na częste pytania o reportaż z wydarzeń i kameralnych ślubów w Trójmieście (Gdańsk, Gdynia, Sopot): dostawa zdjęć, rezerwacja, dojazd, RODO i faktura."
   path="/faq"
 >
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqJsonLd)} />
   <main>
     {/* 7.1 — INTRO (Text: H1 + lede) ------------------------------------ */}
     <section class="sec sec--hero container">
@@ -81,7 +88,7 @@ const faq = [
         eyebrow="FAQ"
         lead="częste"
         title="pytania."
-        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+        lede="Zebrałam tu najczęstsze pytania o reportaż ślubny i firmowy w Trójmieście. Jeśli czegoś brakuje — napisz, chętnie odpowiem."
       />
     </section>
 

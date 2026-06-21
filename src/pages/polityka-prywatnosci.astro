@@ -1,19 +1,18 @@
 ---
-// ORA.studio — Polityka prywatności · P1 · Krok 8
-// Wg sekcji 9 mapy treści: 8 sekcji, każda nagłówek + akapit [200–400].
-// Dane realne (administrator, Useme, e-mail) z site.ts / briefu; reszta = lorem w długościach z mapy.
+// ORA.studio — Polityka prywatności · P1 · Krok 8 + finalna treść od Ady (Krok 21)
+// TREŚĆ REALNA, dostarczona przez klientkę (PDF „Polityka prywatności", 21.06.2026):
+// 13 sekcji, baner cookies + Google Consent Mode v2, lista narzędzi analit./marketingowych,
+// transfer poza EOG. Dane administratora/e-mail z site.ts. Numeracja H2 = jak w dokumencie
+// (treść odwołuje się do „sekcji 6" / „sekcja 7").
 //
-// !!! SZKIELET, NIE PORADA PRAWNA — finalną treść trzeba dać do weryfikacji
-//     specjaliście RODO przed publikacją. Lorem to wypełniacz, nie treść docelowa. !!!
-//
-// Hierarchia: pojedynczy H1 (tytuł), 8 sekcji jako H2 (poprawna kolejność nagłówków).
+// Hierarchia: pojedynczy H1 (tytuł) + 13 sekcji jako H2 (poprawna kolejność nagłówków).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
 ---
 
 <BaseLayout
   title="Polityka prywatności"
-  description="Polityka prywatności ORA.studio — administrator danych, zakres i cel przetwarzania, czas przechowywania oraz prawa osób, których dane dotyczą."
+  description="Polityka prywatności ORA.studio — administrator danych, zakres i cele przetwarzania, odbiorcy, cookies i narzędzia analityczne (Consent Mode v2), transfer poza EOG oraz Twoje prawa."
   path="/polityka-prywatnosci"
 >
   <main class="container">
@@ -21,93 +20,172 @@ import { site } from '../data/site';
       <header class="policy__head">
         <p class="eyebrow">Dokument</p>
         <h1 class="policy__h1">Polityka prywatności</h1>
+        <p class="policy__intro">
+          Niniejsza polityka prywatności opisuje, w jaki sposób przetwarzane są Twoje dane osobowe
+          w związku z korzystaniem ze strony orastudio.art oraz z usług fotograficznych {site.brand}.
+          Zależy mi na tym, żeby było to dla Ciebie jasne i przejrzyste.
+        </p>
       </header>
 
-      {/* 1. Administrator danych — REALNE dane (osoba fizyczna). */}
+      {/* 1. Administrator danych */}
       <section class="policy__sec" aria-labelledby="p1">
-        <h2 id="p1">Administrator danych</h2>
+        <h2 id="p1">1. Administrator danych</h2>
         <p>
-          Administratorem danych osobowych jest {site.owner} (osoba fizyczna), prowadząca działalność
-          fotograficzną pod marką {site.brand}. Kontakt w sprawach danych: <a href={`mailto:${site.email}`}>{site.email}</a>.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-          et dolore magna aliqua, quis nostrud exercitation ullamco laboris.
+          Administratorem Twoich danych osobowych jest {site.owner}, działająca pod marką {site.brand}.
+          Kontakt w sprawach danych osobowych: <a href={`mailto:${site.email}`}>{site.email}</a>.
         </p>
       </section>
 
-      {/* 2. Jakie dane zbieram. */}
+      {/* 2. Jakie dane przetwarzam */}
       <section class="policy__sec" aria-labelledby="p2">
-        <h2 id="p2">Jakie dane zbieram</h2>
-        <p>
-          W ramach formularza kontaktowego zbieram imię, adres e-mail oraz treść wiadomości. Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-          ex ea commodo consequat duis aute irure dolor.
-        </p>
+        <h2 id="p2">2. Jakie dane przetwarzam</h2>
+        <ul class="policy__list">
+          <li>Dane z formularza kontaktowego i zgłoszeniowego: imię lub nazwa firmy, adres e-mail, data i miejsce wydarzenia lub ślubu, treść wiadomości.</li>
+          <li>Dane przekazane w toku dalszego kontaktu i ustaleń (np. numer telefonu, szczegóły zlecenia).</li>
+          <li>Wizerunek oraz zdjęcia wykonane w ramach usługi fotograficznej.</li>
+          <li>Dane niezbędne do rozliczenia usługi, przekazywane za pośrednictwem serwisu Useme (use.me).</li>
+          <li>Dane o korzystaniu ze strony zbierane przez narzędzia analityczne i marketingowe (np. identyfikatory cookies, adres IP, informacje o urządzeniu i aktywności na stronie) — wyłącznie po wyrażeniu przez Ciebie zgody. Szczegóły w sekcji 6.</li>
+        </ul>
       </section>
 
-      {/* 3. Cel i podstawa prawna. */}
+      {/* 3. Cele i podstawy prawne przetwarzania */}
       <section class="policy__sec" aria-labelledby="p3">
-        <h2 id="p3">Cel i podstawa prawna</h2>
-        <p>
-          Dane przetwarzam w celu kontaktu oraz przygotowania i realizacji zlecenia fotograficznego. Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
+        <h2 id="p3">3. Cele i podstawy prawne przetwarzania</h2>
+        <ul class="policy__list">
+          <li>Odpowiedź na zapytanie i ustalenie szczegółów współpracy — art. 6 ust. 1 lit. b RODO (działania przed zawarciem umowy) oraz lit. f (uzasadniony interes w postaci kontaktu).</li>
+          <li>Realizacja usługi fotograficznej — art. 6 ust. 1 lit. b RODO (wykonanie umowy).</li>
+          <li>Rozliczenie usługi i obowiązki podatkowe (faktury) — art. 6 ust. 1 lit. c RODO (obowiązek prawny).</li>
+          <li>Publikacja wybranych zdjęć w portfolio (na stronie i w mediach społecznościowych) — art. 6 ust. 1 lit. a RODO (zgoda) oraz przepisy dotyczące rozpowszechniania wizerunku.</li>
+          <li>Analiza ruchu na stronie, działania marketingowe i remarketing — art. 6 ust. 1 lit. a RODO (zgoda wyrażona w banerze cookies).</li>
+          <li>Ustalenie, dochodzenie lub obrona roszczeń — art. 6 ust. 1 lit. f RODO (uzasadniony interes).</li>
+        </ul>
       </section>
 
-      {/* 4. Czas przechowywania. */}
+      {/* 4. Wizerunek i zdjęcia */}
       <section class="policy__sec" aria-labelledby="p4">
-        <h2 id="p4">Czas przechowywania</h2>
+        <h2 id="p4">4. Wizerunek i zdjęcia</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur.
+          Zdjęcia wykonane podczas wydarzeń i ślubów zawierają wizerunek osób. Wykorzystuję je przede
+          wszystkim do realizacji usługi, czyli przekazania Ci gotowego materiału. Wybrane kadry
+          publikuję w portfolio wyłącznie na podstawie odrębnej zgody lub odpowiedniego zapisu w umowie.
+          Zgodę na publikację możesz wycofać w każdej chwili — wycofanie nie wpływa na zgodność z prawem
+          publikacji dokonanych wcześniej. Przy wydarzeniach firmowych za poinformowanie uczestników
+          o obecności fotografa oraz za podstawę przetwarzania ich wizerunku odpowiada organizator
+          wydarzenia.
         </p>
       </section>
 
-      {/* 5. Odbiorcy danych — REALNE: Useme dotyczy faktur, nie danych z formularza. */}
+      {/* 5. Odbiorcy danych */}
       <section class="policy__sec" aria-labelledby="p5">
-        <h2 id="p5">Odbiorcy danych</h2>
-        <p>
-          Dane mogą być powierzone dostawcom usług niezbędnych do działania strony, np. hostingu i poczty.
-          Platforma Useme dotyczy wyłącznie rozliczeń i faktur — nie są jej przekazywane dane przesłane przez
-          formularz. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua.
-        </p>
+        <h2 id="p5">5. Odbiorcy danych</h2>
+        <p>Twoje dane mogą być przekazywane podmiotom, które wspierają działanie strony i realizację usługi:</p>
+        <ul class="policy__list">
+          <li>dostawca hostingu i obsługi strony (Netlify);</li>
+          <li>dostawca poczty e-mail (Titan);</li>
+          <li>serwis Useme (use.me) — w zakresie wystawienia faktury i rozliczenia usługi;</li>
+          <li>dostawcy narzędzi analitycznych i marketingowych (Google, Microsoft, Meta i inne wskazane w sekcji 6).</li>
+        </ul>
+        <p>Nie sprzedaję Twoich danych osobowych.</p>
       </section>
 
-      {/* 6. Twoje prawa. */}
+      {/* 6. Narzędzia analityczne i marketingowe oraz pliki cookies */}
       <section class="policy__sec" aria-labelledby="p6">
-        <h2 id="p6">Twoje prawa</h2>
+        <h2 id="p6">6. Narzędzia analityczne i marketingowe oraz pliki cookies</h2>
         <p>
-          Przysługuje Ci prawo dostępu do danych, ich sprostowania oraz usunięcia. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat duis aute irure.
+          Strona wykorzystuje pliki cookies oraz zewnętrzne narzędzia analityczne i marketingowe.
+          Cookies niezbędne do prawidłowego działania strony używane są zawsze. Pozostałe cookies oraz
+          narzędzia analityczne i marketingowe uruchamiają się dopiero po wyrażeniu przez Ciebie zgody
+          w banerze cookies. Do zarządzania zgodami wykorzystywany jest mechanizm zintegrowany z Google
+          Consent Mode v2 — przed udzieleniem zgody narzędzia te nie zbierają Twoich danych. Zgodę
+          możesz w każdej chwili zmienić lub wycofać w ustawieniach cookies. Podstawą przetwarzania
+          danych w tych narzędziach jest Twoja zgoda (art. 6 ust. 1 lit. a RODO).
+        </p>
+        <p>Korzystam z następujących narzędzi:</p>
+        <ul class="policy__list">
+          <li>Google Tag Manager (Google) — zarządzanie tagami i skryptami uruchamianymi na stronie.</li>
+          <li>Google Analytics 4 (Google) — statystyki ruchu i sposobu korzystania ze strony.</li>
+          <li>Google Ads (Google) — pomiar skuteczności reklam oraz remarketing.</li>
+          <li>Microsoft Clarity (Microsoft) — mapy ciepła i nagrania sesji z maskowaniem wprowadzanych treści, służące poprawie strony.</li>
+          <li>Meta Pixel (Meta) — pomiar konwersji oraz remarketing w serwisach Facebook i Instagram.</li>
+          <li>LinkedIn Insight Tag (LinkedIn) — pomiar i remarketing kampanii kierowanych do klientów biznesowych.</li>
+          <li>Pinterest Tag (Pinterest) — pomiar i remarketing kampanii kierowanych do par.</li>
+        </ul>
+        <p>
+          Część z tych narzędzi przekazuje dane poza EOG — patrz sekcja 7. Pliki cookies możesz
+          kontrolować również w ustawieniach swojej przeglądarki.
         </p>
       </section>
 
-      {/* 7. Pliki cookies. */}
+      {/* 7. Przekazywanie danych poza EOG */}
       <section class="policy__sec" aria-labelledby="p7">
-        <h2 id="p7">Pliki cookies</h2>
+        <h2 id="p7">7. Przekazywanie danych poza EOG</h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore.
+          Dostawcy części narzędzi analitycznych i marketingowych (m.in. Google, Microsoft, Meta) to
+          podmioty powiązane z firmami w Stanach Zjednoczonych, dlatego korzystanie z tych narzędzi
+          wiąże się z przekazaniem danych poza Europejski Obszar Gospodarczy (EOG). Transfer odbywa się
+          na podstawie odpowiednich zabezpieczeń: decyzji Komisji Europejskiej o adekwatności w ramach
+          EU-US Data Privacy Framework (dla dostawców certyfikowanych) lub standardowych klauzul
+          umownych zatwierdzonych przez Komisję Europejską.
         </p>
       </section>
 
-      {/* 8. Kontakt w sprawie danych — REALNY e-mail. */}
+      {/* 8. Okres przechowywania danych */}
       <section class="policy__sec" aria-labelledby="p8">
-        <h2 id="p8">Kontakt w sprawie danych</h2>
+        <h2 id="p8">8. Okres przechowywania danych</h2>
+        <ul class="policy__list">
+          <li>Dane z korespondencji i zapytań — do czasu zakończenia sprawy, a następnie do upływu terminu przedawnienia ewentualnych roszczeń.</li>
+          <li>Dane rozliczeniowe — przez okres wymagany przepisami podatkowymi i rachunkowymi.</li>
+          <li>Dane przetwarzane na podstawie zgody (w tym analityka i marketing) — do czasu jej wycofania, nie dłużej niż przewidują to okresy retencji danego narzędzia.</li>
+        </ul>
+      </section>
+
+      {/* 9. Twoje prawa */}
+      <section class="policy__sec" aria-labelledby="p9">
+        <h2 id="p9">9. Twoje prawa</h2>
         <p>
-          W sprawach dotyczących danych osobowych napisz na <a href={`mailto:${site.email}`}>{site.email}</a>.
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-          et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
+          Przysługuje Ci prawo do: dostępu do swoich danych, ich sprostowania, usunięcia, ograniczenia
+          przetwarzania, przenoszenia danych, wniesienia sprzeciwu wobec przetwarzania opartego na
+          uzasadnionym interesie oraz wycofania zgody w dowolnym momencie. Masz również prawo wniesienia
+          skargi do Prezesa Urzędu Ochrony Danych Osobowych (PUODO), jeśli uznasz, że przetwarzanie
+          Twoich danych narusza przepisy.
+        </p>
+      </section>
+
+      {/* 10. Dobrowolność podania danych */}
+      <section class="policy__sec" aria-labelledby="p10">
+        <h2 id="p10">10. Dobrowolność podania danych</h2>
+        <p>
+          Podanie danych jest dobrowolne, ale niezbędne do nawiązania kontaktu i realizacji usługi. Bez
+          nich nie będę mogła odpowiedzieć na zapytanie ani wykonać zlecenia. Wyrażenie zgody na cookies
+          analityczne i marketingowe jest dobrowolne i nie wpływa na możliwość korzystania ze strony.
+        </p>
+      </section>
+
+      {/* 11. Zautomatyzowane decyzje */}
+      <section class="policy__sec" aria-labelledby="p11">
+        <h2 id="p11">11. Zautomatyzowane decyzje</h2>
+        <p>
+          Nie podejmuję wobec Ciebie decyzji w sposób wyłącznie zautomatyzowany wywołujący skutki
+          prawne. Narzędzia marketingowe mogą wykorzystywać dane do dopasowania reklam (remarketing),
+          zawsze na podstawie Twojej zgody.
+        </p>
+      </section>
+
+      {/* 12. Zmiany polityki */}
+      <section class="policy__sec" aria-labelledby="p12">
+        <h2 id="p12">12. Zmiany polityki</h2>
+        <p>
+          Polityka prywatności może być okresowo aktualizowana. Aktualna wersja jest zawsze dostępna na
+          tej stronie. Data ostatniej aktualizacji: 21.06.2026.
+        </p>
+      </section>
+
+      {/* 13. Kontakt */}
+      <section class="policy__sec" aria-labelledby="p13">
+        <h2 id="p13">13. Kontakt</h2>
+        <p>
+          W sprawach dotyczących Twoich danych osobowych napisz na:
+          <a href={`mailto:${site.email}`}>{site.email}</a>.
         </p>
       </section>
     </article>
@@ -126,8 +204,13 @@ import { site } from '../data/site';
   .policy__head .eyebrow {
     margin-bottom: var(--space-s);
   }
+  .policy__intro {
+    margin-top: var(--space-l);
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
 
-  /* Każda sekcja: nagłówek + akapit, oddech między sekcjami. */
+  /* Każda sekcja: nagłówek + treść, oddech między sekcjami. */
   .policy__sec + .policy__sec {
     margin-top: var(--space-xl);
   }
@@ -138,8 +221,25 @@ import { site } from '../data/site';
   .policy__sec p {
     color: var(--c-ink-70);
   }
+  .policy__sec p + p {
+    margin-top: var(--space-m);
+  }
   .policy__sec a {
     color: var(--c-accent-i);        /* terakota — akcent interaktywny */
     text-underline-offset: 0.2em;
+  }
+
+  /* Listy w sekcjach (zakres danych, cele, odbiorcy, narzędzia, retencja). */
+  .policy__list {
+    margin: var(--space-s) 0 0;
+    padding-left: 1.25em;
+    color: var(--c-ink-70);
+  }
+  .policy__list li + li {
+    margin-top: var(--space-xs);
+  }
+  /* Akapit po liście (np. „Nie sprzedaję…", lista narzędzi → nota EOG). */
+  .policy__list + p {
+    margin-top: var(--space-m);
   }
 </style>

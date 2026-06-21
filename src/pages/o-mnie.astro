@@ -8,12 +8,11 @@ import Hero from '../components/Hero.astro';
 import Cards from '../components/Cards.astro';
 import { site } from '../data/site';
 
-// 5.4 — podejście / sprzęt (3 krótkie karty). Numeracja rzymska; tytuły/opisy = lorem
-// (mapa 5.4: tytuł [14–26] + opis [80–140]).
+// 5.4 — podejście / sprzęt (3 krótkie karty). Treści realne (ORA_tresci). Numeracja rzymska.
 const approach = [
-  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Lorem ipsum sit amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
-  { title: 'Lorem dolor amet', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.' },
+  { title: 'Mały, cichy aparat', desc: 'Fotografuję lekkim sprzętem, głównie na świetle zastanym. Dzięki temu jestem mało widoczna i nikomu nie przeszkadzam.' },
+  { title: 'Jeden, spójny klimat', desc: 'Tonację ustalamy wcześniej i trzymam się jej do końca — cała seria wygląda jak jedna, przemyślana całość.' },
+  { title: 'Zdjęcia w 24 godziny', desc: 'Selekcję i obróbkę robię sprawdzoną metodą, więc gotowy komplet macie następnego dnia.' },
 ];
 ---
 
@@ -28,29 +27,41 @@ const approach = [
       <Hero
         as="h1"
         eyebrow="O mnie"
-        lead="lorem ipsum"
-        title="dolor."
-        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore."
+        lead="cześć, jestem"
+        title="Ada."
+        lede="Fotografuję ludzi i chwile takimi, jakie są — bez reżyserii, za to z uwagą. Stoję za ORA.studio i za obietnicą, że zdjęcia dostajecie następnego dnia."
         image={{ alt: `Placeholder — portret: ${site.owner}`, ratio: '4 / 5' }}
       />
     </section>
 
-    {/* 5.2 — HISTORIA (Text, 2 akapity osobiste) ------------------------ */}
+    {/* 5.2 — HISTORIA (Text, 4 akapity osobiste) ------------------------ */}
     <section class="sec container" aria-labelledby="s-story">
       <p class="eyebrow">Historia</p>
       <h2 id="s-story" class="visually-hidden">Historia — jak zaczęło się ORA.studio</h2>
       <div class="prose">
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat.
+          ORA.studio zaczęło się od mojej własnej frustracji. Po swoim ślubie czekałam na zdjęcia
+          prawie pół roku. Kiedy w końcu przyszły, były piękne — ale emocje tamtego dnia zdążyły już
+          przygasnąć, a częściowo zastąpiły je właśnie te negatywne.
         </p>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-          laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-          beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-          odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+          Bo jedyne zdjęcia z naszego ślubu pokochałam od razu. Rozdaliśmy gościom aparaty — instaxy,
+          żeby przy okazji wpisali się do księgi gości, i jednorazowe kodaki, które potem wywołaliśmy
+          sami. Kiedy parę tygodni później odebraliśmy odbitki, wróciliśmy do tamtych chwil w tym
+          ciepłym, retro klimacie, który grał nam w sercach przez cały dzień. Jestem analogową
+          dziewczyną — kocham ten surowy, prawdziwy look i tęsknię za prostszymi czasami.
+        </p>
+        <p>
+          Tak narodził się pomysł na skondensowany reportaż: mniej pozowania, więcej prawdziwych
+          momentów i komplet zdjęć w 24 godziny — póki wszystko jest jeszcze świeże. Dziś fotografuję
+          w ten sposób zarówno kameralne śluby, jak i wydarzenia firmowe w Trójmieście.
+        </p>
+        <p>
+          Poza fotografią jeżdżę na mnóstwo koncertów, gotuję kuchnie świata i mam w domu psa i kota.
+          Lubię też zajęcia dla głowy — puzzle, sudoku, nonogramy — bo mam w sobie sporo umysłu
+          ścisłego: kocham matematykę, studiowałam ekonomię i pracowałam w marketingu. Ta analityczna
+          strona przydaje się bardziej, niż się wydaje — pomaga mi trzymać terminy, robić rzetelne
+          wyceny i rozmawiać z firmami ich językiem.
         </p>
       </div>
     </section>
@@ -59,12 +70,12 @@ const approach = [
     <section class="sec band-pattern" aria-labelledby="s-philo">
       <div class="container">
         <div class="prose">
-          <h2 id="s-philo">Lorem ipsum dolor sit amet</h2>
+          <h2 id="s-philo">Dokument, nie inscenizacja</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Najbardziej lubię te kadry, których nikt nie zaplanował — przelotne spojrzenie, skryty
+            uśmiech, dłoń na ramieniu. Dlatego pracuję dyskretnie i nie ustawiam ludzi przed obiektywem.
+            Wierzę, że najlepsze zdjęcia powstają wtedy, kiedy o aparacie zdążycie zapomnieć, a moją rolą
+            jest być obok i nacisnąć spust migawki w odpowiednim momencie.
           </p>
         </div>
       </div>
@@ -82,7 +93,7 @@ const approach = [
       <Hero
         compact
         as="h2"
-        title="Lorem ipsum dolor sit amet"
+        title="Chętnie poznam Wasz pomysł"
         primary={{ label: 'Porozmawiajmy', href: '/kontakt' }}
       />
     </section>

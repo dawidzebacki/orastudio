@@ -41,6 +41,8 @@ const year = new Date().getFullYear();
 
   <div class="footer__base container">
     <p class="footer__muted">© {year} {site.brand}</p>
+    {/* Reopen banera cookies — polityka (sekcja 6) odsyła do „ustawień cookies". */}
+    <button class="footer__cookies" type="button" data-cc-open>Ustawienia cookies</button>
   </div>
 </footer>
 
@@ -104,8 +106,29 @@ const year = new Date().getFullYear();
   }
 
   .footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
     padding-block: var(--space-m) var(--space-xl);
     border-top: 1px solid var(--c-ink-15);
     font-size: 0.85rem;
+  }
+  /* „Ustawienia cookies" — przycisk wyglądający jak stonowany link stopki. */
+  .footer__cookies {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: var(--c-ink-70);
+    cursor: pointer;
+    text-underline-offset: 0.2em;
+    transition: color var(--dur) var(--ease);
+  }
+  .footer__cookies:hover {
+    color: var(--c-accent-i);          /* terakota — akcent interaktywny */
+    text-decoration: underline;
   }
 </style>

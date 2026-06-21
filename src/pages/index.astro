@@ -11,38 +11,37 @@ import Gallery from '../components/Gallery.astro';
 import { placeholderImg } from '../utils/placeholder';
 import { site, socials } from '../data/site';
 
-// 2.2 — dwie równorzędne ścieżki (Biznes / Śluby). Tytuły/opisy = lorem (mapa),
-// etykiety linków i cele = realne (mapa 2.2 + site.ts).
+// 2.2 — dwie równorzędne ścieżki (Biznes / Śluby). Treści realne (ORA_tresci).
 const paths = [
   {
-    title: 'Lorem ipsum dolor',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et magna aliqua.',
+    title: 'Wydarzenia i biznes',
+    desc: 'Śniadania, konferencje, kulisy i zdjęcia wizerunkowe. Dyskretny reportaż z firmowego dnia oraz headshoty, które dobrze wyglądają na LinkedIn.',
     href: '/wydarzenia-biznes',
     linkLabel: 'Zobacz ofertę',
   },
   {
-    title: 'Lorem ipsum dolor',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et magna aliqua.',
+    title: 'Śluby',
+    desc: 'Piękne uroczystości bez sztywnej pozy. Trwa nabór par na sezon 2026 w cenie early bird.',
     href: '/sluby',
     linkLabel: 'Early bird 2026',
   },
 ];
 
-// 2.4 — jak pracuję / dowód 24h (3 kroki). III = „Dostawa 24h" (realne, mapa).
+// 2.4 — jak pracuję / dowód 24h (3 kroki). Treści realne (ORA_tresci).
 const steps = [
-  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut.' },
-  { title: 'Lorem ipsum dolor', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut.' },
-  { title: 'Dostawa 24h', desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut.' },
+  { title: 'Ustalamy klimat', desc: 'Przed wydarzeniem wybierasz jeden look. Trzymam się go na wszystkich zdjęciach, więc cała seria jest spójna.' },
+  { title: 'Fotografuję z boku', desc: 'Pracuję dyskretnie, jak cień, małym i cichym aparatem. Nikogo nie ustawiam i nie przerywam — większość osób nawet mnie nie zauważa.' },
+  { title: 'Masz zdjęcia w 24 godziny', desc: 'Obrobiony komplet dostajesz następnego dnia. Bez czekania tygodniami i bez dopłat za pośpiech.' },
 ];
 
-// 2.5 — wybrane kadry (mix neutralny, 6 kadrów). Podpisy „I · Lorem" (mapa).
+// 2.5 — wybrane kadry (mix neutralny, 6 kadrów). Podpisy realne (ORA_tresci).
 const frames = [
-  { numeral: 'I', ratio: '4 / 5', tone: 1 },
-  { numeral: 'II', ratio: '1 / 1', tone: 2 },
-  { numeral: 'III', ratio: '4 / 5', tone: 3 },
-  { numeral: 'IV', ratio: '3 / 4', tone: 2 },
-  { numeral: 'V', ratio: '1 / 1', tone: 1 },
-  { numeral: 'VI', ratio: '4 / 5', tone: 3 },
+  { numeral: 'I', place: 'Sopot', ratio: '4 / 5', tone: 1 },
+  { numeral: 'II', place: 'Konferencja, Gdynia', ratio: '1 / 1', tone: 2 },
+  { numeral: 'III', place: 'Gdańsk', ratio: '4 / 5', tone: 3 },
+  { numeral: 'IV', place: 'Sopot', ratio: '3 / 4', tone: 2 },
+  { numeral: 'V', place: 'Śniadanie biznesowe', ratio: '1 / 1', tone: 1 },
+  { numeral: 'VI', place: 'Gdynia', ratio: '4 / 5', tone: 3 },
 ] as const;
 
 // JSON-LD LocalBusiness (Krok 19 — SEO). Dane realne z site.ts. Bez telefonu i adresu
@@ -74,10 +73,10 @@ const jsonLd = {
     <section class="sec sec--hero container">
       <Hero
         as="h1"
-        eyebrow="Reportaż dokumentalny"
+        eyebrow="Reportaż dokumentalny · Trójmiasto"
         lead="to, co prawdziwe —"
         title="teraz."
-        lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore dolore magna."
+        lede="Fotografuję wydarzenia i śluby w Trójmieście tak, jak wyglądają — bez sztucznych póz i zbędnej reżyserii. Gotowe zdjęcia dostajesz w 24 godziny."
         primary={{ label: 'Wydarzenia i biznes', href: '/wydarzenia-biznes' }}
         secondary={{ label: 'Śluby', href: '/sluby' }}
         image={{ numeral: 'I', place: 'Trójmiasto', alt: 'Placeholder — kadr otwierający', ratio: '4 / 5' }}
@@ -95,12 +94,12 @@ const jsonLd = {
     <section class="sec band-pattern" aria-labelledby="s-manifest">
       <div class="container">
         <div class="prose">
-          <h2 id="s-manifest">Lorem ipsum dolor sit amet</h2>
+          <h2 id="s-manifest">Czym jest skondensowany reportaż</h2>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat.
+            Nie chodzę za Tobą cały dzień z aparatem przy twarzy. Jestem obok, kiedy coś się dzieje, i
+            znikam, kiedy nie. Zamiast setek powtarzalnych zdjęć dostajesz krótszą, mocniejszą serię —
+            te momenty, które faktycznie chcesz pamiętać, w jednym, spójnym klimacie wybranym wcześniej
+            przez Ciebie. Zapomnijmy o niemal identycznych zdjęciach robionych seriami.
           </p>
         </div>
       </div>
@@ -121,10 +120,10 @@ const jsonLd = {
         {frames.map((f) => (
           <Gallery
             numeral={f.numeral}
-            place="Lorem"
+            place={f.place}
             ratio={f.ratio}
             tone={f.tone}
-            src={placeholderImg(f.ratio, `${f.numeral} · Lorem`)}
+            src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
             alt={`Placeholder — wybrany kadr ${f.numeral}`}
           />
         ))}
@@ -139,7 +138,8 @@ const jsonLd = {
       <Hero
         compact
         as="h2"
-        title="Lorem ipsum dolor sit amet"
+        title="Napisz, na czym Ci zależy"
+        lede="Wydarzenie firmowe czy ślub — najlepiej zacząć od krótkiej rozmowy. Odpowiadam zwykle tego samego dnia."
         primary={{ label: 'Napisz do mnie', href: '/kontakt' }}
       />
     </section>
