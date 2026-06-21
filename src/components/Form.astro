@@ -66,7 +66,6 @@ const resolvedAction = action ?? (isNetlify ? '/dziekujemy/' : '#');
   name={name}
   action={resolvedAction}
   method={method}
-  novalidate
   {...(isNetlify ? { 'data-netlify': 'true', 'data-netlify-honeypot': 'bot-field' } : {})}
 >
   {/* Netlify Forms: ukryte form-name (musi == name) + honeypot anty-spam (bot-field).
@@ -213,6 +212,16 @@ const resolvedAction = action ?? (isNetlify ? '/dziekujemy/' : '#');
   .form__control:focus-visible {
     border-color: var(--c-ink);
     outline: 2px solid var(--c-amber);
+    outline-offset: 2px;
+  }
+  /* Walidacja: natywny HTML5 (required, type=email, wymagana zgoda RODO) — bez JS.
+     :user-invalid = podświetlenie DOPIERO po interakcji (nie straszy pustymi polami
+     od razu). Terakota = brandowy kolor błędu/akcji. */
+  .form__control:user-invalid {
+    border-color: var(--c-accent-i);
+  }
+  .form__check:user-invalid {
+    outline: 2px solid var(--c-accent-i);
     outline-offset: 2px;
   }
   textarea.form__control {
