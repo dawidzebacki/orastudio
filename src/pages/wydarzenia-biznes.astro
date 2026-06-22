@@ -13,19 +13,23 @@ import Faq from '../components/Faq.astro';
 import Form from '../components/Form.astro';
 import { placeholderImg } from '../utils/placeholder';
 
+// Ramki na zdjęcia (Hero + galeria) = na razie NIEWIDOCZNE — decyzja Ady (Krok 23).
+// Przełącz na `true` (lub usuń bramki), gdy wejdą realne kadry.
+const showFrames = false;
+
 // 3.2 — co fotografuję (4 karty). Treści realne (ORA_tresci).
 const shoots = [
   { title: 'Śniadania i networking', desc: 'Kuluary, rozmowy, uściski dłoni. Łapię energię spotkania, a nie tylko sztywne ustawki przy roll-upie.' },
   { title: 'Konferencje i eventy', desc: 'Prelegenci, sala, reakcje publiczności. Pełny reportaż z dnia, z którego zrobisz relację i materiały na później.' },
   { title: 'Backstage i kulisy', desc: 'To, co dzieje się za sceną i między oficjalnymi punktami. Często stąd biorą się najciekawsze kadry całego wydarzenia.' },
-  { title: 'Wizerunkowe i headshoty', desc: 'Naturalne portrety zespołu na stronę i LinkedIn. Bez plastikowego studia — w Waszym otoczeniu, przy normalnym świetle.' },
+  { title: 'Wizerunkowe i headshoty', desc: 'Naturalne portrety zespołu na stronę i LinkedIn. Bez plastikowego studia - w Waszym otoczeniu, przy normalnym świetle.' },
 ];
 
 // 3.3 — jak to działa (3 kroki). Treści realne (ORA_tresci). III = „Dostawa 24h".
 const steps = [
   { title: 'Ustalenia', desc: 'Mówisz mi, co i kiedy się dzieje oraz do czego potrzebujesz zdjęć. Ustalamy zakres, prawa do publikacji i klimat materiału.' },
-  { title: 'Dyskretny dokument', desc: 'Pracuję cicho i nie przerywam programu. Lampa wchodzi tylko tam, gdzie naprawdę trzeba — np. do zdjęcia grupowego.' },
-  { title: 'Dostawa 24h', desc: 'Wyselekcjonowane, najlepsze zdjęcia masz następnego dnia. Gotowe na social media czy stronę firmy.' },
+  { title: 'Dyskretny dokument', desc: 'Pracuję cicho i nie przerywam programu. Lampa wchodzi tylko tam, gdzie naprawdę trzeba - np. do zdjęcia grupowego.' },
+  { title: 'Dostawa 24h', desc: 'Wyselekcjonowane, najlepsze zdjęcia masz następnego dnia. Gotowe na social media, czy stronę firmy.' },
 ];
 
 // 3.5 — galeria biznes (6 kadrów). Podpisy realne (ORA_tresci), tonacje/proporcje mieszane.
@@ -47,10 +51,10 @@ const factors = [
 
 // 3.7 — FAQ mini (4 pytania). Treści realne (ORA_tresci): dostawa · dyskrecja · RODO · zasięg.
 const faq = [
-  { q: 'Jak szybko dostanę zdjęcia z wydarzenia?', a: 'Standardowo następnego dnia — obrobiony komplet w 24 godziny od eventu. Jeśli kilka kadrów potrzebujesz jeszcze tego samego dnia, np. na relację na żywo, uprzedź mnie wcześniej.' },
+  { q: 'Jak szybko dostanę zdjęcia z wydarzenia?', a: 'Standardowo następnego dnia - obrobiony komplet w 24 godziny od eventu. Jeśli kilka kadrów potrzebujesz jeszcze tego samego dnia, np. na relację na żywo, uprzedź mnie wcześniej.' },
   { q: 'Czy fotografujesz dyskretnie, żeby nie zakłócać spotkania?', a: 'Tak, to podstawa mojego stylu. Pracuję małym, cichym aparatem, najczęściej na świetle zastanym. Większość uczestników nawet nie zauważa, że robię zdjęcia.' },
   { q: 'Jak wygląda kwestia RODO i zgód uczestników?', a: 'Przy wydarzeniach z rozpoznawalnymi osobami organizator powinien uprzedzić uczestników, że obecny będzie fotograf, i mieć podstawę do publikacji wizerunku. Zakres zdjęć i prawa do nich ustalamy na początku, najlepiej mailem.' },
-  { q: 'Czy fotografujesz poza Trójmiastem?', a: 'Tak. Bazuję w Trójmieście — Gdańsk, Gdynia, Sopot — i dojeżdżam w promieniu około 50 km. Dalsze lokalizacje do uzgodnienia.' },
+  { q: 'Czy fotografujesz poza Trójmiastem?', a: 'Tak. Bazuję w Trójmieście - Gdańsk, Gdynia, Sopot - i dojeżdżam w promieniu około 50 km. Dalsze lokalizacje do uzgodnienia.' },
 ];
 
 // 3.8 — pola formularza brief (imię/firma · e-mail · typ + data wydarzenia · wiadomość).
@@ -65,8 +69,9 @@ const briefFields = [
 ---
 
 <BaseLayout
-  title="Fotograf eventowy — wydarzenia i biznes"
-  description="Reportaż z konferencji, eventów firmowych i backstage'u oraz zdjęcia wizerunkowe w Trójmieście. Gotowe, obrobione kadry w 24 godziny."
+  title="Fotograf eventowy i wizerunkowy w Trójmieście - reportaż z firmowych wydarzeń | ORA.studio"
+  rawTitle
+  description="Reportaż z konferencji, śniadań biznesowych i eventów firmowych w Gdańsku, Gdyni, Sopocie i okolicach. Zdjęcia wizerunkowe, backstage i headshoty. Gotowy materiał w 24 godziny."
   path="/wydarzenia-biznes"
 >
   <main>
@@ -76,11 +81,11 @@ const briefFields = [
         as="h1"
         eyebrow="Wydarzenia · Biznes"
         lead="wasz dzień,"
-        title="udokumentowany."
-        lede="Reportaż z konferencji, śniadania biznesowego czy firmowego eventu w Trójmieście — a do tego zdjęcia wizerunkowe i headshoty. Materiał gotowy do publikacji w 24 godziny."
+        title="uchwycony."
+        lede="Reportaż z konferencji, śniadania biznesowego czy firmowego eventu w Trójmieście - a do tego zdjęcia wizerunkowe i headshoty. Materiał gotowy do publikacji w 24 godziny."
         primary={{ label: 'Zapytaj o wycenę', href: '#brief' }}
-        secondary={{ label: 'Zobacz kadry', href: '#galeria' }}
-        image={{ numeral: 'I', place: 'Konferencja', alt: 'Placeholder — kadr otwierający z wydarzenia', ratio: '4 / 5' }}
+        secondary={showFrames ? { label: 'Zobacz kadry', href: '#galeria' } : undefined}
+        image={showFrames ? { numeral: 'I', place: 'Konferencja', alt: 'Placeholder — kadr otwierający z wydarzenia', ratio: '4 / 5' } : undefined}
       />
     </section>
 
@@ -105,35 +110,38 @@ const briefFields = [
           <h2 id="s-why">Dlaczego reportaż, a nie ustawiane zdjęcia</h2>
           <p>
             Ustawiane zdjęcia z eventu widać od razu: wymuszony uśmiech, wszyscy patrzą w obiektyw,
-            niewiele się dzieje. Reportaż pokazuje, jak naprawdę wyglądało Wasze spotkanie — skupienie
+            niewiele się dzieje. Reportaż pokazuje, jak naprawdę wyglądało Wasze spotkanie - skupienie
             na prelekcji, rozmowy przy kawie, uśmiech, nawiązywanie więzi. Takie zdjęcia lepiej budują
             wizerunek firmy i przedsiębiorców, bo wyglądają na prawdziwe. I takie są. Staram się pracować
-            na świetle zastanym i z boku — ludzie się nie denerwują, a ich emocje są szczere.
+            na świetle zastanym i z boku, ludzie się nie denerwują, a ich emocje są szczere.
           </p>
         </div>
       </div>
     </section>
 
-    {/* 3.5 — GALERIA BIZNES (Gallery, 6) -------------------------------- */}
-    <section id="galeria" class="sec container" aria-labelledby="s-frames">
-      <p class="eyebrow">Galeria biznes</p>
-      <h2 id="s-frames" class="visually-hidden">Wybrane kadry z wydarzeń i sesji wizerunkowych</h2>
-      <div class="frames">
-        {frames.map((f) => (
-          <Gallery
-            numeral={f.numeral}
-            place={f.place}
-            ratio={f.ratio}
-            tone={f.tone}
-            src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
-            alt={`Placeholder — kadr biznesowy ${f.numeral}`}
-          />
-        ))}
-      </div>
-      <div class="frames__more">
-        <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
-      </div>
-    </section>
+    {/* 3.5 — GALERIA BIZNES (Gallery, 6) — UKRYTA do czasu realnych zdjęć
+        (Krok 23, showFrames). Wraz z sekcją znika CTA „Zobacz realizacje". */}
+    {showFrames && (
+      <section id="galeria" class="sec container" aria-labelledby="s-frames">
+        <p class="eyebrow">Galeria biznes</p>
+        <h2 id="s-frames" class="visually-hidden">Wybrane kadry z wydarzeń i sesji wizerunkowych</h2>
+        <div class="frames">
+          {frames.map((f) => (
+            <Gallery
+              numeral={f.numeral}
+              place={f.place}
+              ratio={f.ratio}
+              tone={f.tone}
+              src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
+              alt={`Placeholder — kadr biznesowy ${f.numeral}`}
+            />
+          ))}
+        </div>
+        <div class="frames__more">
+          <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
+        </div>
+      </section>
+    )}
 
     {/* 3.6 — WYCENA (Text + 3 punkty + CTA) ----------------------------- */}
     <section class="sec container" aria-labelledby="s-pricing">
@@ -141,8 +149,8 @@ const briefFields = [
         <h2 id="s-pricing">Wycena</h2>
         <p>
           Każde wydarzenie jest inne, więc nie ma jednej, uniwersalnej ceny. Wycenę przygotowuję po
-          krótkiej rozmowie — liczy się długość i charakter wydarzenia, liczba zdjęć oraz to, czy
-          potrzebujesz także headshotów. Fakturę wystawiam przez Useme, więc rozliczenie jest proste
+          krótkiej rozmowie - liczy się długość i charakter wydarzenia, liczba zdjęć oraz to, czy
+          potrzebujesz także headshotów. Fakturę wystawiam przez use.me, więc rozliczenie jest proste
           również dla firmy.
         </p>
         <ul class="factors" role="list">

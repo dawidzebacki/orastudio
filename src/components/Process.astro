@@ -49,9 +49,11 @@ const { steps, class: className = '' } = Astro.props;
     border-top: 1px solid var(--c-ink-15);
   }
 
+  /* Numer = ten sam rozmiar co w Cards (--fs-h2) — spójność, gdy sekcje Process
+     i Cards sąsiadują (np. /sluby: karty early bird tuż nad „Jak to działa"). */
   .process__num {
-    font-size: var(--fs-h1);
-    line-height: 0.9;
+    font-size: var(--fs-h2);
+    line-height: 1;
     color: var(--c-amber);          /* bursztyn — akcent sygnaturowy (60/30/10) */
   }
 

@@ -36,7 +36,10 @@ export const nav: { label: string; href: string; priority: 'P1' | 'P2' }[] = [
   { label: 'Wydarzenia / Biznes', href: '/wydarzenia-biznes', priority: 'P1' },
   { label: 'Śluby', href: '/sluby', priority: 'P1' },        // strona żyje od Kroku 10 (P2-roadmap, ale linkujemy)
   { label: 'O mnie', href: '/o-mnie', priority: 'P1' },      // strona żyje od Kroku 11 (P2-roadmap, ale linkujemy)
-  { label: 'Realizacje', href: '/realizacje', priority: 'P1' },     // strona żyje od Kroku 12 (P2-roadmap, ale linkujemy)
+  // Realizacje — UKRYTE z menu na życzenie Ady (Krok 23): strona /realizacje wciąż
+  // żyje (route + [slug]), ale dopóki nie ma realnych zdjęć nie linkujemy jej w
+  // nav/stopce. Odkomentuj, gdy portfolio dostanie prawdziwe kadry.
+  // { label: 'Realizacje', href: '/realizacje', priority: 'P1' },
   { label: 'FAQ', href: '/faq', priority: 'P1' },                   // strona żyje od Kroku 13 (P2-roadmap, ale linkujemy)
   { label: 'Kontakt', href: '/kontakt', priority: 'P1' },
   { label: 'Polityka prywatności', href: '/polityka-prywatnosci', priority: 'P1' },

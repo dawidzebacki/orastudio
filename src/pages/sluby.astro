@@ -14,6 +14,10 @@ import Faq from '../components/Faq.astro';
 import Form from '../components/Form.astro';
 import { placeholderImg } from '../utils/placeholder';
 
+// Ramki na zdjęcia (Hero, LookSwitcher, galeria) = na razie NIEWIDOCZNE — decyzja
+// Ady (Krok 23). Przełącz na `true` (lub usuń bramki), gdy wejdą realne kadry.
+const showFrames = false;
+
 // 4.2 — „co zawiera" early bird (3 punkty). Treści realne (ORA_tresci). Numeracja rzymska.
 const includes = [
   { title: 'Pełny reportaż, nie skrót', desc: 'Wasz ślub fotografuję tak samo uważnie jak każdy inny. Early bird dotyczy wyłącznie ceny, nie zaangażowania.' },
@@ -24,7 +28,7 @@ const includes = [
 // 4.3 — jak to działa (3 kroki). Treści realne (ORA_tresci). III = „Dostawa 24h".
 const steps = [
   { title: 'Wybór looku', desc: 'Przed ślubem podczas godzinnych konsultacji wybieracie jeden klimat zdjęć. Trzymam się go na całej serii, więc album jest spójny.' },
-  { title: 'Reportaż (3h)', desc: 'W umówionym czasie jestem obok i dokumentuję najważniejsze chwile — przygotowania, ceremonię, pierwsze emocje. Dyskretnie, bez ustawiania.' },
+  { title: 'Reportaż (3h)', desc: 'W umówionym czasie jestem obok i dokumentuję najważniejsze chwile - przygotowania, ceremonię, pierwsze emocje. Dyskretnie, bez ustawiania.' },
   { title: 'Dostawa 24h', desc: 'Obrobiony komplet macie następnego dnia. Bez czekania miesiącami, kiedy wspomnienia zdążą już wyblaknąć.' },
 ];
 
@@ -38,12 +42,12 @@ const frames = [
   { numeral: 'VI', place: 'Nina & Wojciech', ratio: '3 / 2', tone: 3 },
 ] as const;
 
-// 4.7 — FAQ mini (4 pytania). Treści realne (ORA_tresci): early bird · zakres 3h · kadry we dwoje · skondensowany vs całodniowy.
+// 4.7 — FAQ mini (4 pytania). Treści realne (ORA_copy_calosc, sekcja Śluby).
 const faq = [
+  { q: 'Czy fotografujesz śluby cywilne i humanistyczne?', a: 'Tak, jak najbardziej. Kameralne śluby cywilne i humanistyczne świetnie pasują do dokumentalnego stylu - jest w nich dużo naturalnych, spontanicznych chwil.' },
   { q: 'Na czym polega oferta early bird?', a: 'Kompletuję portfolio, więc kilka par z sezonu 2026 fotografuję w symbolicznej cenie w zamian za zgodę na pokazanie wybranych kadrów. Reportaż i dostawa w 24 godziny są dokładnie takie same jak w ofercie standardowej.' },
-  { q: 'Co obejmują te trzy godziny reportażu?', a: 'Najważniejszy fragment dnia: zwykle przygotowania, ceremonię i pierwsze chwile po niej. Jeśli potrzebujecie dłuższej obecności, większy zakres ustalimy indywidualnie podczas konsultacji.' },
-  { q: 'Czy zrobisz też kilka wspólnych kadrów nas dwojga?', a: 'Tak. Pracuję dokumentalnie, ale prawie zawsze znajdziemy chwilę na kilka spokojnych zdjęć tylko we dwoje — bez sztywnego pozowania, po prostu Wy.' },
-  { q: 'Czym skondensowany reportaż różni się od całodniowego?', a: 'Stawiam na esencję zamiast ośmiu godzin z aparatem przy twarzy. Dostajecie krótszą, ale mocniejszą serię najlepszych momentów — w jednym spójnym klimacie i w 24 godziny.' },
+  { q: 'Kiedy dostaniemy zdjęcia ze ślubu?', a: 'Najpóźniej następnego dnia. Obrobiony komplet wysyłam do 24 godzin, żebyście mogli wrócić do tych chwil, zanim emocje opadną.' },
+  { q: 'Czy dojeżdżasz poza Trójmiasto?', a: 'Tak. Bazuję w Gdańsku, Gdyni i Sopocie, a na śluby dojeżdżam w promieniu około 50 km. Jeśli miejsce leży dalej - napiszcie, zwykle da się to ustalić.' },
 ];
 
 // 4.8 — pola formularza rezerwacji (imię · e-mail · data ślubu · miejsce · wiadomość).
@@ -69,10 +73,10 @@ const bookingFields = [
         eyebrow="Reportaż ślubny · Trójmiasto"
         lead="te prawdziwe"
         title="chwile."
-        lede="Fotografuję śluby w Trójmieście tak, jak je przeżywacie — bez pozowania godzinami, sztywnych póz i nienaturalnych uśmiechów. Komplet zdjęć dostajecie następnego dnia, kiedy emocje są jeszcze świeże."
-        primary={{ label: 'Zapisz się — early bird', href: '#zapis' }}
-        secondary={{ label: 'Zobacz galerie', href: '#galeria' }}
-        image={{ numeral: 'I', place: 'Sopot', alt: 'Placeholder — kadr otwierający ze ślubu', ratio: '4 / 5' }}
+        lede="Fotografuję śluby w Trójmieście tak, jak je przeżywacie - bez pozowania godzinami, sztywnych póz i nienaturalnych uśmiechów. Komplet zdjęć dostajecie następnego dnia, kiedy emocje są jeszcze świeże."
+        primary={{ label: 'Zapisz się - early bird', href: '#zapis' }}
+        secondary={showFrames ? { label: 'Zobacz galerie', href: '#galeria' } : undefined}
+        image={showFrames ? { numeral: 'I', place: 'Sopot', alt: 'Placeholder — kadr otwierający ze ślubu', ratio: '4 / 5' } : undefined}
       />
     </section>
 
@@ -104,39 +108,46 @@ const bookingFields = [
       <Process steps={steps} class="sec__process" />
     </section>
 
-    {/* 4.4 — JEDEN LOOK (LookSwitcher) ---------------------------------- */}
-    <section class="sec container" aria-labelledby="s-look">
-      <p class="eyebrow">Jeden look</p>
-      <h2 id="s-look" class="visually-hidden">Jeden ślub, jeden klimat — wybór tonacji</h2>
-      <LookSwitcher
-        heading="Jeden ślub, jeden klimat"
-        lede="Zamiast mieszać style, wybieracie jeden klimat jeszcze przed ślubem. Dzięki temu wszystkie zdjęcia grają razem — jak jeden, przemyślany album, a nie przypadkowy zbiór kadrów. Podejrzyjcie, jak ten sam moment wygląda w każdej z tonacji."
-        alt="Placeholder — kadr ślubny w wybranej tonacji"
-        name="sluby-look"
-        tone={2}
-      />
-    </section>
+    {/* 4.4 — JEDEN LOOK (LookSwitcher) — UKRYTY do czasu realnych zdjęć
+        (Krok 23, showFrames): cały komponent to demo kadru-placeholdera w 3 tonacjach.
+        Treść (lede) zaktualizowana wg copy Ady — wróci, gdy wejdą prawdziwe kadry. */}
+    {showFrames && (
+      <section class="sec container" aria-labelledby="s-look">
+        <p class="eyebrow">Jeden look</p>
+        <h2 id="s-look" class="visually-hidden">Jeden ślub, jeden klimat — wybór tonacji</h2>
+        <LookSwitcher
+          heading="Jeden ślub, jeden klimat"
+          lede="Zamiast mieszać style, wybieracie jeden klimat jeszcze przed ślubem. Dzięki temu wszystkie zdjęcia grają razem - jak jeden, przemyślany album, a nie przypadkowy zbiór kadrów. Podejrzyjcie, jak ten sam moment wygląda w każdej z tonacji."
+          alt="Placeholder — kadr ślubny w wybranej tonacji"
+          name="sluby-look"
+          tone={2}
+        />
+      </section>
+    )}
 
-    {/* 4.5 — GALERIA ŚLUBY (Gallery, 6) --------------------------------- */}
-    <section id="galeria" class="sec container" aria-labelledby="s-frames">
-      <p class="eyebrow">Galeria</p>
-      <h2 id="s-frames" class="visually-hidden">Wybrane kadry ze ślubów</h2>
-      <div class="frames">
-        {frames.map((f) => (
-          <Gallery
-            numeral={f.numeral}
-            place={f.place}
-            ratio={f.ratio}
-            tone={f.tone}
-            src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
-            alt={`Placeholder — kadr ślubny ${f.numeral}`}
-          />
-        ))}
-      </div>
-      <div class="frames__more">
-        <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
-      </div>
-    </section>
+    {/* 4.5 — GALERIA ŚLUBY (Gallery, 6) — UKRYTA do czasu realnych zdjęć
+        (Krok 23, showFrames). Wraz z sekcją znika CTA „Zobacz realizacje". */}
+    {showFrames && (
+      <section id="galeria" class="sec container" aria-labelledby="s-frames">
+        <p class="eyebrow">Galeria</p>
+        <h2 id="s-frames" class="visually-hidden">Wybrane kadry ze ślubów</h2>
+        <div class="frames">
+          {frames.map((f) => (
+            <Gallery
+              numeral={f.numeral}
+              place={f.place}
+              ratio={f.ratio}
+              tone={f.tone}
+              src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
+              alt={`Placeholder — kadr ślubny ${f.numeral}`}
+            />
+          ))}
+        </div>
+        <div class="frames__more">
+          <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
+        </div>
+      </section>
+    )}
 
     {/* 4.7 — FAQ MINI (Faq, 4) ------------------------------------------ */}
     <section class="sec container" aria-labelledby="s-faq">

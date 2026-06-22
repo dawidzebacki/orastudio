@@ -11,6 +11,11 @@ import Gallery from '../components/Gallery.astro';
 import { placeholderImg } from '../utils/placeholder';
 import { site, socials } from '../data/site';
 
+// Ramki na zdjęcia (Hero + galeria) = na razie NIEWIDOCZNE — decyzja Ady (Krok 23):
+// dopóki nie ma realnych kadrów, nie pokazujemy placeholderów. Flaga w jednym
+// miejscu → przełącz na `true` (lub usuń bramki), gdy wejdą prawdziwe zdjęcia.
+const showFrames = false;
+
 // 2.2 — dwie równorzędne ścieżki (Biznes / Śluby). Treści realne (ORA_tresci).
 const paths = [
   {
@@ -30,7 +35,7 @@ const paths = [
 // 2.4 — jak pracuję / dowód 24h (3 kroki). Treści realne (ORA_tresci).
 const steps = [
   { title: 'Ustalamy klimat', desc: 'Przed wydarzeniem wybierasz jeden look. Trzymam się go na wszystkich zdjęciach, więc cała seria jest spójna.' },
-  { title: 'Fotografuję z boku', desc: 'Pracuję dyskretnie, jak cień, małym i cichym aparatem. Nikogo nie ustawiam i nie przerywam — większość osób nawet mnie nie zauważa.' },
+  { title: 'Fotografuję z boku', desc: 'Pracuję dyskretnie, jak cień, małym i cichym aparatem. Nikogo nie ustawiam i nie przerywam - większość osób nawet mnie nie zauważa.' },
   { title: 'Masz zdjęcia w 24 godziny', desc: 'Obrobiony komplet dostajesz następnego dnia. Bez czekania tygodniami i bez dopłat za pośpiech.' },
 ];
 
@@ -63,8 +68,9 @@ const jsonLd = {
 ---
 
 <BaseLayout
-  title="Skondensowany reportaż dokumentalny"
-  description="ORA.studio — skondensowany reportaż dokumentalny w Trójmieście. Wydarzenia, biznes i kameralne uroczystości. Gotowe, obrobione zdjęcia w 24 godziny."
+  title="ORA.studio - reportaż dokumentalny: wydarzenia i śluby | Trójmiasto"
+  rawTitle
+  description="Dokumentalna fotografia wydarzeń, eventów firmowych i kameralnych ślubów w Trójmieście. Naturalne kadry bez pozowania, gotowe zdjęcia w 24 godziny."
   path="/"
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
@@ -74,12 +80,12 @@ const jsonLd = {
       <Hero
         as="h1"
         eyebrow="Reportaż dokumentalny · Trójmiasto"
-        lead="to, co prawdziwe —"
+        lead="to, co prawdziwe -"
         title="teraz."
-        lede="Fotografuję wydarzenia i śluby w Trójmieście tak, jak wyglądają — bez sztucznych póz i zbędnej reżyserii. Gotowe zdjęcia dostajesz w 24 godziny."
+        lede="Fotografuję wydarzenia i śluby w Trójmieście tak, jak wyglądają - bez sztucznych póz i zbędnej reżyserii. Gotowe zdjęcia dostajesz w 24 godziny."
         primary={{ label: 'Wydarzenia i biznes', href: '/wydarzenia-biznes' }}
         secondary={{ label: 'Śluby', href: '/sluby' }}
-        image={{ numeral: 'I', place: 'Trójmiasto', alt: 'Placeholder — kadr otwierający', ratio: '4 / 5' }}
+        image={showFrames ? { numeral: 'I', place: 'Trójmiasto', alt: 'Placeholder — kadr otwierający', ratio: '4 / 5' } : undefined}
       />
     </section>
 
@@ -97,7 +103,7 @@ const jsonLd = {
           <h2 id="s-manifest">Czym jest skondensowany reportaż</h2>
           <p>
             Nie chodzę za Tobą cały dzień z aparatem przy twarzy. Jestem obok, kiedy coś się dzieje, i
-            znikam, kiedy nie. Zamiast setek powtarzalnych zdjęć dostajesz krótszą, mocniejszą serię —
+            znikam, kiedy nie. Zamiast setek powtarzalnych zdjęć dostajesz krótszą, mocniejszą serię -
             te momenty, które faktycznie chcesz pamiętać, w jednym, spójnym klimacie wybranym wcześniej
             przez Ciebie. Zapomnijmy o niemal identycznych zdjęciach robionych seriami.
           </p>
@@ -112,26 +118,29 @@ const jsonLd = {
       <Process steps={steps} class="sec__process" />
     </section>
 
-    {/* 2.5 — WYBRANE KADRY (Gallery, 6 kadrów) ----------------------- */}
-    <section class="sec container" aria-labelledby="s-frames">
-      <p class="eyebrow">Wybrane kadry</p>
-      <h2 id="s-frames" class="visually-hidden">Wybrane kadry</h2>
-      <div class="frames">
-        {frames.map((f) => (
-          <Gallery
-            numeral={f.numeral}
-            place={f.place}
-            ratio={f.ratio}
-            tone={f.tone}
-            src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
-            alt={`Placeholder — wybrany kadr ${f.numeral}`}
-          />
-        ))}
-      </div>
-      <div class="frames__more">
-        <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
-      </div>
-    </section>
+    {/* 2.5 — WYBRANE KADRY (Gallery, 6 kadrów) — UKRYTE do czasu realnych zdjęć
+        (Krok 23, showFrames). Wraz z sekcją znika CTA „Zobacz realizacje". */}
+    {showFrames && (
+      <section class="sec container" aria-labelledby="s-frames">
+        <p class="eyebrow">Wybrane kadry</p>
+        <h2 id="s-frames" class="visually-hidden">Wybrane kadry</h2>
+        <div class="frames">
+          {frames.map((f) => (
+            <Gallery
+              numeral={f.numeral}
+              place={f.place}
+              ratio={f.ratio}
+              tone={f.tone}
+              src={placeholderImg(f.ratio, `${f.numeral} · ${f.place}`)}
+              alt={`Placeholder — wybrany kadr ${f.numeral}`}
+            />
+          ))}
+        </div>
+        <div class="frames__more">
+          <a class="btn btn--ghost" href="/realizacje">Zobacz realizacje</a>
+        </div>
+      </section>
+    )}
 
     {/* 2.6 — CTA STOPKOWY (Hero, wariant zwięzły) — krem (przed stopką) */}
     <section class="sec sec--cta container">
@@ -139,7 +148,7 @@ const jsonLd = {
         compact
         as="h2"
         title="Napisz, na czym Ci zależy"
-        lede="Wydarzenie firmowe czy ślub — najlepiej zacząć od krótkiej rozmowy. Odpowiadam zwykle tego samego dnia."
+        lede="Wydarzenie firmowe czy ślub - najlepiej zacząć od krótkiej rozmowy. Odpowiadam zwykle tego samego dnia."
         primary={{ label: 'Napisz do mnie', href: '/kontakt' }}
       />
     </section>

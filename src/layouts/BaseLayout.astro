@@ -29,6 +29,9 @@ interface Props {
   image?: string;
   /** Wyłącz indeksowanie tej strony (np. /dziekujemy). */
   noindex?: boolean;
+  /** Tytuł GOTOWY (SEO) — layout NIE dokleja „— ORA.studio". Używaj, gdy Ada
+      dostarcza pełny, ręcznie ułożony <title> z własnym formatem (np. „… | Trójmiasto”). */
+  rawTitle?: boolean;
 }
 
 const {
@@ -37,11 +40,12 @@ const {
   path = '/',
   image = '/og/og-default.png',
   noindex = false,
+  rawTitle = false,
 } = Astro.props;
 
 const canonical = new URL(path, site.url).href;
 const ogImage = new URL(image, site.url).href;   // OG wymaga absolutnego URL
-const fullTitle = title === site.brand ? title : `${title} — ${site.brand}`;
+const fullTitle = rawTitle || title === site.brand ? title : `${title} — ${site.brand}`;
 ---
 
 <!doctype html>
