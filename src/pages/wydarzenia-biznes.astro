@@ -12,10 +12,11 @@ import Gallery from '../components/Gallery.astro';
 import Faq from '../components/Faq.astro';
 import Form from '../components/Form.astro';
 import { placeholderImg } from '../utils/placeholder';
+import { features } from '../data/site';
 
 // Ramki na zdjęcia (Hero + galeria) = na razie NIEWIDOCZNE — decyzja Ady (Krok 23).
-// Przełącz na `true` (lub usuń bramki), gdy wejdą realne kadry.
-const showFrames = false;
+// Centralna flaga w site.ts → przełącz `features.showFrames`, gdy wejdą realne kadry.
+const { showFrames } = features;
 
 // 3.2 — co fotografuję (4 karty). Treści realne (ORA_tresci).
 const shoots = [

@@ -13,10 +13,11 @@ import Gallery from '../components/Gallery.astro';
 import Faq from '../components/Faq.astro';
 import Form from '../components/Form.astro';
 import { placeholderImg } from '../utils/placeholder';
+import { features } from '../data/site';
 
 // Ramki na zdjęcia (Hero, LookSwitcher, galeria) = na razie NIEWIDOCZNE — decyzja
-// Ady (Krok 23). Przełącz na `true` (lub usuń bramki), gdy wejdą realne kadry.
-const showFrames = false;
+// Ady (Krok 23). Centralna flaga w site.ts → przełącz `features.showFrames`.
+const { showFrames } = features;
 
 // 4.2 — „co zawiera" early bird (3 punkty). Treści realne (ORA_tresci). Numeracja rzymska.
 const includes = [

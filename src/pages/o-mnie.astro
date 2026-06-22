@@ -6,11 +6,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Cards from '../components/Cards.astro';
-import { site } from '../data/site';
+import { site, features } from '../data/site';
 
 // Ramka portretu (Hero) = na razie NIEWIDOCZNA — decyzja Ady (Krok 23).
-// Przełącz na `true`, gdy wejdzie realne zdjęcie.
-const showFrames = false;
+// Centralna flaga w site.ts → przełącz `features.showFrames`, gdy wejdzie zdjęcie.
+const { showFrames } = features;
 
 // 5.4 — podejście / sprzęt (3 krótkie karty). Treści realne (ORA_tresci). Numeracja rzymska.
 const approach = [

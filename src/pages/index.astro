@@ -9,12 +9,12 @@ import Cards from '../components/Cards.astro';
 import Process from '../components/Process.astro';
 import Gallery from '../components/Gallery.astro';
 import { placeholderImg } from '../utils/placeholder';
-import { site, socials } from '../data/site';
+import { site, socials, features } from '../data/site';
 
 // Ramki na zdjęcia (Hero + galeria) = na razie NIEWIDOCZNE — decyzja Ady (Krok 23):
-// dopóki nie ma realnych kadrów, nie pokazujemy placeholderów. Flaga w jednym
-// miejscu → przełącz na `true` (lub usuń bramki), gdy wejdą prawdziwe zdjęcia.
-const showFrames = false;
+// dopóki nie ma realnych kadrów, nie pokazujemy placeholderów. Centralna flaga
+// w site.ts → przełącz tam `features.showFrames`, gdy wejdą prawdziwe zdjęcia.
+const { showFrames } = features;
 
 // 2.2 — dwie równorzędne ścieżki (Biznes / Śluby). Treści realne (ORA_tresci).
 const paths = [

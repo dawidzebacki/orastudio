@@ -22,6 +22,14 @@ export const site = {
   areaShort: 'Trójmiasto + ~50 km',
 } as const;
 
+// Flagi funkcji (jedno źródło prawdy). `showFrames` = czy renderować ramki-
+// placeholdery na zdjęcia (Hero, galerie ofertowe, portret /o-mnie, LookSwitcher).
+// false do czasu realnych zdjęć — decyzja Ady, Krok 23. JEDEN przełącznik dla
+// wszystkich podstron: ustaw `true`, gdy wejdą prawdziwe kadry.
+export const features = {
+  showFrames: false,
+} as const;
+
 // Profile społecznościowe — jedno źródło prawdy dla ikon w stopce (komponent
 // SocialLinks). Renderujemy tylko wpisy z uzupełnionym `href`. TikTok dojdzie
 // (decyzja Ady) — wystarczy odkomentować i wkleić link, ikona już jest.

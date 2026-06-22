@@ -11,9 +11,11 @@ import CookieConsent from '../components/CookieConsent.astro';
 // display) + Outfit (body). UWAGA RODO: display Quincy CF ładuje się z Adobe Typekit
 // (use.typekit.net niżej) = ZEWNĘTRZNE żądanie / transfer IP klienta — uwzględnić w
 // polityce prywatności przy finalnej weryfikacji RODO.
-// Fraunces Variable: oś wght + opsz (didone, wysoki kontrast) + italic do hero.
-import '@fontsource-variable/fraunces/standard.css';
-import '@fontsource-variable/fraunces/standard-italic.css';
+// Fraunces Variable: oś wght (+ italic do hero). To TYLKO fallback pod Quincy CF —
+// woff2 pobiera się dopiero, gdy Quincy z Adobe nie wejdzie. Bierzemy wariant osi
+// `wght` zamiast `standard` (= rezygnacja z osi opsz w fallbacku) → plik ~2× mniejszy.
+import '@fontsource-variable/fraunces/wght.css';
+import '@fontsource-variable/fraunces/wght-italic.css';
 // Outfit Variable: body grotesk (decyzja klientki — zamiast Neue Haas).
 import '@fontsource-variable/outfit/wght.css';
 

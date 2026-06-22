@@ -2,5 +2,7 @@ User-agent: *
 Allow: /
 # Poligon komponentów — nie indeksować.
 Disallow: /styleguide
+# Portfolio zaparkowane (treść-zaślepka) — odsłonić po wejściu realnych zdjęć.
+Disallow: /realizacje
 
 Sitemap: https://orastudio.art/sitemap-index.xml

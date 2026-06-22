@@ -7,10 +7,15 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://orastudio.art',
   // @astrojs/sitemap = jedyna integracja (build-time, generuje statyczny sitemap-index.xml).
-  // Wykluczamy poligon /styleguide i stronę podziękowania /dziekujemy (noindex).
+  // Wykluczamy: poligon /styleguide, stronę podziękowania /dziekujemy (noindex) oraz
+  // /realizacje + /realizacje/[slug] — zaparkowane (Krok 23: ukryte z menu, treść = lorem
+  // + zaślepki par + placehold.co; nie wpychamy ich do indeksu do czasu realnych zdjęć).
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/styleguide') && !page.includes('/dziekujemy'),
+      filter: (page) =>
+        !page.includes('/styleguide') &&
+        !page.includes('/dziekujemy') &&
+        !page.includes('/realizacje'),
     }),
   ],
 });
