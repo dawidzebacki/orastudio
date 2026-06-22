@@ -48,7 +48,10 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    margin-top: var(--space-3xl);
+    /* BEZ margin-top: każda ostatnia sekcja ma już padding-bottom: 3xl (9rem).
+       Margines dublował ten odstęp (9+9=18rem) → pod treścią było więcej miejsca
+       niż nad (np. blok CTA na home). Teraz jednolite 9rem do stopki na każdej stronie. */
+    margin-top: 0;
     background: var(--c-surface);     /* piasek — powierzchnia 30% (60/30/10) */
     border-top: 1px solid var(--c-ink-15);
   }

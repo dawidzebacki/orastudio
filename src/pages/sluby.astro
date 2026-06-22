@@ -61,8 +61,9 @@ const bookingFields = [
 ---
 
 <BaseLayout
-  title="Fotograf na ślub cywilny i kameralny — early bird 2026"
-  description="Kameralny reportaż ślubny w Trójmieście — nabór par założycielskich na 2026. Jeden look, dyskretny dokument, gotowe zdjęcia w 24 godziny."
+  title="Fotograf na ślub cywilny i kameralny - early bird 2026 | ORA.studio"
+  rawTitle
+  description="Kameralny reportaż ślubny w Trójmieście - nabór par założycielskich na 2026. Jeden look, dyskretny dokument, gotowe zdjęcia w 24 godziny."
   path="/sluby"
 >
   <main>
@@ -80,8 +81,8 @@ const bookingFields = [
       />
     </section>
 
-    {/* 4.2 — EARLY BIRD (Text + Cards) — pas piaskowy (gładki kolor) ----- */}
-    <section class="sec band-sand" aria-labelledby="s-early">
+    {/* 4.2a — EARLY BIRD · STATEMENT (proza) — PAS AKCENTOWY (terakota + fala) */}
+    <section class="sec band-accent" aria-labelledby="s-early">
       <div class="container">
         <p class="eyebrow">Nabór par założycielskich</p>
         <div class="prose">
@@ -94,6 +95,13 @@ const bookingFields = [
             cenie, ja pierwsze realizacje, którymi mogę (i bardzo chcę) się pochwalić.
           </p>
         </div>
+      </div>
+    </section>
+
+    {/* 4.2b — EARLY BIRD · CO OBEJMUJE (Cards) + CTA — pas piaskowy ----- */}
+    <section class="sec band-sand" aria-labelledby="s-includes">
+      <div class="container">
+        <h2 id="s-includes" class="visually-hidden">Co obejmuje oferta early bird</h2>
         <div class="sec__includes">
           <Cards items={includes} columns={3} class="sec__cards" />
         </div>
@@ -149,11 +157,13 @@ const bookingFields = [
       </section>
     )}
 
-    {/* 4.7 — FAQ MINI (Faq, 4) ------------------------------------------ */}
-    <section class="sec container" aria-labelledby="s-faq">
-      <p class="eyebrow">Częste pytania</p>
-      <h2 id="s-faq" class="visually-hidden">Częste pytania — śluby</h2>
-      <Faq items={faq} class="sec__faq" />
+    {/* 4.7 — FAQ MINI (Faq, 4) — pas piaskowy (rytm) -------------------- */}
+    <section class="sec band-sand" aria-labelledby="s-faq">
+      <div class="container">
+        <p class="eyebrow">Częste pytania</p>
+        <h2 id="s-faq" class="visually-hidden">Częste pytania — śluby</h2>
+        <Faq items={faq} class="sec__faq" />
+      </div>
     </section>
 
     {/* 4.8 — FORMULARZ REZERWACJI (Form + RODO) — krem (przed stopką) --- */}
@@ -194,7 +204,8 @@ const bookingFields = [
     margin-top: 0;
   }
 
-  /* 4.2 — pas Early bird: eyebrow → prose → karty → CTA. */
+  /* Eyebrow w pasach: terakotowy blok-statement (early bird) + piaskowy FAQ. */
+  .band-accent > .container > .eyebrow,
   .band-sand > .container > .eyebrow {
     margin-bottom: var(--space-l);
   }
@@ -208,10 +219,14 @@ const bookingFields = [
     font-size: var(--fs-lede);
     color: var(--c-ink-70);
   }
-  /* Oddech NAD kartami (kreski + numery I/II/III nie mogą kleić się do opisu).
-     Margines na wrapperze w scope strony — scoped style nie sięga roota <Cards>. */
+  /* Statement na pasie akcentowym (terakota): tekst kremowy zamiast atramentu. */
+  .band-accent .prose p {
+    color: color-mix(in srgb, var(--c-on-accent) 88%, transparent);
+  }
+  /* Karty „co obejmuje" są teraz w osobnym pasie piaskowym — odstęp górny daje
+     padding sekcji, więc własny margines wrappera zerujemy (inaczej dubluje). */
   .sec__includes {
-    margin-top: var(--space-2xl);
+    margin-top: 0;
   }
   /* Oddech przed CTA „Rezerwuję termin" — karty nie mogą kleić się do guzika. */
   .sec__cta {

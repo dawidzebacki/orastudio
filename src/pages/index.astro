@@ -96,8 +96,8 @@ const jsonLd = {
       <Cards items={paths} numbered={false} columns={2} class="sec__cards" />
     </section>
 
-    {/* 2.3 — MANIFEST (Text) — pas strukturalny (piasek + deseń) ----- */}
-    <section class="sec band-pattern" aria-labelledby="s-manifest">
+    {/* 2.3 — MANIFEST (Text) — PAS AKCENTOWY (terakota, tekst kremowy) — podgląd „więcej koloru" */}
+    <section class="sec band-accent" aria-labelledby="s-manifest">
       <div class="container">
         <div class="prose">
           <h2 id="s-manifest">Czym jest skondensowany reportaż</h2>
@@ -111,11 +111,14 @@ const jsonLd = {
       </div>
     </section>
 
-    {/* 2.4 — JAK PRACUJĘ / DOWÓD 24h (Process) ----------------------- */}
-    <section class="sec container" aria-labelledby="s-process">
-      <p class="eyebrow">Jak pracuję</p>
-      <h2 id="s-process" class="visually-hidden">Jak pracuję — od ustaleń do dostawy w 24 godziny</h2>
-      <Process steps={steps} class="sec__process" />
+    {/* 2.4 — JAK PRACUJĘ / DOWÓD 24h (Process) — gładki pas piaskowy (fala
+        przeniesiona na blok terakotowy, by nie zlewała się z gęstym tekstem). */}
+    <section class="sec band-sand" aria-labelledby="s-process">
+      <div class="container">
+        <p class="eyebrow">Jak pracuję</p>
+        <h2 id="s-process" class="visually-hidden">Jak pracuję — od ustaleń do dostawy w 24 godziny</h2>
+        <Process steps={steps} class="sec__process" />
+      </div>
     </section>
 
     {/* 2.5 — WYBRANE KADRY (Gallery, 6 kadrów) — UKRYTE do czasu realnych zdjęć
@@ -188,6 +191,16 @@ const jsonLd = {
   .prose p {
     font-size: var(--fs-lede);
     color: var(--c-ink-70);
+  }
+  /* Manifest na pasie akcentowym (terakota): tekst kremowy zamiast atramentu.
+     Akapit lekko przygaszony, nagłówek dziedziczy pełny krem z .band-accent. */
+  .band-accent .prose p {
+    color: color-mix(in srgb, var(--c-on-accent) 88%, transparent);
+  }
+
+  /* Eyebrow wewnątrz pasa piaskowego (Process) — ten sam odstęp co eyebrow sekcji. */
+  .band-sand > .container > .eyebrow {
+    margin-bottom: var(--space-l);
   }
 
   /* 2.5 Galeria — luźna siatka, duże kadry. */

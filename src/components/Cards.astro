@@ -108,12 +108,19 @@ const colStyle = columns ? `--cards-cols: ${columns};` : '';
     font-weight: var(--fw-medium);
     text-transform: uppercase;
     letter-spacing: var(--tracking-label);
+    color: var(--c-accent-i);        /* terakota — akcent interaktywny: sygnał „klikalne" */
   }
   .card__link span {
     transition: transform var(--dur) var(--ease);
     display: inline-block;
   }
+  /* Hover całej karty — strzałka jedzie + etykieta CTA się podkreśla (afordancja). */
   a.card:hover .card__link span {
     transform: translateX(0.35em);
+  }
+  a.card:hover .card__link {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1px;
   }
 </style>

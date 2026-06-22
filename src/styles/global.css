@@ -21,6 +21,16 @@ html {
 body {
   min-height: 100svh;
   background-color: var(--c-bg);
+  /* Ciepła poświata pod hero — subtelna, „światło na papierze" / safelight ciemni.
+     Skupiona u góry strony (pod nawigacją, w obrębie hero), gaśnie w płaskim kremie.
+     Na tokenach → w dark odwraca się sama (ciepły blask na atramencie). Ziarno
+     papieru (.page::before, fixed) leży NA wierzchu, więc to nie „gradient SaaS". */
+  background-image: radial-gradient(
+    1300px 760px at 50% 120px,
+    color-mix(in srgb, var(--c-amber) 19%, var(--c-cream)) 0%,
+    var(--c-cream) 70%
+  );
+  background-repeat: no-repeat;
   color: var(--c-text);
   font-family: var(--font-body);
   font-size: var(--fs-body);
@@ -222,22 +232,52 @@ p {
   background: var(--c-surface);
 }
 
-/* Wariant ze strukturą — piasek + ZYGZAK / chevron TONE-ON-TONE: deseń nie w
-   kawie, tylko w odrobinę ciemniejszym piasku (kropla kawy wmieszana w piasek,
-   NIE transparent). Niski kontrast → tekstura, nie ciemne linie pod tekstem;
-   atrament zostaje wyraźnie ciemniejszy i się nie zlewa. Tylko kolory z palety. */
+/* Wariant ze strukturą — piasek + miękka FALA („Wiggle") TONE-ON-TONE: deseń w
+   kawie o niskim kryciu (~8%) wmieszanej optycznie w piasek. Niski kontrast →
+   tekstura, nie linie pod tekstem; atrament zostaje wyraźnie ciemniejszy i się
+   nie zlewa. Fala zamiast zygzaka = „ruch wolny i miękki" (brief). Kolor zaszyty
+   w SVG (nie token), więc tryb ciemny ma osobny wariant niżej. Tylko kolory palety. */
 .band-pattern {
   background-color: var(--c-surface);
-  --zz: color-mix(in srgb, var(--c-coffee) 7%, var(--c-sand));
-  background-image:
-    linear-gradient(135deg, var(--zz) 25%, transparent 25%),
-    linear-gradient(225deg, var(--zz) 25%, transparent 25%),
-    linear-gradient(45deg, var(--zz) 25%, transparent 25%),
-    linear-gradient(315deg, var(--zz) 25%, transparent 25%);
-  background-position: 26px 0, 26px 0, 0 0, 0 0;
-  background-size: 52px 52px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='18' viewBox='0 0 100 18'%3E%3Cpath fill='%236b5440' fill-opacity='0.08' d='M61.82 18c3.47-1.45 6.86-3.78 11.3-7.34C78 6.76 80.34 5.1 83.87 3.42 88.56 1.16 93.75 0 100 0v6.16C98.76 6.05 97.43 6 96 6c-9.59 0-14.23 2.23-23.13 9.34-1.28 1.03-2.39 1.9-3.4 2.66h-7.65zm-23.64 0H22.52c-1-.76-2.1-1.63-3.4-2.66C11.57 9.3 7.08 6.78 0 6.16V0c6.25 0 11.44 1.16 16.14 3.42 3.53 1.7 5.87 3.35 10.73 7.24 4.45 3.56 7.84 5.9 11.31 7.34zM61.82 0h7.66a39.57 39.57 0 0 1-7.34 4.58C57.44 6.84 52.25 8 46 8S34.56 6.84 29.86 4.58A39.57 39.57 0 0 1 22.52 0h15.66C41.65 1.44 45.21 2 50 2c4.8 0 8.35-.56 11.82-2z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: 130px auto;
   background-repeat: repeat;
 }
+/* Tryb ciemny: kolor fali zaszyty w SVG nie odwróci się sam → jaśniejszy tan
+   (odpowiednik kawy w dark = #cdb491) o nieco wyższym kryciu na ciemnym piasku. */
+[data-theme='dark'] .band-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='18' viewBox='0 0 100 18'%3E%3Cpath fill='%23cdb491' fill-opacity='0.11' d='M61.82 18c3.47-1.45 6.86-3.78 11.3-7.34C78 6.76 80.34 5.1 83.87 3.42 88.56 1.16 93.75 0 100 0v6.16C98.76 6.05 97.43 6 96 6c-9.59 0-14.23 2.23-23.13 9.34-1.28 1.03-2.39 1.9-3.4 2.66h-7.65zm-23.64 0H22.52c-1-.76-2.1-1.63-3.4-2.66C11.57 9.3 7.08 6.78 0 6.16V0c6.25 0 11.44 1.16 16.14 3.42 3.53 1.7 5.87 3.35 10.73 7.24 4.45 3.56 7.84 5.9 11.31 7.34zM61.82 0h7.66a39.57 39.57 0 0 1-7.34 4.58C57.44 6.84 52.25 8 46 8S34.56 6.84 29.86 4.58A39.57 39.57 0 0 1 22.52 0h15.66C41.65 1.44 45.21 2 50 2c4.8 0 8.35-.56 11.82-2z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Pas AKCENTOWY — celowy „kolorowy" blok (terakota przygaszona atramentem cienia,
+   żeby kremowy tekst trzymał kontrast AA). Terakota jest nasycona w OBU motywach
+   (cień = --c-shadow, ciemny w obu), więc krem na niej czyta się zawsze.
+   PROPOZYCJA do akceptacji Ady: terakota to akcent 10% — tu użyta jako duże tło,
+   więc trzymaj OSZCZĘDNIE (max jeden taki blok na widok, w środku strony, nie przy
+   stopce). Tekst = --c-on-accent (zawsze jasny). */
+.band-accent {
+  background-color: color-mix(in srgb, var(--c-terracotta) 86%, var(--c-shadow));
+  /* Fala tone-on-tone: krem o ~5% krycia = delikatne rozjaśnienie terakoty (tekstura,
+     nie linie). Tekst jest pełnokremowy, więc 5% fala mu nie szkodzi. Krem (literał
+     #f3eadb) i terakota są stabilne w obu motywach → bez osobnego wariantu dark. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='18' viewBox='0 0 100 18'%3E%3Cpath fill='%23f3eadb' fill-opacity='0.05' d='M61.82 18c3.47-1.45 6.86-3.78 11.3-7.34C78 6.76 80.34 5.1 83.87 3.42 88.56 1.16 93.75 0 100 0v6.16C98.76 6.05 97.43 6 96 6c-9.59 0-14.23 2.23-23.13 9.34-1.28 1.03-2.39 1.9-3.4 2.66h-7.65zm-23.64 0H22.52c-1-.76-2.1-1.63-3.4-2.66C11.57 9.3 7.08 6.78 0 6.16V0c6.25 0 11.44 1.16 16.14 3.42 3.53 1.7 5.87 3.35 10.73 7.24 4.45 3.56 7.84 5.9 11.31 7.34zM61.82 0h7.66a39.57 39.57 0 0 1-7.34 4.58C57.44 6.84 52.25 8 46 8S34.56 6.84 29.86 4.58A39.57 39.57 0 0 1 22.52 0h15.66C41.65 1.44 45.21 2 50 2c4.8 0 8.35-.56 11.82-2z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: 130px auto;
+  background-repeat: repeat;
+  color: var(--c-on-accent);
+}
+/* Tryb ciemny: pełna terakota jest zbyt jaskrawa w „ciemni" (wygląda jak
+   pomarańczowy prostokąt). Przygaszamy ją głębiej cieniem → głęboki ceglany ton,
+   który gra z mrocznym tłem zamiast krzyczeć. Kremowy tekst zyskuje też wyższy
+   kontrast na ciemniejszym tle. */
+[data-theme='dark'] .band-accent {
+  background-color: color-mix(in srgb, var(--c-terracotta) 45%, var(--c-shadow));
+}
+/* Eyebrow na pasie akcentowym: kremowy zamiast kawy (--c-label) — ciemna etykieta
+   zlewałaby się z terakotą (w jasnym motywie była praktycznie niewidoczna). */
+.band-accent .eyebrow {
+  color: color-mix(in srgb, var(--c-on-accent) 82%, transparent);
+}
+
 
 /* Lightbox otwarty — zablokuj scroll tła (zachowanie modala). */
 html.lb-open {

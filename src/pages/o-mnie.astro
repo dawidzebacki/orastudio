@@ -21,8 +21,9 @@ const approach = [
 ---
 
 <BaseLayout
-  title="O mnie — Adrianna Zębacka"
-  description="Za ORA.studio stoi Adrianna Zębacka — skondensowany reportaż dokumentalny w Trójmieście. Powściągliwa, editorialowa estetyka: dokument, nie inscenizacja."
+  title="O mnie - Adrianna Zębacka | ORA.studio"
+  rawTitle
+  description="Za ORA.studio stoi Adrianna Zębacka - skondensowany reportaż dokumentalny w Trójmieście. Powściągliwa, editorialowa estetyka: dokument, nie inscenizacja."
   path="/o-mnie"
 >
   <main>
@@ -70,8 +71,8 @@ const approach = [
       </div>
     </section>
 
-    {/* 5.3 — FILOZOFIA (Text) — pas strukturalny (zygzak, manifestowy) -- */}
-    <section class="sec band-pattern" aria-labelledby="s-philo">
+    {/* 5.3 — FILOZOFIA (Text) — PAS AKCENTOWY (terakota + fala, tekst kremowy) -- */}
+    <section class="sec band-accent" aria-labelledby="s-philo">
       <div class="container">
         <div class="prose">
           <h2 id="s-philo">Dokument, nie inscenizacja</h2>
@@ -85,11 +86,13 @@ const approach = [
       </div>
     </section>
 
-    {/* 5.4 — PODEJŚCIE / SPRZĘT (Cards, 3) ------------------------------ */}
-    <section class="sec container" aria-labelledby="s-approach">
-      <p class="eyebrow">Podejście i sprzęt</p>
-      <h2 id="s-approach" class="visually-hidden">Podejście i sprzęt</h2>
-      <Cards items={approach} columns={3} class="sec__cards" />
+    {/* 5.4 — PODEJŚCIE / SPRZĘT (Cards, 3) — pas piaskowy (rytm) -------- */}
+    <section class="sec band-sand" aria-labelledby="s-approach">
+      <div class="container">
+        <p class="eyebrow">Podejście i sprzęt</p>
+        <h2 id="s-approach" class="visually-hidden">Podejście i sprzęt</h2>
+        <Cards items={approach} columns={3} class="sec__cards" />
+      </div>
     </section>
 
     {/* 5.5 — CTA (Hero compact) — krem (przed stopką) ------------------- */}
@@ -120,6 +123,10 @@ const approach = [
   .sec > .eyebrow {
     margin-bottom: var(--space-l);
   }
+  /* Eyebrow wewnątrz pasa piaskowego (Historia) — ten sam odstęp. */
+  .band-sand > .container > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
   .sec__cards {
     margin-top: 0;
   }
@@ -137,5 +144,9 @@ const approach = [
   }
   .prose p + p {
     margin-top: var(--space-m);
+  }
+  /* Filozofia na pasie akcentowym (terakota): tekst kremowy zamiast atramentu. */
+  .band-accent .prose p {
+    color: color-mix(in srgb, var(--c-on-accent) 88%, transparent);
   }
 </style>

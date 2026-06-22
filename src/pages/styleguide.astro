@@ -114,9 +114,13 @@ const scale = [
       </div>
       <p class="sg-note">60% krem (tło) · 30% piasek (powierzchnie) + kawa/atrament (tekst) · 10% bursztyn (akcent sygnaturowy) + terakota (akcent interaktywny — linki, hover).</p>
 
-      <p class="eyebrow" style="margin-top: var(--space-l)">Deseń pasa — zygzak (wybrany)</p>
+      <p class="eyebrow" style="margin-top: var(--space-l)">Deseń pasa — fala (wybrana)</p>
       <div class="pat-demo band-pattern"></div>
-      <p class="sg-note">Wybrany deseń <code>.band-pattern</code> — zygzak/chevron <strong>tone-on-tone</strong> (piasek przyciemniony kroplą kawy), tylko z palety. Niski kontrast: tekstura, nie linie pod tekstem — atrament się nie zlewa. Używany na pasach (np. manifest strony głównej).</p>
+      <p class="sg-note">Deseń <code>.band-pattern</code> — miękka <strong>fala („Wiggle")</strong> tone-on-tone (kawa ~8% wmieszana w piasek), tylko z palety. Niski kontrast: tekstura, nie linie pod tekstem. Tryb ciemny ma osobny wariant (jaśniejszy tan). „Ruch wolny i miękki" zamiast kanciastego zygzaka.</p>
+
+      <p class="eyebrow" style="margin-top: var(--space-l)">Pas akcentowy — terakota + fala</p>
+      <div class="pat-demo band-accent"></div>
+      <p class="sg-note">Blok <code>.band-accent</code> — celowy „kolorowy" pas: terakota z falą w kremie (~5%), tekst kremowy. Jeden taki blok-statement na widok (manifest / „dlaczego reportaż" / „o mnie"). W trybie ciemnym przygaszony do głębokiego ceglanego tonu, żeby nie krzyczał w „ciemni".</p>
 
       <p class="eyebrow" style="margin-top: var(--space-l)">Dark theme — „ciemnia" (przełącznik ☾ w nav)</p>
       <div class="swatches">
@@ -390,7 +394,7 @@ const scale = [
     line-height: 1.2;
   }
 
-  /* Podgląd wybranego deseniu pasa (.band-pattern = zygzak). */
+  /* Podgląd deseni pasów (.band-pattern = fala, .band-accent = terakota + fala). */
   .pat-demo {
     height: 110px;
     border-radius: var(--radius);

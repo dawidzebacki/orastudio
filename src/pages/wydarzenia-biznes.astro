@@ -96,15 +96,17 @@ const briefFields = [
       <Cards items={shoots} columns={4} class="sec__cards" />
     </section>
 
-    {/* 3.3 — JAK TO DZIAŁA (Process, 3) --------------------------------- */}
-    <section class="sec container" aria-labelledby="s-process">
-      <p class="eyebrow">Jak to działa</p>
-      <h2 id="s-process" class="visually-hidden">Jak to działa — od ustaleń do dostawy w 24 godziny</h2>
-      <Process steps={steps} class="sec__process" />
+    {/* 3.3 — JAK TO DZIAŁA (Process, 3) — pas piaskowy (rytm) ----------- */}
+    <section class="sec band-sand" aria-labelledby="s-process">
+      <div class="container">
+        <p class="eyebrow">Jak to działa</p>
+        <h2 id="s-process" class="visually-hidden">Jak to działa — od ustaleń do dostawy w 24 godziny</h2>
+        <Process steps={steps} class="sec__process" />
+      </div>
     </section>
 
-    {/* 3.4 — DLACZEGO DOKUMENT (Text) — pas strukturalny (zygzak) ------ */}
-    <section class="sec band-pattern" aria-labelledby="s-why">
+    {/* 3.4 — DLACZEGO DOKUMENT (Text) — PAS AKCENTOWY (terakota + fala, tekst kremowy) */}
+    <section class="sec band-accent" aria-labelledby="s-why">
       <div class="container">
         <div class="prose">
           <h2 id="s-why">Dlaczego reportaż, a nie ustawiane zdjęcia</h2>
@@ -160,11 +162,13 @@ const briefFields = [
       </div>
     </section>
 
-    {/* 3.7 — FAQ MINI (Faq, 4) ------------------------------------------ */}
-    <section class="sec container" aria-labelledby="s-faq">
-      <p class="eyebrow">Częste pytania</p>
-      <h2 id="s-faq" class="visually-hidden">Częste pytania — wydarzenia i biznes</h2>
-      <Faq items={faq} class="sec__faq" />
+    {/* 3.7 — FAQ MINI (Faq, 4) — pas piaskowy (rytm) -------------------- */}
+    <section class="sec band-sand" aria-labelledby="s-faq">
+      <div class="container">
+        <p class="eyebrow">Częste pytania</p>
+        <h2 id="s-faq" class="visually-hidden">Częste pytania — wydarzenia i biznes</h2>
+        <Faq items={faq} class="sec__faq" />
+      </div>
     </section>
 
     {/* 3.8 — FORMULARZ BRIEF (Form + RODO) — krem (przed stopką) -------- */}
@@ -198,6 +202,10 @@ const briefFields = [
   .sec > .eyebrow {
     margin-bottom: var(--space-l);
   }
+  /* Eyebrow wewnątrz pasów (Cards / FAQ na piasku) — ten sam odstęp. */
+  .band-sand > .container > .eyebrow {
+    margin-bottom: var(--space-l);
+  }
   .sec__cards,
   .sec__process,
   .sec__faq,
@@ -215,6 +223,10 @@ const briefFields = [
   .prose p {
     font-size: var(--fs-lede);
     color: var(--c-ink-70);
+  }
+  /* Manifest na pasie akcentowym (terakota): tekst kremowy zamiast atramentu. */
+  .band-accent .prose p {
+    color: color-mix(in srgb, var(--c-on-accent) 88%, transparent);
   }
 
   /* 3.6 — „co wpływa na wycenę": 3 krótkie punkty na hairline, atrament (bez bursztynu). */
