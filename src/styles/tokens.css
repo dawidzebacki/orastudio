@@ -39,6 +39,12 @@
   --c-text: var(--c-ink);
   --c-accent: var(--c-amber);
 
+  /* Poświata pod hero (patrz body w global.css). `--hero-glow` = siła (udział
+     koloru w kremie), `--hero-glow-color` = barwa. Jasny motyw: bursztyn,
+     mocniej (na kremie był słabo widoczny). */
+  --hero-glow: 34%;
+  --hero-glow-color: var(--c-amber);
+
   /* --- Role niezależne od motywu / sterowane motywem (Krok 17: dark theme) ----
      Te trzy tokeny istnieją, by dark mode dało się zrobić SAMĄ podmianą prymitywów
      poniżej (w [data-theme='dark']) — bez przepisywania komponentów. */
@@ -135,4 +141,6 @@
   --grain-opacity: 0.05;
   --c-bevel-hi: #d9c9ab;   /* highlight bevelu — ciepła, przygaszona biel (nie elektryczna) */
   /* --c-on-accent zostaje jasny (literał w :root) — tekst na przyciskach/lightbox.  */
+  --hero-glow: 24%;        /* poświata hero — w dark subtelniej (na atramencie widać ją łatwiej) */
+  --hero-glow-color: var(--c-terracotta); /* terakota = czerwone „safelight ciemni” zamiast bursztynu (decyzja Ady) */
 }

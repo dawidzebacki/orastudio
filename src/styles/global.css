@@ -26,9 +26,9 @@ body {
      Na tokenach → w dark odwraca się sama (ciepły blask na atramencie). Ziarno
      papieru (.page::before, fixed) leży NA wierzchu, więc to nie „gradient SaaS". */
   background-image: radial-gradient(
-    1300px 760px at 50% 120px,
-    color-mix(in srgb, var(--c-amber) 19%, var(--c-cream)) 0%,
-    var(--c-cream) 70%
+    1300px 820px at 50% 120px,
+    color-mix(in srgb, var(--hero-glow-color) var(--hero-glow), var(--c-cream)) 0%,
+    var(--c-cream) 72%
   );
   background-repeat: no-repeat;
   color: var(--c-text);

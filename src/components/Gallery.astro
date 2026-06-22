@@ -37,6 +37,11 @@ interface Props {
   href?: string;
   /** Powiększenie po kliknięciu w kadr (lightbox). Domyślnie: gdy podano `src`. */
   zoom?: boolean;
+  /** Wariant maty. 'classic' = passe-partout z bevelem (domyślny, galerie).
+      'instax' = odbitka natychmiastowa: wąska góra/boki, SZEROKI dół, zdjęcie
+      leży płasko (bez fazy okienka i bez wpuszczenia). Nadal zero obwódek/
+      drop-shadow wokół ramki — twarde zakazy zachowane. */
+  mat?: 'classic' | 'instax';
   class?: string;
 }
 
@@ -51,6 +56,7 @@ const {
   hairline = 'none',
   href,
   zoom,
+  mat = 'classic',
   class: className = '',
 } = Astro.props;
 
@@ -69,7 +75,7 @@ const HAIRLINE = {
 };
 ---
 
-<figure class={`pp ${className}`.trim()} style={`--pp-ratio: ${ratio}; --pp-hairline: ${HAIRLINE[hairline]};`}>
+<figure class={`pp pp--${mat} ${className}`.trim()} style={`--pp-ratio: ${ratio}; --pp-hairline: ${HAIRLINE[hairline]};`}>
   <div class="pp__mat">
     <WindowTag
       class={`pp__window ${zoomable ? 'pp__window--zoom' : ''}`.trim()}
@@ -139,6 +145,31 @@ const HAIRLINE = {
     opacity: 0.07;
     mix-blend-mode: var(--grain-blend);  /* multiply (jasny) / screen (ciemny) */
     border-radius: inherit;
+  }
+
+  /* --- Wariant „instax / odbitka (lookalike)" -------------------------
+     Klimat odbitki instax, ale CIEŃSZA obwódka (decyzja Ady — pełne proporcje
+     instax mini były za grube/za duże). Zostaje pionowy, „dłuższy" kadr
+     (4,6/6,2) i lekko cięższy dół (sygnatura odbitki), ale margines wyraźnie
+     węższy: góra/boki ≈ 4%, dół ≈ 11% szerokości karty. Padding w % (skaluje
+     się z szerokością).
+     Zdjęcie leży PŁASKO: bez fazy okienka i bez cienia wpuszczenia.
+     ⚠️ ŚWIADOMY WYJĄTEK od twardego zakazu „żaden drop-shadow wokół ramki
+     passe-partout" — na wyraźną prośbę Ady, TYLKO dla wariantu instax (odbitka
+     leżąca na papierze). Galerie passe-partout pozostają bez drop-shadow. */
+  .pp--instax .pp__mat {
+    padding: 4% 4% 11%;
+    box-shadow:
+      0 0.7rem 1.6rem -0.5rem color-mix(in srgb, var(--c-shadow) 38%, transparent),
+      0 0.15rem 0.5rem -0.2rem color-mix(in srgb, var(--c-shadow) 30%, transparent);
+  }
+  .pp--instax .pp__window {
+    aspect-ratio: 46 / 62;           /* obszar zdjęcia instax mini (pionowy) */
+    border-width: 0;                 /* płaska odbitka — bez fazy maty */
+  }
+  /* Bez wpuszczenia u góry; zostaje tylko ewentualny hairline (domyślnie brak). */
+  .pp--instax .pp__inset {
+    box-shadow: inset 0 0 0 1px var(--pp-hairline, transparent);
   }
 
   /* --- Okienko (kadr) -------------------------------------------------- */

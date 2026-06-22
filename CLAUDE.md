@@ -126,7 +126,7 @@ Oficjalne pliki od klientki. Wordmark = `viewBox 0 0 1000 200`, sygnet = `0 0 30
 | `sygnet-on-light.svg` | znak na kremie | krem `#f8f4ec` | ✅ krzywe |
 | `sygnet-on-dark.svg` | znak na ciemnym | atrament | ✅ krzywe |
 
-`public/favicon.svg` = kopia `sygnet-on-dark.svg`.
+`public/favicon.svg` = kopia `sygnet-on-light.svg` (jasne tło `#f8f4ec` + ciemny znak `#1f1812` — decyzja Ady; wcześniej był `sygnet-on-dark`).
 
 **Decyzje (potwierdzone):**
 - **Krem = `#F3EADB`** (token z briefu — zostaje, cieplejszy/filmowy). Logo wstawiamy w wersjach **transparentnych** (`*-transparent-*`, `sygnet-ink`), żeby kremowy blok logo (`#f8f4ec`) nie zgrzytał z tłem strony. Nie używamy wersji z wbudowanym tłem na stronie kremowej.

@@ -3,6 +3,7 @@
 // Reużywalny formularz: konfigurowalne pola + OSOBNY, NIEZAZNACZONY checkbox
 // zgody RODO + link do polityki prywatności. Dostępny (label↔input, required,
 // aria). Pola minimalne — domyślnie zestaw „Kontakt" z sekcji 8.2.
+import { site } from '../data/site';
 
 interface Field {
   name: string;
@@ -119,7 +120,50 @@ const resolvedAction = action ?? (isNetlify ? '/dziekujemy/' : '#');
   </div>
 
   <button class="btn form__submit" type="submit">{submitLabel}</button>
+
+  {/* Komunikat błędu WYSYŁKI (nie walidacji — tę niesie natywny HTML5 + :user-invalid).
+      Ukryty; pokazuje go skrypt poniżej, gdy fetch-POST do Netlify się nie powiedzie.
+      role="alert" → czytniki ekranu ogłaszają go od razu. Tylko gdy formularz realnie
+      wysyła (Netlify). */}
+  {isNetlify && (
+    <p class="form__error" role="alert" tabindex="-1" hidden>
+      Nie udało się wysłać formularza. Spróbuj ponownie za chwilę albo napisz bezpośrednio
+      na <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+  )}
 </form>
+
+<script>
+  // Progressive enhancement: wysyłka Netlify Forms przez fetch, żeby na błąd
+  // pokazać brandowy komunikat (zamiast generycznej strony błędu przeglądarki).
+  // BEZ JS formularz działa po staremu — natywny POST → /dziekujemy/ (fallback).
+  // Natywna walidacja HTML5 działa dalej: 'submit' odpala się dopiero, gdy pola są OK.
+  document.querySelectorAll('form[data-netlify]').forEach((form) => {
+    const btn = form.querySelector('.form__submit');
+    const err = form.querySelector('.form__error');
+    const action = form.getAttribute('action') || '/dziekujemy/';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (err) err.hidden = true;
+      const label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Wysyłanie…'; }
+
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        window.location.assign(action);          // sukces → strona podziękowania
+      } catch (_) {
+        if (btn) { btn.disabled = false; btn.textContent = label; }
+        if (err) { err.hidden = false; err.focus(); }   // błąd → pokaż komunikat
+      }
+    });
+  });
+</script>
 
 <style>
   .form {
@@ -272,5 +316,27 @@ const resolvedAction = action ?? (isNetlify ? '/dziekujemy/' : '#');
 
   .form__submit {
     margin-top: var(--space-l);
+  }
+
+  /* Komunikat błędu wysyłki — sygnał terakotą (akcent błędu/akcji), ale tekst
+     w atramencie dla czytelności (AA). Pasek z lewej = brandowy znacznik błędu. */
+  .form__error {
+    margin-top: var(--space-m);
+    padding: 0.75em 1em;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--c-ink-70);
+    background: color-mix(in srgb, var(--c-accent-i) 8%, var(--c-mat));
+    border: 1px solid color-mix(in srgb, var(--c-accent-i) 28%, transparent);
+    border-left: 3px solid var(--c-accent-i);
+    border-radius: var(--radius);
+  }
+  .form__error a {
+    color: var(--c-ink);
+    text-underline-offset: 0.2em;
+  }
+  .form__error:focus-visible {
+    outline: 2px solid var(--c-amber);
+    outline-offset: 2px;
   }
 </style>

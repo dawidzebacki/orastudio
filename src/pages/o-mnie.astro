@@ -6,11 +6,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Cards from '../components/Cards.astro';
-import { site, features } from '../data/site';
+import { site } from '../data/site';
 
-// Ramka portretu (Hero) = na razie NIEWIDOCZNA — decyzja Ady (Krok 23).
-// Centralna flaga w site.ts → przełącz `features.showFrames`, gdy wejdzie zdjęcie.
-const { showFrames } = features;
+// Portret Ady — REALNE zdjęcie (ja.jpg → public/images/ada-portret.webp, 1000×1500,
+// zoptymalizowane sharpem). Nie bramkujemy go flagą `showFrames` (ta ukrywa puste
+// ramki-placeholdery do czasu zdjęć) — prawdziwy portret jest widoczny zawsze.
 
 // 5.4 — podejście / sprzęt (3 krótkie karty). Treści realne (ORA_tresci). Numeracja rzymska.
 const approach = [
@@ -35,7 +35,7 @@ const approach = [
         lead="cześć, jestem"
         title="Ada."
         lede="Fotografuję ludzi i chwile takimi, jakie są - bez reżyserii, za to z uwagą. Stoję za ORA.studio i za obietnicą, że zdjęcia dostajecie następnego dnia."
-        image={showFrames ? { alt: `Placeholder — portret: ${site.owner}`, ratio: '4 / 5' } : undefined}
+        image={{ src: '/images/ada-portret.webp', alt: `${site.owner} — fotografka, autorka ORA.studio`, ratio: '46 / 62', mat: 'instax', zoom: false }}
       />
     </section>
 

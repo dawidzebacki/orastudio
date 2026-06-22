@@ -15,6 +15,8 @@ interface HeroImage {
   numeral?: string;
   place?: string;
   ratio?: string;
+  mat?: 'classic' | 'instax';
+  zoom?: boolean;
 }
 
 interface Props {
@@ -95,6 +97,8 @@ const titleMain = hasPeriod ? title.trimEnd().slice(0, -1) : title;
         numeral={image!.numeral}
         place={image!.place}
         ratio={image!.ratio ?? '4 / 5'}
+        mat={image!.mat}
+        zoom={image!.zoom}
         loading="eager"
       />
     </div>
