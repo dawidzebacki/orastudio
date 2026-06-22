@@ -14,6 +14,8 @@ export const site = {
   email: 'ada@orastudio.art',
   instagram: '@ora.reportage',
   instagramUrl: 'https://instagram.com/ora.reportage',
+  facebook: 'ORA.studio.reportage',
+  facebookUrl: 'https://www.facebook.com/ORA.studio.reportage',
   // phone: brak — świadomie nie podajemy (brak pola/numeru).
 
   area: 'Trójmiasto (Gdańsk, Gdynia, Sopot) + okolice do ~50 km',
@@ -21,11 +23,11 @@ export const site = {
 } as const;
 
 // Profile społecznościowe — jedno źródło prawdy dla ikon w stopce (komponent
-// SocialLinks). Renderujemy tylko wpisy z uzupełnionym `href`. Facebook i TikTok
-// dojdą (decyzja Ady) — wystarczy odkomentować i wkleić link, ikona już jest.
+// SocialLinks). Renderujemy tylko wpisy z uzupełnionym `href`. TikTok dojdzie
+// (decyzja Ady) — wystarczy odkomentować i wkleić link, ikona już jest.
 export const socials: { name: string; href: string; icon: 'instagram' | 'facebook' | 'tiktok' }[] = [
   { name: 'Instagram', href: site.instagramUrl, icon: 'instagram' },
-  { name: 'Facebook', href: 'https://www.facebook.com/ORA.studio.reportage', icon: 'facebook' },
+  { name: 'Facebook', href: site.facebookUrl, icon: 'facebook' },
   // { name: 'TikTok', href: 'https://tiktok.com/@…', icon: 'tiktok' },
 ];
 
