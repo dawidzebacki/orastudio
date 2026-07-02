@@ -15,6 +15,7 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/styleguide') &&
         !page.includes('/dziekujemy') &&
+        !page.includes('/404') &&
         !page.includes('/realizacje'),
     }),
   ],

@@ -13,6 +13,7 @@ import Form from '../components/Form.astro';
 import LookSwitcher from '../components/LookSwitcher.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Camera from '../components/Camera.astro';
 
 // Lorem w długościach z mapy treści (sekcja 1 — ściąga długości). To NIE jest
 // copy docelowe; wiążące są PROPORCJE, nie treść.
@@ -305,6 +306,22 @@ const scale = [
       <div class="sg-demo sg-chrome">
         <Nav />
         <Footer />
+      </div>
+    </section>
+
+    <!-- CAMERA (ilustracja — strony niskiego ryzyka) ------------------- -->
+    <section class="sg-section" aria-labelledby="s-camera">
+      <p class="eyebrow numbered"><span class="numeral">XIV</span> Camera</p>
+      <h2 id="s-camera">Ilustracja aparatu (404 / dziękujemy)</h2>
+      <p class="sg-note">
+        Skeuomorficzny dalmierz w HTML/CSS — mrugnięcie okiem TYLKO na stronach niskiego ryzyka
+        (<code>/404</code>, <code>/dziekujemy</code>), nie na podstronach ofertowych. W całości na tokenach:
+        „metal" = krem/piasek (w ciemni robi się ciemny korpus), szkło/uchwyty = <code>--c-shadow</code>+kawa
+        (ciemne w obu motywach), spust = bursztyn z wolnym pulsem. Kołysanie i „oddech" flesza gasną
+        przy <code>prefers-reduced-motion</code>. Zawsze <code>aria-hidden</code>.
+      </p>
+      <div class="sg-demo">
+        <Camera />
       </div>
     </section>
   </main>

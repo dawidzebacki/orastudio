@@ -1,0 +1,366 @@
+---
+// ORA.studio — Camera (ilustracja dekoracyjna, Krok 24).
+// Skeuomorficzny dalmierz budowany w HTML/CSS (gradienty + bevele, wzorem
+// codepenowej inspiracji Dawida) — mrugnięcie okiem dla stron NISKIEGO RYZYKA
+// (404, /dziekujemy). NIE wstawiać na podstrony ofertowe/treściowe.
+// W CAŁOŚCI na tokenach: „metal" = krem/piasek (w ciemni odwraca się sam,
+// robi się ciemny korpus), partie „czarne" (szkło/uchwyty/wizjer/flesz) =
+// --c-shadow zmieszany z kawą (ciemne w OBU motywach), światła = --c-bevel-hi,
+// czerwony przycisk oryginału = sygnaturowy bursztyn. Ruch wolny i miękki:
+// kołysanie 9s ±1.2°, flesz „oddycha" (nie stroboskop), spust pulsuje —
+// wszystko gaśnie przy prefers-reduced-motion.
+// Semantykę niesie treść strony — ilustracja zawsze aria-hidden.
+---
+
+<div class="cam" aria-hidden="true">
+  <div class="cam__top">
+    <span class="cam__zoom"></span>
+    <span class="cam__mode"></span>
+    <span class="cam__sides"></span>
+    <span class="cam__rf"></span>
+    <span class="cam__focus"></span>
+    <span class="cam__red"></span>
+    <span class="cam__vf"></span>
+    <span class="cam__flash"><span class="cam__light"></span></span>
+  </div>
+  <div class="cam__mid">
+    <span class="cam__sensor"></span>
+    <span class="cam__lens"></span>
+    <span class="cam__brand">ORA</span>
+  </div>
+  <div class="cam__bottom"></div>
+</div>
+
+<style>
+  /* Lokalne odcienie WYŁĄCZNIE jako mieszanki tokenów:
+     - metal jasny/głęboki = krem↔piasek (motyw odwraca je sam),
+     - partie „czarne" (szkło, uchwyty, wizjer) = --c-shadow + kawa
+       → pozostają ciemne również w ciemni (jak bevel maty). */
+  .cam {
+    --cam-hi: color-mix(in srgb, var(--c-cream) 72%, var(--c-sand));
+    --cam-hi2: color-mix(in srgb, var(--c-cream) 86%, var(--c-sand));
+    --cam-dark: color-mix(in srgb, var(--c-shadow) 85%, var(--c-coffee));
+    --cam-dark-hi: color-mix(in srgb, var(--c-shadow) 55%, var(--c-coffee));
+    --cam-soft-shadow: color-mix(in srgb, var(--c-shadow) 40%, transparent);
+
+    position: relative;
+    width: 280px;
+    margin: 26px auto var(--space-l);
+    border-radius: 5px;
+    box-shadow: 0 26px 40px -28px var(--c-shadow);
+    animation: cam-sway 9s ease-in-out infinite;
+  }
+
+  /* Trzy pasy korpusu (w flow) — reszta to detale absolutne. */
+  .cam__top {
+    height: 46px;
+    background: linear-gradient(to right, var(--c-sand) 0%, var(--cam-hi) 12%, var(--cam-hi) 88%, var(--c-sand) 100%);
+    border: 1px solid var(--c-ink-15);
+    border-radius: 5px 0 0 0;
+    box-shadow: inset 0 12px 12px -12px var(--c-bevel-hi);
+  }
+  /* Podniesiona półka górnej płyty (prawa strona — pod fleszem). */
+  .cam__top::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    right: 0;
+    width: 160px;
+    height: 17px;
+    background: linear-gradient(to right, var(--cam-hi) 0%, var(--cam-hi) 70%, var(--c-sand) 100%);
+    border: 1px solid var(--c-ink-15);
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    box-shadow: inset 0 10px 10px -10px var(--c-bevel-hi);
+  }
+  .cam__mid {
+    height: 100px;
+    background: linear-gradient(to right, var(--c-sand) 0%, var(--cam-hi2) 12%, var(--cam-hi2) 88%, var(--c-sand) 100%);
+    border-inline: 1px solid var(--c-ink-15);
+    box-shadow: inset 0 12px 12px -12px var(--c-bevel-hi);
+  }
+  .cam__bottom {
+    height: 13px;
+    background: linear-gradient(to right, var(--c-sand) 0%, var(--cam-hi) 12%, var(--cam-hi) 88%, var(--c-sand) 100%);
+    border: 1px solid var(--c-ink-15);
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    box-shadow:
+      inset 0 -10px 10px -8px var(--cam-soft-shadow),
+      inset 0 10px 10px -10px var(--c-bevel-hi);
+  }
+
+  /* Pokrętło zoomu (lewe, piętrowe). */
+  .cam__zoom {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    width: 34px;
+    height: 13px;
+    background: linear-gradient(to right, var(--c-sand), var(--cam-hi) 50%, var(--c-sand));
+    border: 1px solid var(--c-ink-45);
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    box-shadow: inset 0 8px 8px -8px var(--c-bevel-hi);
+  }
+  .cam__zoom::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 5px;
+    background: linear-gradient(to right, var(--c-sand), var(--cam-hi) 50%, var(--c-sand));
+    border: 1px solid var(--c-ink-45);
+    border-radius: 3px 3px 0 0;
+  }
+
+  /* Przełącznik trybów (szeroki, niski). */
+  .cam__mode {
+    position: absolute;
+    top: -15px;
+    left: 66px;
+    width: 46px;
+    height: 15px;
+    background: linear-gradient(to right, var(--c-sand), var(--cam-hi) 50%, var(--c-sand));
+    border: 1px solid var(--c-ink-45);
+    border-radius: 3px;
+    box-shadow: inset 0 8px 8px -8px var(--c-bevel-hi);
+  }
+
+  /* Boczne uchwyty (ciemne, wystają zza korpusu). */
+  .cam__sides {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .cam__sides::before,
+  .cam__sides::after {
+    content: '';
+    position: absolute;
+    top: 18px;
+    width: 7px;
+    height: 26px;
+    background: linear-gradient(to bottom, var(--cam-dark-hi), var(--cam-dark));
+    border: 1px solid var(--cam-dark);
+    box-shadow: 0 3px 4px -1px var(--cam-soft-shadow);
+  }
+  .cam__sides::before {
+    left: -4px;
+    border-radius: 3px 0 0 3px;
+  }
+  .cam__sides::after {
+    right: -4px;
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* Okienko dalmierza. */
+  .cam__rf {
+    position: absolute;
+    top: 9px;
+    left: 82px;
+    width: 24px;
+    height: 16px;
+    background: var(--cam-dark);
+    border-radius: 3px;
+    box-shadow: inset 0 0 4px 2px color-mix(in srgb, var(--c-shadow) 60%, transparent);
+  }
+  .cam__rf::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: var(--cam-dark-hi);
+    border-radius: 100%;
+  }
+
+  /* Gałka ostrości. */
+  .cam__focus {
+    position: absolute;
+    top: -10px;
+    left: 120px;
+    width: 12px;
+    height: 12px;
+    background: var(--cam-dark);
+    border-radius: 100%;
+    box-shadow:
+      inset 0 2px 3px 0 color-mix(in srgb, var(--c-bevel-hi) 60%, transparent),
+      inset 0 -2px 3px -1px var(--cam-dark-hi);
+  }
+
+  /* Spust/dioda — czerwony guzik oryginału = sygnaturowy bursztyn, wolny puls. */
+  .cam__red {
+    position: absolute;
+    top: 7px;
+    left: 136px;
+    width: 20px;
+    height: 20px;
+    background: var(--c-amber);
+    border-radius: 100%;
+    box-shadow:
+      inset 0 3px 4px -2px var(--c-bevel-hi),
+      inset 0 -3px 4px -2px color-mix(in srgb, var(--c-shadow) 50%, transparent);
+    animation: cam-blink 3.6s var(--ease) infinite;
+  }
+
+  /* Wizjer. */
+  .cam__vf {
+    position: absolute;
+    top: 7px;
+    left: 170px;
+    width: 36px;
+    height: 22px;
+    background: radial-gradient(ellipse at center, var(--cam-dark-hi) 0%, var(--cam-dark) 80%);
+    border: 2px solid var(--cam-dark);
+    border-radius: 4px;
+    box-shadow: inset 0 6px 6px -6px var(--c-bevel-hi);
+  }
+
+  /* Flesz — zamiast stroboskopu oryginału miękki, wolny „oddech" światła. */
+  .cam__flash {
+    position: absolute;
+    top: -9px;
+    right: 12px;
+    width: 44px;
+    height: 33px;
+    background: radial-gradient(ellipse at center, var(--cam-dark-hi) 0%, var(--cam-dark) 75%);
+    border: 2px solid var(--cam-dark);
+    border-radius: 3px;
+    box-shadow: inset 0 6px 6px -6px var(--c-bevel-hi);
+  }
+  .cam__flash::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 88%;
+    height: 66%;
+    background: radial-gradient(ellipse at center, var(--cam-dark-hi) 0%, var(--c-shadow) 70%);
+  }
+  .cam__light {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 100%;
+    background: radial-gradient(circle, var(--c-bevel-hi) 0%, transparent 70%);
+    animation: cam-glow 7s var(--ease) infinite;
+  }
+
+  /* Fotokomórka światłomierza. */
+  .cam__sensor {
+    position: absolute;
+    top: 74px;
+    left: 76px;
+    width: 20px;
+    height: 20px;
+    background: var(--cam-dark-hi);
+    border-radius: 100%;
+    box-shadow:
+      0 2px 4px 0 var(--cam-soft-shadow),
+      inset 0 8px 8px -6px var(--c-bevel-hi);
+  }
+  .cam__sensor::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(to bottom, var(--cam-hi), var(--c-sand));
+    border-radius: 100%;
+  }
+  .cam__sensor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: var(--c-cream);
+    border-radius: 100%;
+  }
+
+  /* Obiektyw — pierścienie z radial-gradientu, szkło ciemne w obu motywach. */
+  .cam__lens {
+    position: absolute;
+    top: 28px;
+    left: 104px;
+    width: 120px;
+    height: 120px;
+    z-index: 2;
+    box-sizing: border-box;
+    border: 1px solid var(--c-ink-45);
+    border-radius: 100%;
+    background: radial-gradient(
+      circle at center,
+      var(--c-shadow) 0 13%,
+      color-mix(in srgb, var(--c-shadow) 70%, var(--c-coffee)) 14% 24%,
+      var(--cam-dark) 25% 38%,
+      var(--c-cream) 39% 44%,
+      var(--c-sand) 45% 48%,
+      var(--c-cream) 49% 58%,
+      var(--cam-dark-hi) 59% 60%,
+      var(--cam-hi) 61% 100%
+    );
+    box-shadow:
+      0 6px 14px -3px var(--cam-soft-shadow),
+      inset 0 -2px 12px -2px color-mix(in srgb, var(--c-shadow) 25%, transparent),
+      inset 0 6px 12px -2px var(--c-bevel-hi);
+  }
+  .cam__lens::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    background: color-mix(in srgb, var(--c-shadow) 75%, transparent);
+    border-radius: 100%;
+    box-shadow: inset 0 4px 3px -2px color-mix(in srgb, var(--c-bevel-hi) 55%, transparent);
+  }
+
+  /* Grawer marki — KAPITALIKI strukturalnie (znak, nie zdanie); kawa = etykieta. */
+  .cam__brand {
+    position: absolute;
+    top: 92px;
+    left: 24px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: var(--fw-medium);
+    letter-spacing: 0.22em;
+    line-height: 1;
+    color: var(--c-label);
+  }
+
+  @keyframes cam-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+  }
+  @keyframes cam-glow {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.8; }
+  }
+  @keyframes cam-sway {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(1.2deg); }
+    70% { transform: rotate(-1.2deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cam,
+    .cam__red,
+    .cam__light {
+      animation: none;
+    }
+  }
+</style>

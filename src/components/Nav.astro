@@ -128,6 +128,7 @@ const current = Astro.url.pathname.replace(/\/+$/, '') || '/';
     margin: 0;
   }
   .nav__link {
+    position: relative;
     font-family: var(--font-body);
     font-size: var(--fs-eyebrow);
     font-weight: var(--fw-medium);
@@ -140,12 +141,22 @@ const current = Astro.url.pathname.replace(/\/+$/, '') || '/';
   .nav__link:hover {
     color: var(--c-ink);
   }
-  /* Bieżąca strona — atrament + cienkie podkreślenie (neutralnie, bez bursztynu). */
+  /* Bieżąca strona — atrament + bursztynowa kropka-wskaźnik pod etykietą
+     (echo kropki z wordmarku „ora." zamiast podkreślenia). aria-current
+     niesie semantykę, kropka jest czysto dekoracyjna. */
   .nav__link[aria-current='page'] {
     color: var(--c-ink);
-    text-decoration: underline;
-    text-underline-offset: 0.4em;
-    text-decoration-thickness: 1px;
+  }
+  .nav__link[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -0.6em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--c-amber);
+    transform: translateX(-50%);
   }
 
   /* --- Burger (przełącznik) — domyślnie ukryty (desktop) ---------------- */
@@ -210,6 +221,15 @@ const current = Astro.url.pathname.replace(/\/+$/, '') || '/';
     .nav__link {
       display: block;
       padding-block: var(--space-2xs);
+    }
+    /* W panelu link jest blokiem na całą szerokość — kropka centrowana pod
+       spodem trafiałaby w pustkę. Zamiast tego siada za etykietą, na linii
+       pisma (jak kropka w „ora."). */
+    .nav__link[aria-current='page']::after {
+      position: static;
+      display: inline-block;
+      margin-left: 0.5em;
+      transform: none;
     }
 
     /* Burger → X po otwarciu (miękko). */

@@ -1,0 +1,71 @@
+---
+// ORA.studio — strona 404 (nie ma takiego kadru).
+// Netlify serwuje dist/404.html automatycznie dla nieistniejących adresów.
+// Treść realna i krótka — komunikat funkcjonalny, nie podstrona z mapy.
+// Aparat (Camera.astro) = mrugnięcie okiem dopuszczone TYLKO na stronach
+// niskiego ryzyka (404, /dziekujemy) — decyzja z rozmowy o inspiracji
+// navbar-aparat.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Camera from '../components/Camera.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="404 — nie ma takiego kadru | ORA.studio"
+  rawTitle
+  description="Strona nie istnieje albo zmieniła adres. Wróć na stronę główną ORA.studio."
+  path="/404"
+  noindex
+>
+  <main class="container nf">
+    <Camera />
+
+    <p class="eyebrow">Błąd 404</p>
+    <h1 class="nf__h">Nie ma takiego kadru<span class="nf__dot">.</span></h1>
+    <p class="nf__lede">
+      Strona, której szukasz, nie istnieje albo zmieniła adres. Wróć na stronę
+      główną — a jeśli coś tu powinno być, napisz na
+      <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+    <div class="nf__actions">
+      <a class="btn" href="/">Wróć na stronę główną</a>
+      <a class="btn btn--ghost" href="/kontakt">Kontakt</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .nf {
+    /* Spokojny, wyśrodkowany komunikat — jak /dziekujemy. */
+    max-width: var(--container-narrow);
+    padding-block: var(--space-3xl);
+    text-align: center;
+  }
+  .nf .eyebrow {
+    max-width: none;   /* zdejmij globalne p{max-width:measure}, inaczej boks idzie w lewo */
+    margin-inline: auto;
+  }
+  .nf__h {
+    margin-top: var(--space-s);
+  }
+  /* Sygnaturowa kropka bursztynowa — jak w logo „ora.studio" / Hero. */
+  .nf__dot {
+    color: var(--c-amber);
+  }
+  .nf__lede {
+    margin: var(--space-m) auto 0;
+    max-width: 42ch;
+    font-size: var(--fs-lede);
+    color: var(--c-ink-70);
+  }
+  .nf__lede a {
+    color: var(--c-accent-i);
+  }
+  .nf__actions {
+    margin-top: var(--space-xl);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-s);
+  }
+</style>
